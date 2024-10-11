@@ -24,7 +24,7 @@ public class ResetPositions : MonoBehaviour
         }
     }
 
-    private void ResetPositionsToInitial()
+    public void ResetPositionsToInitial()
     {
         // Reset player and camera positions to their initial positions
         player.position = initialPlayerPosition;

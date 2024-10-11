@@ -6,10 +6,12 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 10f;  // Force applied when jumping
     private Rigidbody rb;
     private bool isGrounded;
+    private ResetPositions ResetInstance;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        ResetInstance = GameObject.Find("gameManager").GetComponent<ResetPositions>();
     }
 
     void Update()
@@ -48,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground")) // Check if player is leaving the ground
         {
             isGrounded = false;
+        }
+        if (collision.gameObject.CompareTag("Red")){
+            ResetInstance.ResetPositionsToInitial();
         }
     }
 }

@@ -379,6 +379,7 @@
 "Assets/playerMovement.cs"
 "Assets/Respawn.cs"
 "Assets/rotateOnClick.cs"
+"Assets/visualObstacle.cs"
 -langversion:9.0
 /deterministic
 /optimize+
