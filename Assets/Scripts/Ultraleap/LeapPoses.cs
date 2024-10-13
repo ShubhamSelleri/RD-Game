@@ -3,10 +3,26 @@ using Leap.Attributes;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 
 public class LeapPoses : MonoBehaviour
 {
     public LeapProvider leapProvider;
+    //public GestureClient gestureClient;
+
+    // Temp stuff
+    public TMP_Text textMesh;
+    private float timeElapsed = 0.0f; // Time elapsed in seconds
+    public bool isRunning = true; // Is the timer running?
+    public float frequency = 1.0f; // Frequency of the timer in seconds
+
+    // Pose stuff
+    public bool button = false;
+    public bool button_get_gesture = false;
+
 
     // Sound properties
     public AudioSource ambientSound; // Ambient sound that plays when a hand is in the air
@@ -39,6 +55,7 @@ public class LeapPoses : MonoBehaviour
         }
         else {
             ResetSounds();
+            textMesh.SetText("No hand detected");
         }
     }
 
@@ -54,7 +71,7 @@ public class LeapPoses : MonoBehaviour
         // Lerp the movement sound's volume towards the target volume
         movementSound.volume = Mathf.Lerp(movementSound.volume, targetVolumeMovement, Time.deltaTime * volumeTransitionSpeed);
 
-        Debug.Log("Hand Speed: " + handSpeed + " Hand Volume: " + movementSound.volume);
+        //Debug.Log("Hand Speed: " + handSpeed + " Hand Volume: " + movementSound.volume);
     }
 
     // Handles the ambient sound, either increasing or decreasing the volume based on hand presence
@@ -85,6 +102,45 @@ public class LeapPoses : MonoBehaviour
     // Placeholder for additional hand information updates
     void OnUpdateHand(Hand _hand)
     {
+        if (isRunning)
+        {
+            timeElapsed += Time.deltaTime; // Increment elapsed time
+        }
+
         // Here we can get additional information about the hand
+        // Get all fingertip positions and rotations
+        Finger [] fingers = _hand.fingers;
+
+        // Loop with index
+        // First create an array of positions and directions
+        Vector3 [] directions = new Vector3[fingers.Length];
+
+        for (int i = 0; i < fingers.Length; i++) {
+            directions[i] = fingers[i].Direction;
+        }
+
+        // Log the positions and directions
+        //Debug.Log("Directions: " + string.Join(", ", directions));
+        
+        // Make request
+        if (button_get_gesture || timeElapsed > frequency) {
+            timeElapsed = 0.0f;
+            //gestureClient.SendGestureData(directions);
+            // overwrite the gesture data in Assets/Scripts/Ultraleap/gesture_data.txt
+            System.IO.File.WriteAllText("Assets/Scripts/Ultraleap/gesture_data.txt", string.Join(", ", directions));
+            GestureAI.Inference();
+            // Read predicted gesture from Assets/Scripts/Ultraleap/predicted_gesture.txt
+            string predictedGesture = System.IO.File.ReadAllText("Assets/Scripts/Ultraleap/predicted_gesture.txt");
+            Debug.Log("Predicted Gesture: " + predictedGesture);
+            textMesh.SetText(predictedGesture);
+            button_get_gesture = false;
+        }
+
+
+        // log directions to a file
+        if (button) {
+            System.IO.File.AppendAllText("directions.txt", string.Join(", ", directions) + Environment.NewLine);
+            button = false;
+        }
     }
 }
