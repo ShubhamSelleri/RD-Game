@@ -11,7 +11,7 @@ using TMPro;
 public class LeapPoses : MonoBehaviour
 {
     public LeapProvider leapProvider;
-    //public GestureClient gestureClient;
+    public LeapAudioManager audioManager;
 
     // Temp stuff
     public TMP_Text textMesh;
@@ -20,18 +20,9 @@ public class LeapPoses : MonoBehaviour
     public float frequency = 1.0f; // Frequency of the timer in seconds
 
     // Pose stuff
-    public bool button = false;
-    public bool button_get_gesture = false;
+    public bool log_button = false; // Logs directions of the hand in directions.txt
+    public bool button_get_gesture = false; // Gets gesture
 
-
-    // Sound properties
-    public AudioSource ambientSound; // Ambient sound that plays when a hand is in the air
-    public float volumeTransitionSpeed = 0.1f; // Speed at which the volume changes
-    public float targetVolumeAmbient = 0.2f; // Target volume for ambient sound when the hand is detected
-
-    public AudioSource movementSound; // Sound that plays when a hand is moving
-    public float speedVolumeMultiplier = 1f; // Multiplier for movement sound based on hand speed
-    public float targetVolumeMovement = 0.2f; // Target volume for movement sound based on speed
 
     private void OnEnable()
     {
@@ -49,57 +40,37 @@ public class LeapPoses : MonoBehaviour
 
         // If the hand is detected
         if (_leftHand != null) {
-            HandleMovementSound(_leftHand);
-            HandleAmbientSound(true); // Play ambient sound since hand is detected
+            // Sound effects
+            // Play ambient sound
+            audioManager.UpdateAmbientSound();
+
+            // Get hand speed combined x and y speed and normalize
+            float handSpeed = Mathf.Abs(_leftHand.PalmVelocity.x) + Mathf.Abs(_leftHand.PalmVelocity.y);
+            audioManager.UpdateMovementSound(handSpeed);
+
+            //
             OnUpdateHand(_leftHand);
         }
         else {
-            ResetSounds();
+            // Reset sounds
+            audioManager.ResetSounds();
+
+            //
             textMesh.SetText("No hand detected");
         }
     }
 
-    // Handles the movement sound volume based on hand speed
-    private void HandleMovementSound(Hand _hand)
+    private void HandleHandSound(Hand _hand)
     {
-        // Calculate the speed of the hand (absolute value to avoid negative speed)
-        float handSpeed = Mathf.Abs(_hand.PalmVelocity.x);
-        
-        // Calculate the target volume based on hand speed
-        float targetVolumeMovement = handSpeed * speedVolumeMultiplier;
+        // Play ambient sound
+        audioManager.UpdateAmbientSound();
 
-        // Lerp the movement sound's volume towards the target volume
-        movementSound.volume = Mathf.Lerp(movementSound.volume, targetVolumeMovement, Time.deltaTime * volumeTransitionSpeed);
-
-        //Debug.Log("Hand Speed: " + handSpeed + " Hand Volume: " + movementSound.volume);
+        // Get hand speed combined x and y speed and normalize
+        float handSpeed = Mathf.Abs(_hand.PalmVelocity.x) + Mathf.Abs(_hand.PalmVelocity.y);
+        audioManager.UpdateMovementSound(handSpeed);
     }
 
-    // Handles the ambient sound, either increasing or decreasing the volume based on hand presence
-    private void HandleAmbientSound(bool isHandDetected)
-    {
-        if (ambientSound == null) return;
-
-        if (isHandDetected) {
-            // Lerp ambient sound volume upwards if hand is detected
-            ambientSound.volume = Mathf.Lerp(ambientSound.volume, targetVolumeAmbient, Time.deltaTime * volumeTransitionSpeed);
-        }
-        else {
-            // Lerp ambient sound volume downwards if no hand is detected
-            ambientSound.volume = Mathf.Lerp(ambientSound.volume, 0.0f, Time.deltaTime * volumeTransitionSpeed);
-        }
-    }
-
-    // Resets both the movement and ambient sounds when no hand is detected
-    private void ResetSounds()
-    {
-        // Smoothly lower the movement sound volume to 0
-        movementSound.volume = Mathf.Lerp(movementSound.volume, 0.0f, Time.deltaTime * volumeTransitionSpeed);
-        
-        // Lower ambient sound volume if needed
-        HandleAmbientSound(false);
-    }
-
-    // Placeholder for additional hand information updates
+    // Pose stuff
     void OnUpdateHand(Hand _hand)
     {
         if (isRunning)
@@ -118,14 +89,10 @@ public class LeapPoses : MonoBehaviour
         for (int i = 0; i < fingers.Length; i++) {
             directions[i] = fingers[i].Direction;
         }
-
-        // Log the positions and directions
-        //Debug.Log("Directions: " + string.Join(", ", directions));
         
         // Make request
         if (button_get_gesture || timeElapsed > frequency) {
             timeElapsed = 0.0f;
-            //gestureClient.SendGestureData(directions);
             // overwrite the gesture data in Assets/Scripts/Ultraleap/gesture_data.txt
             System.IO.File.WriteAllText("Assets/Scripts/Ultraleap/gesture_data.txt", string.Join(", ", directions));
             GestureAI.Inference();
@@ -138,9 +105,9 @@ public class LeapPoses : MonoBehaviour
 
 
         // log directions to a file
-        if (button) {
+        if (log_button) {
             System.IO.File.AppendAllText("directions.txt", string.Join(", ", directions) + Environment.NewLine);
-            button = false;
+            log_button = false;
         }
     }
 }
