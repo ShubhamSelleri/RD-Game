@@ -35,11 +35,11 @@ public class MouseLight : MonoBehaviour
         if(mote != null){
             float[] acell = mote.Accel.GetCalibratedAccelData();
 
-            mousePosition.x = acell[0]- 0.3f;
-            mousePosition.y = -acell[1] + 0.3f;
+            mousePosition[0] = acell[0]- 0.3f;
+            mousePosition[1] = -acell[1] + 0.3f;
 
-            if(mousePosition.x > -0.3f && mousePosition.x < 0.3f) mousePosition.x = 0;
-            if(mousePosition.y > -0.3f && mousePosition.y < 0.3f) mousePosition.y = 0;
+            if(mousePosition[0] > -0.3f && mousePosition[0] < 0.3f) mousePosition[0] = 0;
+            if(mousePosition[1] > -0.3f && mousePosition[1] < 0.3f) mousePosition[1] = 0;
         }
         transform.position = mousePosition;
     }
