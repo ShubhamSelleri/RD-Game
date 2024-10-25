@@ -32,15 +32,16 @@ public class MouseLight : MonoBehaviour
         // Set the position of the GameObject to the mouse position
         
         
-        if(mote != null){
+        //if(mote != null){
             float[] acell = mote.Accel.GetCalibratedAccelData();
+            Debug.Log(acell[0].ToString());
 
             mousePosition[0] = acell[0]- 0.3f;
             mousePosition[1] = -acell[1] + 0.3f;
 
             if(mousePosition[0] > -0.3f && mousePosition[0] < 0.3f) mousePosition[0] = 0;
             if(mousePosition[1] > -0.3f && mousePosition[1] < 0.3f) mousePosition[1] = 0;
-        }
+        //}
         transform.position = mousePosition;
     }
 
