@@ -43,9 +43,9 @@ public class MouseLight : MonoBehaviour
         }
         transform.position = mousePosition;
     }
-/*
+
     IEnumerator activateMote(){
         yield return new WaitUntil(() => WiimoteManager.HasWiimote());
         mote = WiimoteManager.Wiimotes[0];
-    }*/
+    }
 }
