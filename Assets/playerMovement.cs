@@ -6,6 +6,8 @@ public class CharacterMovement : MonoBehaviour
     public float jumpForce = 5f;
     public Transform groundCheckBot;
     public Transform groundCheckTop;
+    public Animator animator; // Reference to the Animator component
+
     public string groundLayer = "Ground"; // Change to your ground tag
 
     private Rigidbody rb;
@@ -21,7 +23,7 @@ public class CharacterMovement : MonoBehaviour
     {
         Move();
         Jump();
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetButtonDown("Fire2"))
         {
             InvertGravity();
         }
@@ -34,6 +36,7 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
         movement.Normalize();
+        animator.SetFloat("Speed", movement.magnitude);
 
         // Rotate character to face movement direction
         if (movement.magnitude > 0.1f)
