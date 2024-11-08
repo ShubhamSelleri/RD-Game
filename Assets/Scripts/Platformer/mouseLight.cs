@@ -5,21 +5,58 @@ using WiimoteApi;
 
 public class MouseLight : MonoBehaviour
 {
-    Wiimote mote;
+    private Wiimote mote;
 
-    void Start(){
-        WiimoteManager.FindWiimotes();
-        mote = WiimoteManager.Wiimotes[0];
-        mote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_EXT16);
-        mote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
-        mote.SendPlayerLED(true, false, false, false);
+    void Start()
+    {
+        WiimoteManager.FindWiimotes(); // Find connected Wiimotes
+        if (WiimoteManager.HasWiimote())
+        {
+            wiimote = WiimoteManager.Wiimotes[0];
+        }
     }
 
     void Update()
     {
+        if (wiimote == null) return;
 
-        if(mote.Button.home){
+        // Update wiimote state
+        wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL);
+
+        // Read button presses
+        if (wiimote.Button.a) Debug.Log("A button pressed");
+        if (wiimote.Button.b) Debug.Log("B button pressed");
+
+        // Read accelerometer data
+        Vector3 accel = wiimote.Accel.GetCalibratedAccelData();
+        Debug.Log($"Accel X: {accel.x}, Y: {accel.y}, Z: {accel.z}");
+    }
+
+    void OnApplicationQuit()
+    {
+        if (wiimote != null)
+        {
+            WiimoteManager.Cleanup(wiimote);
+            wiimote = null;
+        }
+    }
+    /*
+    void Start(){
+        
+        WiimoteManager.FindWiimotes();
+        mote = WiimoteManager.Wiimotes[0];
+        mote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_EXT16);
+        mote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
+        mote.SendPlayerLED(true, false, false, true);
+    }
+
+    void Update()
+    {
+        //mote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_EXT16);
+
+        if(mote.Button.a){
             mote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
+            mote.SendPlayerLED(false, true, true, false);
         }
         
         // Get the mouse position in screen coordinates
@@ -45,8 +82,6 @@ public class MouseLight : MonoBehaviour
         transform.position = mousePosition;
     }
 
-    IEnumerator activateMote(){
-        yield return new WaitUntil(() => WiimoteManager.HasWiimote());
-        mote = WiimoteManager.Wiimotes[0];
-    }
+    */
+
 }
