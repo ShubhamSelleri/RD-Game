@@ -5,7 +5,7 @@ using WiimoteApi;
 
 public class MouseLight : MonoBehaviour
 {
-    private Wiimote mote;
+    private Wiimote wiimote;
 
     void Start()
     {
@@ -24,12 +24,12 @@ public class MouseLight : MonoBehaviour
         wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL);
 
         // Read button presses
-        if (wiimote.Button.a) Debug.Log("A button pressed");
-        if (wiimote.Button.b) Debug.Log("B button pressed");
+        if (wiimote.Button.a) {Debug.Log("A button pressed");}
+        if (wiimote.Button.b) {Debug.Log("B button pressed");}
 
         // Read accelerometer data
-        Vector3 accel = wiimote.Accel.GetCalibratedAccelData();
-        Debug.Log($"Accel X: {accel.x}, Y: {accel.y}, Z: {accel.z}");
+        float[] accel = wiimote.Accel.GetCalibratedAccelData();
+        Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
     }
 
     void OnApplicationQuit()
