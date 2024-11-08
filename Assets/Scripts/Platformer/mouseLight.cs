@@ -16,7 +16,7 @@ public class MouseLight : MonoBehaviour
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
-            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEl); // Enable IR tracking
+            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL); // Enable IR tracking
             wiimote.SendPlayerLED(true, false, false, true);
             wiimote.SetupIRCamera(IRDataType.BASIC); // Initialize IR tracking
             irData = wiimote.Ir; // Get IRData instance
@@ -34,6 +34,7 @@ public class MouseLight : MonoBehaviour
     void Update()
     {
         if (wiimote == null) return;
+        if (wiimote.ReadWiimoteData() == 0) return;
         
         // Update wiimote state
         //WiimoteManager.ReadWiimoteData(); // Ensure data is being read
@@ -55,9 +56,9 @@ public class MouseLight : MonoBehaviour
         //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
 
          // Access IR data
-        if (!wiimote.ReadWiimoteData()) return;
+        
 
-        // Loop through IR data points to visualize them
+        /* Loop through IR data points to visualize them
         for (int i = 0; i < 4; i++)
         {
             int x = irData.ir[i, 0];
@@ -85,7 +86,7 @@ public class MouseLight : MonoBehaviour
         
         Debug.Log($"IR Midpoint: X: {midpoint[0]:F2}, Y: {midpoint[1]:F2}");
         Debug.Log($"Pointing Position: X: {pointingPos[0]:F2}, Y: {pointingPos[1]:F2}");
-    
+    */
     }
 
     void OnApplicationQuit()
