@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WiimoteApi;
+using System;
 
 public class MouseLight : MonoBehaviour
 {
@@ -61,7 +62,7 @@ public class MouseLight : MonoBehaviour
         // Read accelerometer data
         float[] accel = wiimote.Accel.GetCalibratedAccelData();
         Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
-        vector3 = new Vector3(accel[0], accel[1], 0);
+        vector3 = new Vector3(MathF.Round(accel[0],2), MathF.Round(accel[1],2), 0);
         
         vector3[0] = (accel[0]- 0.3f)*20;
         vector3[1] = (-accel[1] + 0.3f)*20;
