@@ -13,6 +13,8 @@ public class MouseLight : MonoBehaviour
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
+            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_IR); // Enable IR tracking
+            wiimote.SetupIRCamera(IRDataType.FULL); // Set IR camera mode to FULL for accurate tracking
             wiimote.SendPlayerLED(true, false, false, true);
         }
     }
@@ -21,10 +23,7 @@ public class MouseLight : MonoBehaviour
     {
         if (wiimote == null) return;
         
-        wiimote.SendPlayerLED(false, true, true, false);
-
         // Update wiimote state
-        wiimote.SendDataReportMode(InputDataType.REPORT_EXT21);
         //WiimoteManager.ReadWiimoteData(); // Ensure data is being read
 
         // Read button presses
@@ -42,6 +41,26 @@ public class MouseLight : MonoBehaviour
         // Read accelerometer data
         //float[] accel = wiimote.Accel.GetCalibratedAccelData();
         //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
+
+         // Access IR data
+        IRData irData = wiimote.Ir;
+        for (int i = 0; i < irData.ir_points.Length; i++)
+        {
+            if (irData.ir_points[i].found)
+            {
+                // Get the IR point position, normalized between 0 and 1
+                float x = irData.ir_points[i].pos[0];
+                float y = irData.ir_points[i].pos[1];
+
+                // Convert to screen position for visualization (if needed)
+                Vector2 screenPos = new Vector2(x * Screen.width, y * Screen.height);
+                Debug.Log($"IR Point {i}: Screen Position = {screenPos}");
+
+                // Optional: Visualize IR points in 3D space
+                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f));
+                Debug.DrawLine(Camera.main.transform.position, worldPos, Color.red);
+            }
+        }
     }
 
     void OnApplicationQuit()
