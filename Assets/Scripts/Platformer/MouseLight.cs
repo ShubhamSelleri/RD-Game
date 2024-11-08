@@ -9,6 +9,7 @@ public class MouseLight : MonoBehaviour
     private IRData irData;
     public GameObject irDotPrefab; // Prefab for visualizing IR dots
     private GameObject[] irDots;   // Array to store instantiated IR dots
+    private Vector3 vector3;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class MouseLight : MonoBehaviour
             wiimote.SendPlayerLED(true, false, false, true);
             wiimote.SetupIRCamera(IRDataType.BASIC); // Initialize IR tracking
             irData = wiimote.Ir; // Get IRData instance
+            wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
 
             // Instantiate IR dot objects
             irDots = new GameObject[4];
@@ -35,6 +37,11 @@ public class MouseLight : MonoBehaviour
     {
         if (wiimote == null) return;
         if (wiimote.ReadWiimoteData() == 0) return;
+
+        if(wiimote.Button.a){
+            wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
+            wiimote.SendPlayerLED(false, true, true, false);
+        }
         
         // Update wiimote state
         //WiimoteManager.ReadWiimoteData(); // Ensure data is being read
@@ -52,9 +59,18 @@ public class MouseLight : MonoBehaviour
             Debug.Log("Plus button pressed");
 
         // Read accelerometer data
-        //float[] accel = wiimote.Accel.GetCalibratedAccelData();
-        //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
+        float[] accel = wiimote.Accel.GetCalibratedAccelData();
+        Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
+        vector3 = new Vector3(accel[0], accel[1], 0);
+        
+        vector3[0] = (accel[0]- 0.3f)*20;
+        vector3[1] = (-accel[1] + 0.3f)*20;
 
+        if(vector3[0] > -0.3f && vector3[0] < 0.3f) vector3[0] = 0;
+        if(vector3[1] > -0.3f && vector3[1] < 0.3f) vector3[1] = 0;
+
+       
+        transform.position = vector3;
          // Access IR data
         
 
