@@ -24,7 +24,7 @@ public class MouseLight : MonoBehaviour
         wiimote.SendPlayerLED(false, true, true, false);
 
         // Update wiimote state
-        wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS);
+        wiimote.SendDataReportMode(InputDataType.REPORT_EXT21);
         //WiimoteManager.ReadWiimoteData(); // Ensure data is being read
 
         // Read button presses
