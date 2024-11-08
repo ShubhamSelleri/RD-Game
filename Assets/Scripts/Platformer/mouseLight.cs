@@ -6,6 +6,9 @@ using WiimoteApi;
 public class MouseLight : MonoBehaviour
 {
     private Wiimote wiimote;
+    private IRData irData;
+    public GameObject irDotPrefab; // Prefab for visualizing IR dots
+    private GameObject[] irDots;   // Array to store instantiated IR dots
 
     void Start()
     {
@@ -13,9 +16,18 @@ public class MouseLight : MonoBehaviour
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
-            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_IR); // Enable IR tracking
-            wiimote.SetupIRCamera(IRDataType.FULL); // Set IR camera mode to FULL for accurate tracking
+            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEl); // Enable IR tracking
             wiimote.SendPlayerLED(true, false, false, true);
+            wiimote.SetupIRCamera(IRDataType.BASIC); // Initialize IR tracking
+            irData = wiimote.Ir; // Get IRData instance
+
+            // Instantiate IR dot objects
+            irDots = new GameObject[4];
+            for (int i = 0; i < irDots.Length; i++)
+            {
+                irDots[i] = Instantiate(irDotPrefab);
+                irDots[i].SetActive(false); // Hide initially
+            }
         }
     }
 
@@ -43,24 +55,37 @@ public class MouseLight : MonoBehaviour
         //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
 
          // Access IR data
-        IRData irData = wiimote.Ir;
-        for (int i = 0; i < irData.ir_points.Length; i++)
+        if (!wiimote.ReadWiimoteData()) return;
+
+        // Loop through IR data points to visualize them
+        for (int i = 0; i < 4; i++)
         {
-            if (irData.ir_points[i].found)
+            int x = irData.ir[i, 0];
+            int y = irData.ir[i, 1];
+
+            if (x != -1 && y != -1)
             {
-                // Get the IR point position, normalized between 0 and 1
-                float x = irData.ir_points[i].pos[0];
-                float y = irData.ir_points[i].pos[1];
-
-                // Convert to screen position for visualization (if needed)
-                Vector2 screenPos = new Vector2(x * Screen.width, y * Screen.height);
-                Debug.Log($"IR Point {i}: Screen Position = {screenPos}");
-
-                // Optional: Visualize IR points in 3D space
+                // Convert the IR coordinates to screen space
+                Vector2 screenPos = new Vector2((float)x / 1023 * Screen.width, (float)y / 767 * Screen.height);
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f));
-                Debug.DrawLine(Camera.main.transform.position, worldPos, Color.red);
+
+                // Set IR dot position and activate it
+                irDots[i].transform.position = worldPos;
+                irDots[i].SetActive(true);
+            }
+            else
+            {
+                irDots[i].SetActive(false); // Hide if IR dot is not detected
             }
         }
+
+        // Get and print IR midpoint and pointing position for debugging
+        float[] midpoint = irData.GetIRMidpoint();
+        float[] pointingPos = irData.GetPointingPosition();
+        
+        Debug.Log($"IR Midpoint: X: {midpoint[0]:F2}, Y: {midpoint[1]:F2}");
+        Debug.Log($"Pointing Position: X: {pointingPos[0]:F2}, Y: {pointingPos[1]:F2}");
+    
     }
 
     void OnApplicationQuit()
