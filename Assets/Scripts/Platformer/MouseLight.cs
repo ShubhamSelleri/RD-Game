@@ -13,6 +13,7 @@ public class MouseLight : MonoBehaviour
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
+            wiimote.SendPlayerLED(true, false, false, true);
         }
     }
 
@@ -21,15 +22,24 @@ public class MouseLight : MonoBehaviour
         if (wiimote == null) return;
 
         // Update wiimote state
-        wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL);
+        wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS);
+        WiimoteManager.ReadWiimoteData(); // Ensure data is being read
 
         // Read button presses
         if (wiimote.Button.a) {Debug.Log("A button pressed");}
         if (wiimote.Button.b) {Debug.Log("B button pressed");}
 
+        // Check other buttons (like D-pad and trigger)
+        if (wiimote.Button.d_up)
+            Debug.Log("D-pad Up pressed");
+        if (wiimote.Button.d_down)
+            Debug.Log("D-pad Down pressed");
+        if (wiimote.Button.plus)
+            Debug.Log("Plus button pressed");
+
         // Read accelerometer data
-        float[] accel = wiimote.Accel.GetCalibratedAccelData();
-        Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
+        //float[] accel = wiimote.Accel.GetCalibratedAccelData();
+        //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
     }
 
     void OnApplicationQuit()
