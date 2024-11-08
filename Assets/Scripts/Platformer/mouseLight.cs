@@ -18,7 +18,7 @@ public class MouseLight : MonoBehaviour
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
-            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL); // Enable IR tracking
+            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_EXT16); // Enable IR tracking
             wiimote.SendPlayerLED(true, false, false, true);
             wiimote.SetupIRCamera(IRDataType.BASIC); // Initialize IR tracking
             irData = wiimote.Ir; // Get IRData instance
@@ -61,8 +61,8 @@ public class MouseLight : MonoBehaviour
 
         // Read accelerometer data
         float[] accel = wiimote.Accel.GetCalibratedAccelData();
-        Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
-        vector3 = new Vector3(MathF.Round(accel[0],2), MathF.Round(accel[1],2), 0);
+        //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
+        vector3 = new Vector3(accel[0], accel[1], 0);
         
         vector3[0] = (accel[0]- 0.3f)*20;
         vector3[1] = (-accel[1] + 0.3f)*20;
@@ -70,7 +70,8 @@ public class MouseLight : MonoBehaviour
         if(vector3[0] > -0.3f && vector3[0] < 0.3f) vector3[0] = 0;
         if(vector3[1] > -0.3f && vector3[1] < 0.3f) vector3[1] = 0;
 
-       
+        vector3[0] = MathF.Round(vector3[0],1);
+        vector3[1] = MathF.Round(vector3[1],1);
         transform.position = vector3;
          // Access IR data
         
