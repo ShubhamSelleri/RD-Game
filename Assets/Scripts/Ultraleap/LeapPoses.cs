@@ -23,6 +23,15 @@ public class LeapPoses : MonoBehaviour
     public bool log_button = false; // Logs directions of the hand in directions.txt
     public bool button_get_gesture = false; // Gets gesture
 
+    // Declare the event
+    // Declare the event with a string parameter
+    public event Action<string> newPose;
+
+    // Method to invoke the event with a string parameter
+    public void RaiseEvent(string pose_string)
+    {
+        newPose?.Invoke(pose_string);  // Pass the string when invoking
+    }
 
     private void OnEnable()
     {
@@ -56,7 +65,10 @@ public class LeapPoses : MonoBehaviour
             audioManager.ResetSounds();
 
             //
-            textMesh.SetText("No hand detected");
+
+            if (textMesh != null) {
+                textMesh.SetText("No hand detected");
+            }
         }
     }
 
@@ -99,7 +111,10 @@ public class LeapPoses : MonoBehaviour
             // Read predicted gesture from Assets/Scripts/Ultraleap/predicted_gesture.txt
             string predictedGesture = System.IO.File.ReadAllText("Assets/Scripts/Ultraleap/predicted_gesture.txt");
             Debug.Log("Predicted Gesture: " + predictedGesture);
-            textMesh.SetText(predictedGesture);
+            if (textMesh != null) {
+                textMesh.SetText(predictedGesture);
+            }
+            RaiseEvent(predictedGesture);
             button_get_gesture = false;
         }
 
