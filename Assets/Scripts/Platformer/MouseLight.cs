@@ -9,8 +9,12 @@ public class MouseLight : MonoBehaviour
     private Wiimote wiimote;
     private IRData irData;
     public GameObject irDotPrefab; // Prefab for visualizing IR dots
-    private GameObject[] irDots;   // Array to store instantiated IR dots
+    //private GameObject[] irDots;   // Array to store instantiated IR dots
     private Vector3 vector3;
+    public float screenWidth = 16f;  // Width of Unity's world space
+    public float screenHeight = 9f; // Height of Unity's world space
+    public float movementSpeed = 15f; // Speed multiplier for movement
+
 
     void Start()
     {
@@ -18,19 +22,20 @@ public class MouseLight : MonoBehaviour
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
-            wiimote.SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_EXT16); // Enable IR tracking
+            wiimote.SendDataReportMode(InputDataType.REPORT_EXT21); // Enable IR tracking
             wiimote.SendPlayerLED(true, false, false, true);
             wiimote.SetupIRCamera(IRDataType.BASIC); // Initialize IR tracking
             irData = wiimote.Ir; // Get IRData instance
             wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
 
-            // Instantiate IR dot objects
+            /* Instantiate IR dot objects
             irDots = new GameObject[4];
             for (int i = 0; i < irDots.Length; i++)
             {
                 irDots[i] = Instantiate(irDotPrefab);
                 irDots[i].SetActive(false); // Hide initially
             }
+            */
         }
     }
 
@@ -59,6 +64,7 @@ public class MouseLight : MonoBehaviour
         if (wiimote.Button.plus)
             Debug.Log("Plus button pressed");
 
+        /*
         // Read accelerometer data
         float[] accel = wiimote.Accel.GetCalibratedAccelData();
         //Debug.Log($"Accel X: {accel[0]}, Y: {accel[1]}, Z: {accel[2]}");
@@ -73,38 +79,33 @@ public class MouseLight : MonoBehaviour
         vector3[0] = MathF.Round(vector3[0],1);
         vector3[1] = MathF.Round(vector3[1],1);
         transform.position = vector3;
-         // Access IR data
-        
-
-        /* Loop through IR data points to visualize them
-        for (int i = 0; i < 4; i++)
+        */
+         IRData irData = wiimote.Ir;
+        if (irData != null)
         {
-            int x = irData.ir[i, 0];
-            int y = irData.ir[i, 1];
-
-            if (x != -1 && y != -1)
+            float[] pointingPosition = irData.GetPointingPosition();
+            
+            // Validate IR data
+            if (pointingPosition[0] >= 0 && pointingPosition[1] >= 0)
             {
-                // Convert the IR coordinates to screen space
-                Vector2 screenPos = new Vector2((float)x / 1023 * Screen.width, (float)y / 767 * Screen.height);
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f));
+                // Map the pointing position (normalized 0-1) to Unity's world space
+                float mappedX = Mathf.Lerp(-screenWidth*2, screenWidth*2, pointingPosition[0]);
+                float mappedY = Mathf.Lerp(-screenHeight*2, screenHeight*2, pointingPosition[1]);
 
-                // Set IR dot position and activate it
-                irDots[i].transform.position = worldPos;
-                irDots[i].SetActive(true);
-            }
-            else
-            {
-                irDots[i].SetActive(false); // Hide if IR dot is not detected
+                // Move the block
+                Vector3 targetPosition = new Vector3(mappedX, mappedY, 0);
+                //transform.position = vector3;
+                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * movementSpeed);
             }
         }
 
-        // Get and print IR midpoint and pointing position for debugging
+        /* Get and print IR midpoint and pointing position for debugging
         float[] midpoint = irData.GetIRMidpoint();
         float[] pointingPos = irData.GetPointingPosition();
         
         Debug.Log($"IR Midpoint: X: {midpoint[0]:F2}, Y: {midpoint[1]:F2}");
         Debug.Log($"Pointing Position: X: {pointingPos[0]:F2}, Y: {pointingPos[1]:F2}");
-    */
+        */
     }
 
     void OnApplicationQuit()
