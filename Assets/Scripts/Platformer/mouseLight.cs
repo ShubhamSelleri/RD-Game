@@ -8,7 +8,7 @@ public class MouseLight : MonoBehaviour
 {
     private Wiimote wiimote;
     private IRData irData;
-    public GameObject irDotPrefab; // Prefab for visualizing IR dots
+    //public GameObject irDotPrefab; // Prefab for visualizing IR dots
     //private GameObject[] irDots;   // Array to store instantiated IR dots
     private Vector3 vector3;
     public float screenWidth = 16f;  // Width of Unity's world space
@@ -27,15 +27,6 @@ public class MouseLight : MonoBehaviour
             wiimote.SetupIRCamera(IRDataType.BASIC); // Initialize IR tracking
             irData = wiimote.Ir; // Get IRData instance
             wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
-
-            /* Instantiate IR dot objects
-            irDots = new GameObject[4];
-            for (int i = 0; i < irDots.Length; i++)
-            {
-                irDots[i] = Instantiate(irDotPrefab);
-                irDots[i].SetActive(false); // Hide initially
-            }
-            */
         }
     }
 
@@ -44,13 +35,10 @@ public class MouseLight : MonoBehaviour
         if (wiimote == null) return;
         if (wiimote.ReadWiimoteData() == 0) return;
 
-        if(wiimote.Button.a){
+        if(wiimote.Button.home){
             wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
             wiimote.SendPlayerLED(false, true, true, false);
         }
-        
-        // Update wiimote state
-        //WiimoteManager.ReadWiimoteData(); // Ensure data is being read
 
         // Read button presses
         if (wiimote.Button.a) {Debug.Log("A button pressed");}
