@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Leap;
 using UnityEngine;
 
 public class GravityManager : MonoBehaviour
 {
-    public LeapPoses leapPoses;
+    public HandPoseDetector thumbsUp;
     // Start is called before the first frame update
     void Start()
     {
         // Subscribe to Event NewPose and link it to invertGravity()
-        leapPoses.newPose += poseSetGravity;
+        
     }
 
     // Update is called once per frame

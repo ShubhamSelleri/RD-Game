@@ -11,6 +11,8 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
 
+    public Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -19,6 +21,21 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer)) ||
+                      Physics.CheckSphere(groundCheckTop.position, 0.1f, LayerMask.GetMask(groundLayer));
+        
+        if (isGrounded) {
+            animator.SetBool("Falling", false);
+        }
+        else {
+            animator.SetBool("Falling", true);
+        }
+
+        // If animator jump is true set to false
+        if (animator.GetBool("Jump")) {
+            animator.SetBool("Jump", false);
+        }
+
         Move();
         Jump();
         if (Input.GetKeyDown(KeyCode.S))
@@ -40,6 +57,11 @@ public class CharacterMovement : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+
+            animator.SetBool("Run", true);
+        }
+        else {
+            animator.SetBool("Run", false);
         }
 
         // Apply movement
@@ -54,7 +76,7 @@ public class CharacterMovement : MonoBehaviour
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             rb.AddForce(-Physics.gravity /9.81f * jumpForce, ForceMode.Impulse);
-           
+            animator.SetBool("Jump", true);
         }
     }
     private void InvertGravity()
