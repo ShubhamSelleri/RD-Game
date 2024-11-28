@@ -19,7 +19,16 @@ public class gearRotate : MonoBehaviour
     private int step = 0;
 
     // Invoked when a line of data is received from the serial device.
-    void OnMessageArrived(string msg)
+    void OnEnable()
+    {
+        
+    }
+
+    void OnDisable()
+    {
+    }
+
+    void handleMessage(string msg)
     {
         // Parse the message to an integer (we expect values between 1 and 60)
         if (int.TryParse(msg, out int position))
@@ -51,21 +60,6 @@ public class gearRotate : MonoBehaviour
             }
 
             lastPosition = position;
-        }
-    }
-
-    // Invoked when a connect/disconnect event occurs. The parameter 'success'
-    // will be 'true' upon connection, and 'false' upon disconnection or
-    // failure to connect.
-    void OnConnectionEvent(bool success)
-    {
-        if (success)
-        {
-            Debug.Log("Successfully connected to the gear input device.");
-        }
-        else
-        {
-            Debug.Log("Failed to connect or disconnected from the gear input device.");
         }
     }
 }
