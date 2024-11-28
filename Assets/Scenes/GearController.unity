@@ -812,8 +812,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99269a300fd0c624cafd742453ab80df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
-  rotationAxis: X
+  targetObject: {fileID: 450873547}
+  rotationAxis: z
+  stepsPerRatation: 48
+  maxRotationClockwise: -1
+  maxRotationCounterClockwise: -1
 --- !u!65 &450873550
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3037,6 +3040,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 1159045070}
   rotationAxis: x
+  stepsPerRatation: 48
+  maxRotationClockwise: -1
+  maxRotationCounterClockwise: -1
 --- !u!1 &1168948641
 GameObject:
   m_ObjectHideFlags: 0

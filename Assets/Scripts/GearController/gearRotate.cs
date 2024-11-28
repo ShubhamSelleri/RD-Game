@@ -4,19 +4,16 @@ public class gearRotate : MonoBehaviour
 {
     // The target object we want to rotate (can be set in the Inspector)
     public GameObject targetObject;
-    public string rotationAxis = "X";
+    public string rotationAxis = "x";
 
-    // Maximum value the rotary encoder can read
-    private float maxEncoderValue = 60f;
+    public int stepsPerRatation = 48; // 1 to 1 of actual gear controller
+    public float maxRotationClockwise = -1f; // -1f results in infinite
+    public float maxRotationCounterClockwise = -1f;
 
-    // Minimum and maximum rotation angles
-    private float minRotation = 0f;  // Minimum angle (start position)
-    private float maxRotation = 360f; // Maximum angle (full rotation)
-
-    // This will hold the current angle
+    // Minimum and maximum rotation per frame
     private float currentRotation = 0f;
-    private int lastPosition = 1;
-    private int step = 0;
+    private float maxRotation = 360f;
+    private float minRotation = 0f;
 
     // Invoked when a line of data is received from the serial device.
     void OnEnable()
@@ -26,19 +23,32 @@ public class gearRotate : MonoBehaviour
 
     void OnDisable()
     {
+
     }
 
     void handleMessage(string msg)
     {
+
         // Parse the message to an integer (we expect values between 1 and 60)
-        if (int.TryParse(msg, out int position))
+        //if (int.TryParse(msg, int ,bruh))
         {
-            step = position - lastPosition;
-            Debug.Log("step = " + step + " , position = " + position);
+            
+            bool isClockwise = msg == "1"; // true if "1", false otherwise
+            Debug.Log("msg: "+ msg + "  isClockwise: " +  isClockwise);
+            // calculate rotation and check if in boundries
+            if (isClockwise && (maxRotationClockwise == -1f || 1f / stepsPerRatation * 360f + currentRotation <= maxRotationClockwise))
+            {
+                currentRotation = Mathf.Lerp(minRotation, maxRotation, 1f / stepsPerRatation);
+                //Debug.Log("clockwise rotation by " + currentRotation + " degrees");
+            }
 
-            // Map the encoder value to a rotation angle (from 0 to 360 degrees)
-            currentRotation = Mathf.Lerp(minRotation, maxRotation, ((step + maxEncoderValue) % maxEncoderValue) / maxEncoderValue);
-
+            else
+            if (!isClockwise && (maxRotationCounterClockwise == -1f || 1f / stepsPerRatation * 360f - currentRotation >= -1f*maxRotationCounterClockwise))
+            {
+                currentRotation = Mathf.Lerp(minRotation, maxRotation, (stepsPerRatation -1f) / stepsPerRatation);
+                Debug.Log("counterclockwise rotation by " + currentRotation + " degrees");
+            }
+            
             // Rotate the target object based on the mapped value
             if (targetObject != null)
             {
@@ -58,8 +68,6 @@ public class gearRotate : MonoBehaviour
                         break;
                 }
             }
-
-            lastPosition = position;
         }
     }
 }
