@@ -11,7 +11,7 @@ public class gearRotate : MonoBehaviour
 
     // Minimum and maximum rotation angles
     private float minRotation = 0f;  // Minimum angle (start position)
-    private float maxRotation = 180f; // Maximum angle (full rotation)
+    private float maxRotation = 360f; // Maximum angle (full rotation)
 
     // This will hold the current angle
     private float currentRotation = 0f;
