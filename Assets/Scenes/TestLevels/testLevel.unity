@@ -2900,7 +2900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1888098810209399783, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.36
+      value: -20.98
       objectReference: {fileID: 0}
     - target: {fileID: 1888098810209399783, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4159,7 +4159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2519121179255850597, guid: cd710cd3e370317459af8938cae35f7a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.555313
+      value: -23.1
       objectReference: {fileID: 0}
     - target: {fileID: 2519121179255850597, guid: cd710cd3e370317459af8938cae35f7a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4215,6 +4215,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 337184464805933457, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.615
+      objectReference: {fileID: 0}
     - target: {fileID: 2216828942998789601, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_Name
       value: PlayerPrefabBackup
