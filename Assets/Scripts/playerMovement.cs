@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -25,7 +27,10 @@ public class CharacterMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
-        Physics.gravity = new Vector3(0, -gravity, 0);
+
+        Physics.gravity = new Vector3(0, -gravity, 0);                                                                       
+        Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
+        InputSystem.PauseHaptics();
     }
 
     void Update()
@@ -34,6 +39,7 @@ public class CharacterMovement : MonoBehaviour
         
         if (isGrounded) {
             animator.SetBool("Falling", false);
+            StartCoroutine(vibrateController(0.2f, 0.15f, 0.7f));
         }
         else {
             animator.SetBool("Falling", true);
@@ -42,6 +48,8 @@ public class CharacterMovement : MonoBehaviour
         // If animator jump is true set to false
         if (animator.GetBool("Jump")) {
             animator.SetBool("Jump", false);
+            // Also vibrate the xbox controller
+            StartCoroutine(vibrateController(0.15f, 0.4f, 0.7f));
         }
 
         Move();
@@ -98,4 +106,15 @@ public class CharacterMovement : MonoBehaviour
         jumpStartTime=Time.time;
         transform.Rotate(0,0,180f);
     }
+    
+    IEnumerator vibrateController(float duration, float freq1, float freq2) {
+        float startTime = Time.time;
+        InputSystem.ResumeHaptics();
+        while (Time.time < startTime + duration) {
+            Gamepad.current.SetMotorSpeeds(freq1, freq2);
+            yield return null;
+        }
+        InputSystem.PauseHaptics();
+    }
+
 }

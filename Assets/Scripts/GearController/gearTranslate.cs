@@ -22,6 +22,7 @@ public class Gear : MonoBehaviour
 
     void handleMessage(string msg)
     {
+        msg = msg.Trim();
         // Determine direction based on message
         bool isClockwise = msg == "1"; // true if "1", false otherwise
         Debug.Log("msg: " + msg + "  isClockwise: " + isClockwise);

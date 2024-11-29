@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 58988246}
   - component: {fileID: 58988243}
   - component: {fileID: 58988245}
+  - component: {fileID: 58988249}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -201,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 50
+  jumpForce: 8
   groundCheckBot: {fileID: 70864860}
   groundCheckTop: {fileID: 1784772924}
   groundLayer: Ground
@@ -277,6 +278,32 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58988242}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!143 &58988249
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58988242}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &66481488 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6709129979222323476, guid: dc5106fe873982a4988fe75394c46f7a, type: 3}
@@ -885,9 +912,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 450873547}
   translationAxis: y
-  stepsPerUnit: 48
-  maxTranslationClockwise: -1
-  maxTranslationCounterClockwise: -1
+  stepsPerUnit: 2
+  maxTranslationClockwise: 1
+  maxTranslationCounterClockwise: 1
 --- !u!1 &462310460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,7 +1307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portName: COM3
+  portName: /dev/tty.usbserial-2130
   baudRate: 115200
   messageListener: {fileID: 2070006924}
   reconnectionDelay: 1000
@@ -4519,7 +4546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d246c2f76c0d1440adf29d55f048b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnAnimation: {fileID: 0}
   playerTransform: {fileID: 58988244}
+  playerCharacterController: {fileID: 0}
   cameraTransform: {fileID: 834785347}
   playerRb: {fileID: 58988243}
   upperDeathY: 20
