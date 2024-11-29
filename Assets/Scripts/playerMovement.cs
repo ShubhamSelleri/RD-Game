@@ -16,19 +16,21 @@ public class CharacterMovement : MonoBehaviour
     private float jumpStartTime;
     private float delayJump=0.5f;
 
+    private int velovityMultiplier=1;
+
     public Animator animator;
+    public float gravity=9.81f;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
-        Physics.gravity = new Vector3(0, -9.81f, 0);
+        Physics.gravity = new Vector3(0, -gravity, 0);
     }
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer)) ||
-                      Physics.CheckSphere(groundCheckTop.position, 0.1f, LayerMask.GetMask(groundLayer));
+        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer));
         
         if (isGrounded) {
             animator.SetBool("Falling", false);
@@ -56,13 +58,15 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0f, 0f);
         movement.Normalize();
-
         // Rotate character to face movement direction
         if (movement.magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-
+            if(movement.x==1){
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
+            }
+            else if(movement.x==-1){
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
+            }
             animator.SetBool("Run", true);
         }
         else {
@@ -85,12 +89,13 @@ public class CharacterMovement : MonoBehaviour
             velocity.y=0;
         }
         velocity.y += Physics.gravity.y * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        characterController.Move(velovityMultiplier*velocity * Time.deltaTime);
     }
     private void InvertGravity()
     {
         // Invert gravity
-        Physics.gravity = -Physics.gravity;
+        velovityMultiplier = -velovityMultiplier;
         jumpStartTime=Time.time;
+        transform.Rotate(0,0,180f);
     }
 }
