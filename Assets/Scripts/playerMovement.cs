@@ -6,15 +6,21 @@ public class CharacterMovement : MonoBehaviour
     public float jumpForce = 5f;
     public Transform groundCheckBot;
     public Transform groundCheckTop;
-    public string groundLayer = "Ground"; // Change to your ground tag
+    public string groundLayer = "Ground"; 
 
     private Rigidbody rb;
     private bool isGrounded;
+    private Vector3 velocity;
+    private CharacterController characterController;
+
+    private float jumpStartTime;
+    private float delayJump=0.5f;
 
     public Animator animator;
 
     void Start()
     {
+        characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         Physics.gravity = new Vector3(0, -9.81f, 0);
     }
@@ -47,9 +53,8 @@ public class CharacterMovement : MonoBehaviour
     private void Move()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
+        Vector3 movement = new Vector3(moveHorizontal, 0f, 0f);
         movement.Normalize();
 
         // Rotate character to face movement direction
@@ -65,23 +70,27 @@ public class CharacterMovement : MonoBehaviour
         }
 
         // Apply movement
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+        characterController.Move(movement * moveSpeed * Time.deltaTime);
     }
 
     private void Jump()
     {
-        // Check if the character is on the ground
-        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer)) ||
-                      Physics.CheckSphere(groundCheckTop.position, 0.1f, LayerMask.GetMask(groundLayer));
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            rb.AddForce(-Physics.gravity /9.81f * jumpForce, ForceMode.Impulse);
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
             animator.SetBool("Jump", true);
+            jumpStartTime=Time.time;
         }
+        if (isGrounded && Time.time>jumpStartTime+delayJump){
+            velocity.y=0;
+        }
+        velocity.y += Physics.gravity.y * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
     }
     private void InvertGravity()
     {
         // Invert gravity
         Physics.gravity = -Physics.gravity;
+        jumpStartTime=Time.time;
     }
 }

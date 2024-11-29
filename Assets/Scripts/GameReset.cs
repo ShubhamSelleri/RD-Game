@@ -7,7 +7,10 @@ public class GameReset : MonoBehaviour
     private Vector3 initPlayerPos;
     private Vector3 initCameraPos;
 
+    public ChangeAlpha respawnAnimation;
+
     public Transform playerTransform;
+    public CharacterController playerCharacterController;
 
     public Transform cameraTransform;
     public Rigidbody playerRb;
@@ -34,10 +37,13 @@ public class GameReset : MonoBehaviour
     }
     void ResetPositions()
     {
+        playerCharacterController.enabled=false;
         playerTransform.position = initPlayerPos;
         CameraScript.SetCameraPos(initCameraPos);
         Physics.gravity = new Vector3(0, -9.81f, 0);
         playerRb.velocity = Vector3.zero;      // Remove linear velocity
         playerRb.angularVelocity = Vector3.zero; // Remove angular velocity
+        StartCoroutine(respawnAnimation.AnimateAlpha());
+        playerCharacterController.enabled=true;
     }
 }
