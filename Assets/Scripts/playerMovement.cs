@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -16,22 +18,28 @@ public class CharacterMovement : MonoBehaviour
     private float jumpStartTime;
     private float delayJump=0.5f;
 
+    private int velovityMultiplier=1;
+
     public Animator animator;
+    public float gravity=9.81f;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
-        Physics.gravity = new Vector3(0, -9.81f, 0);
+
+        Physics.gravity = new Vector3(0, -gravity, 0);                                                                       
+        Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
+        InputSystem.PauseHaptics();
     }
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer)) ||
-                      Physics.CheckSphere(groundCheckTop.position, 0.1f, LayerMask.GetMask(groundLayer));
+        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer));
         
         if (isGrounded) {
             animator.SetBool("Falling", false);
+            StartCoroutine(vibrateController(0.2f, 0.15f, 0.7f));
         }
         else {
             animator.SetBool("Falling", true);
@@ -40,6 +48,8 @@ public class CharacterMovement : MonoBehaviour
         // If animator jump is true set to false
         if (animator.GetBool("Jump")) {
             animator.SetBool("Jump", false);
+            // Also vibrate the xbox controller
+            StartCoroutine(vibrateController(0.15f, 0.4f, 0.7f));
         }
 
         Move();
@@ -56,13 +66,15 @@ public class CharacterMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0f, 0f);
         movement.Normalize();
-
         // Rotate character to face movement direction
         if (movement.magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-
+            if(movement.x==1){
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
+            }
+            else if(movement.x==-1){
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
+            }
             animator.SetBool("Run", true);
         }
         else {
@@ -85,12 +97,24 @@ public class CharacterMovement : MonoBehaviour
             velocity.y=0;
         }
         velocity.y += Physics.gravity.y * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        characterController.Move(velovityMultiplier*velocity * Time.deltaTime);
     }
     private void InvertGravity()
     {
         // Invert gravity
-        Physics.gravity = -Physics.gravity;
+        velovityMultiplier = -velovityMultiplier;
         jumpStartTime=Time.time;
+        transform.Rotate(0,0,180f);
     }
+    
+    IEnumerator vibrateController(float duration, float freq1, float freq2) {
+        float startTime = Time.time;
+        InputSystem.ResumeHaptics();
+        while (Time.time < startTime + duration) {
+            Gamepad.current.SetMotorSpeeds(freq1, freq2);
+            yield return null;
+        }
+        InputSystem.PauseHaptics();
+    }
+
 }

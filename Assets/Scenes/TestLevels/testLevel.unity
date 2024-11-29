@@ -226,7 +226,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3552892901813374450, guid: 7beb39c7100d9e84ab4f9551e0a73f1b, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552892901813374450, guid: 7beb39c7100d9e84ab4f9551e0a73f1b, type: 3}
+      propertyPath: m_FadeMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5956122988102880758, guid: 7beb39c7100d9e84ab4f9551e0a73f1b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1090,7 +1094,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6581396695393755174, guid: 642572d0793378f44ac8a9edaba0da3a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581396695393755174, guid: 642572d0793378f44ac8a9edaba0da3a, type: 3}
+      propertyPath: m_FadeMode
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1929,7 +1937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1462680479123874, guid: 6d2c982bade23fa44b3122eae0ecec72, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4895872985307090, guid: 6d2c982bade23fa44b3122eae0ecec72, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2639,7 +2647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1117722156437086, guid: e66861b7524873744b7014546dfc624a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4627033464294306, guid: e66861b7524873744b7014546dfc624a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3381,7 +3389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1432029940940893571, guid: 73bd0be678270ca4e85be3edf52d3185, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3827,7 +3835,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.4716482, g: 0.6393807, b: 0.8037735, a: 1}
-  m_Intensity: 1
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4222,6 +4230,38 @@ PrefabInstance:
     - target: {fileID: 2216828942998789601, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_Name
       value: PlayerPrefabBackup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_Range
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_DrawHalo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_Intensity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_Shadows.m_Bias
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_BounceIntensity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_Shadows.m_Strength
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000445845596718179, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: m_Shadows.m_NormalBias
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_LocalPosition.x

@@ -296,6 +296,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1277156771953772286, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277156771953772286, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: gravity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277156771953772286, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+      propertyPath: Character
+      value: 
+      objectReference: {fileID: 957163900}
     - target: {fileID: 1277650638989893347, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.66
@@ -322,15 +334,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -519,6 +531,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502736be09fd6304d85ed07bf9d89223, type: 3}
+--- !u!4 &957163900 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5089662867736813956, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
+  m_PrefabInstance: {fileID: 670075943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1072853727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2216828942998789601, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
@@ -1081,10 +1098,10 @@ SceneRoots:
   - {fileID: 753202463}
   - {fileID: 1754013324}
   - {fileID: 157049378}
-  - {fileID: 670075943}
   - {fileID: 802841184}
   - {fileID: 51294706}
   - {fileID: 1232442763}
   - {fileID: 1539023754}
   - {fileID: 1740999940}
   - {fileID: 1503011253}
+  - {fileID: 670075943}
