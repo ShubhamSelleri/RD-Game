@@ -67,8 +67,7 @@ public class Gear : MonoBehaviour
             }
 
             // Apply the translation
-            targetObject.transform.Translate(translation, Space.Self);
-            Debug.Log($"Object moved {step} units along the {translationAxis}-axis.");
+            targetObject.transform.Translate(translation, Space.World);
         }
         else
         {
