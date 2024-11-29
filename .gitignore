@@ -78,3 +78,6 @@ crashlytics-build.properties
 .DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
+
+# macOS system files
+.DS_Store
