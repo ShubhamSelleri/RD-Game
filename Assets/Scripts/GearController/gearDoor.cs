@@ -14,7 +14,7 @@ namespace gearController
         public float stepsPerUnit = 10f; 
 
         public float stepsPerRotation = 48f; //one to one with controller
-
+        public bool isInverted = false;// set to true if door opens downwards
         public GameObject gearSetLeft;
         public float[] gearRotationMultipliersLeft;
         public string[] gearAxesLeft;
@@ -27,6 +27,7 @@ namespace gearController
         private GameObject[] gearsLeft;
         private GameObject[] gearsRight;
         private float stepToRotationatio = 0f;
+
 
         // Start is called before the first frame update
         void Start()
@@ -43,7 +44,7 @@ namespace gearController
         {
             //step calculation and step to rotation conversion
             float doorStep = gearFunctions.calculateStep(doorPosition, msg, 1f / stepsPerUnit,
-                doorMinHeight, doorMaxHeight, false);
+                doorMinHeight, doorMaxHeight, isInverted);
             float rotation = doorStep * stepToRotationatio;
 
             doorPosition += doorStep;

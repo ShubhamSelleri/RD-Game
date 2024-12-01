@@ -54,7 +54,6 @@ namespace gearController
 
         public static void rotateGear(GameObject gear, float degrees, string axis)
         {
-            Debug.Log("Rotating gear: "+ gear.name + " "+ degrees + " around "+ axis+ " axis.");
             switch (axis)
             {
                 case "x": // Rotate around X-axis
