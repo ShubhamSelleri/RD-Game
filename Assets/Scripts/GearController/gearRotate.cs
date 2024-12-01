@@ -33,7 +33,7 @@ public class gearRotate : MonoBehaviour
         // Parse the message to an integer (we expect values between 1 and 60)
         //if (int.TryParse(msg, int ,bruh))
         {
-            
+            msg = msg.Trim();
             bool isClockwise = msg == "1"; // true if "1", false otherwise
             Debug.Log("msg: "+ msg + "  isClockwise: " +  isClockwise);
             if (inverse)
