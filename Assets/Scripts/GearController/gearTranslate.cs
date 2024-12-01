@@ -7,6 +7,7 @@ public class Gear : MonoBehaviour
     // The target object we want to translate (can be set in the Inspector)
     public GameObject targetObject;
     public string translationAxis = "x"; // Specify the axis to translate: "x", "y", or "z"
+    public bool inverse = false;
 
     public int stepsPerUnit = 48; // Steps per unit (1 unit = 1 meter)
     public float maxTranslationClockwise = -1f; // -1f means infinite movement
@@ -26,7 +27,13 @@ public class Gear : MonoBehaviour
         bool isClockwise = msg == "1"; // true if "1", false otherwise
         Debug.Log("msg: " + msg + "  isClockwise: " + isClockwise);
 
+        if (inverse)
+        {
+            isClockwise = !isClockwise;
+        }
+
         // Calculate translation step
+        
         float step = isClockwise ? 1f / stepsPerUnit : -1f / stepsPerUnit;
 
         // Check boundaries

@@ -5,6 +5,7 @@ public class gearRotate : MonoBehaviour
     // The target object we want to rotate (can be set in the Inspector)
     public GameObject targetObject;
     public string rotationAxis = "x";
+    public bool inverse = false;
 
     public int stepsPerRatation = 48; // 1 to 1 of actual gear controller
     public float maxRotationClockwise = -1f; // -1f results in infinite
@@ -35,6 +36,10 @@ public class gearRotate : MonoBehaviour
             
             bool isClockwise = msg == "1"; // true if "1", false otherwise
             Debug.Log("msg: "+ msg + "  isClockwise: " +  isClockwise);
+            if (inverse)
+            {
+                isClockwise = !isClockwise;
+            }
             // calculate rotation and check if in boundries
             if (isClockwise && (maxRotationClockwise == -1f || 1f / stepsPerRatation * 360f + currentRotation <= maxRotationClockwise))
             {

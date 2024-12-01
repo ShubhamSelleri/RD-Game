@@ -885,6 +885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 450873547}
   translationAxis: y
+  inverse: 0
   stepsPerUnit: 48
   maxTranslationClockwise: -1
   maxTranslationCounterClockwise: -1
@@ -1280,7 +1281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portName: COM3
+  portName: COM4
   baudRate: 115200
   messageListener: {fileID: 2070006924}
   reconnectionDelay: 1000
@@ -3040,6 +3041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 1159045070}
   rotationAxis: x
+  inverse: 0
   stepsPerRatation: 48
   maxRotationClockwise: -1
   maxRotationCounterClockwise: -1
