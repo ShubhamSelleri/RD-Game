@@ -17,7 +17,6 @@ namespace gearController
 
         void handleMessage(string msg)
         {
-            Debug.Log("CurrentTranslation: " + currentTranslation);
             //calculate step
             float step= gearFunctions.calculateStep(currentTranslation, msg, 1f / stepsPerUnit,
                 maxTranslationCounterClockwise, maxTranslationClockwise, isInverse);
