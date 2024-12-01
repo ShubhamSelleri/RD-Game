@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 namespace gearController
 {
-    public class Gear : MonoBehaviour
+    public class gearTranslate : MonoBehaviour
     {
         // The target object we want to translate (can be set in the Inspector)
         public GameObject targetObject;
@@ -16,11 +14,6 @@ namespace gearController
         public bool isInverse = false;
 
         private float currentTranslation = 0f; // Tracks the current translation along the selected axis
-
-        void Start()
-        {
-
-        }
 
         void handleMessage(string msg)
         {

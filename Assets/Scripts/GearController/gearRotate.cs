@@ -13,19 +13,8 @@ namespace gearController
         public string rotationAxis = "x";
         public bool inverse = false;
 
-        // Minimum and maximum rotation per frame
         private float currentRotation = 0f;
 
-        // Invoked when a line of data is received from the serial device.
-        void OnEnable()
-        {
-
-        }
-
-        void OnDisable()
-        {
-
-        }
 
         void handleMessage(string msg)
         {

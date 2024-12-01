@@ -7,6 +7,9 @@ namespace gearController
     public static class gearFunctions
     {
         // returns step of position or rotation
+        // max and min are always positive unless =-1f which results in no limits
+        // returns 0f if rotation is not possible
+
         public static float calculateStep(float currentValue, string msg, float stepSize, float minValue = -1f, float maxValue = -1f, bool inverse = false)
         {
             msg = msg.Trim();
