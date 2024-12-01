@@ -9,7 +9,7 @@ public class gearBroadcast : MonoBehaviour
     private string methodName = "handleMessage";
     void OnMessageArrived(string msg)
     {
-        Debug.Log(msg);
+        //Debug.Log(msg);
         BroadcastMessage(methodName, msg);
     }
 
