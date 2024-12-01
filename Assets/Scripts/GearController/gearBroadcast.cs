@@ -10,17 +10,7 @@ public class gearBroadcast : MonoBehaviour
     void OnMessageArrived(string msg)
     {
         Debug.Log(msg);
-        foreach (Transform child in transform)
-        {
-            if (msg != null)
-            {
-                child.gameObject.SendMessage(methodName, msg, SendMessageOptions.DontRequireReceiver);
-            }
-            else
-            {
-                child.gameObject.SendMessage(methodName, SendMessageOptions.DontRequireReceiver);
-            }
-        }
+        BroadcastMessage(methodName, msg);
     }
 
     // Invoked when a connect/disconnect event occurs. The parameter 'success'
