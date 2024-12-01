@@ -3061,13 +3061,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 450873547}
-  gearsLeft: {fileID: 1461098784}
-  gearsRight: {fileID: 2050331931}
-  doorMaxHeight: 3
+  doorAxis: y
+  doorMaxHeight: 6
   doorMinHeight: 0
   stepsPerUnit: 2
-  gearRotationMultipliersLeft: 
-  gearRotationMultipliersRight: 
+  stepsPerRotation: 48
+  gearSetLeft: {fileID: 1461098784}
+  gearRotationMultipliersLeft:
+  - 1
+  - 2
+  - 1
+  gearAxesLeft:
+  - x
+  - y
+  - x
+  gearSetRight: {fileID: 2050331931}
+  gearRotationMultipliersRight:
+  - 1
+  - 2
+  - 1
+  gearAxesRight:
+  - x
+  - y
+  - x
 --- !u!1001 &1932830506
 PrefabInstance:
   m_ObjectHideFlags: 0

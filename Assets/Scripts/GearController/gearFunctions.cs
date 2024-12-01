@@ -42,16 +42,19 @@ namespace gearController
             for (int i = 0; i < gears.Length; i++)
             {
                 //inverts degrees if needed
-                bool isGearInverted = (i % 2 == 0) ^ isInverted;
-                degrees = isInverted ? -degrees : degrees;
-
-                rotateGear(gears[i], degrees * rotationMultipliers[i], rotationAxes[i]);
+                
+                bool isEven = ((i + 1)%2) == 0;
+                bool isGearInverted = (isEven && isCoupled) ^ isInverted;
+                float resultingDegrees = isGearInverted ? -degrees : degrees;
+                
+                
+                rotateGear(gears[i], resultingDegrees * rotationMultipliers[i], rotationAxes[i]);
             }
         }
 
         public static void rotateGear(GameObject gear, float degrees, string axis)
         {
-            
+            Debug.Log("Rotating gear: "+ gear.name + " "+ degrees + " around "+ axis+ " axis.");
             switch (axis)
             {
                 case "x": // Rotate around X-axis
@@ -87,6 +90,23 @@ namespace gearController
                     break;
             }
 
+        }
+
+        public static GameObject[] getChildObjects(GameObject set)
+        {
+            // Use a List to dynamically collect the child GameObjects
+            List<GameObject> childObjects = new List<GameObject>();
+
+            // Loop through all direct children of the GameObject
+            for (int i = 0; i < set.transform.childCount; i++)
+            {
+                GameObject child = set.transform.GetChild(i).gameObject;
+                Debug.Log("added child: " + i + " name: " + child.name);
+                childObjects.Add(child);
+            }
+
+            // Convert the List to an array and return it
+            return childObjects.ToArray();
         }
     }
 }
