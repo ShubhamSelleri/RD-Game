@@ -75,13 +75,13 @@ namespace gearController
         {
             switch (axis)
             {
-                case "x": // Rotate around X-axis
+                case "x": // Move allong X-axis
                     gear.transform.Translate(step, 0f, 0f, Space.Self);
                     break;
-                case "y": // Rotate around Y-axis
+                case "y": // Move allong Y-axis
                     gear.transform.Translate(0f, step, 0f, Space.Self);
                     break;
-                case "z": // Rotate around Z-axis
+                case "z": // Move allong z-axis
                     gear.transform.Translate(0f, 0f, step, Space.Self);
                     break;
                 default:
@@ -100,7 +100,6 @@ namespace gearController
             for (int i = 0; i < set.transform.childCount; i++)
             {
                 GameObject child = set.transform.GetChild(i).gameObject;
-                Debug.Log("added child: " + i + " name: " + child.name);
                 childObjects.Add(child);
             }
 
