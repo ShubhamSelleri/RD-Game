@@ -1912,7 +1912,7 @@ MonoBehaviour:
   movementAxis: y
   stepsPerUnit: 10
   maxUnitsClockwise: 5
-  maxUnitsCounterClockwise: 5
+  maxUnitsCounterClockwise: 1
   stepsPerRotation: 48
   gearRotationMultipliers:
   - 1
@@ -1922,6 +1922,7 @@ MonoBehaviour:
   - x
   - x
   - x
+  isCoupled: 0
   isInverted: 0
 --- !u!65 &1223736224
 BoxCollider:
@@ -3411,6 +3412,10 @@ PrefabInstance:
     - target: {fileID: 7585104619863468, guid: 9ada113b668f0a64ea025fdcc330983f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345251348752441034, guid: 9ada113b668f0a64ea025fdcc330983f, type: 3}
+      propertyPath: isCoupled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7696661383163647291, guid: 9ada113b668f0a64ea025fdcc330983f, type: 3}
       propertyPath: m_Name

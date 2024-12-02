@@ -17,6 +17,7 @@ namespace gearController
         public float stepsPerRotation = 48f;        // steps needed to rotate gears once
         public float[] gearRotationMultipliers;     // increase if gear needs to spin faste
         public string[] gearAxes;                   // rotation axis of each gear
+        public bool isCoupled = false;              // couples gears
 
         public bool isInverted;                     // inverts platform movement
 
@@ -53,8 +54,8 @@ namespace gearController
             {   
                 
                 float rotation = step * stepToRotationRatio;
-                gearFunctions.translateGear(platform, step, "x");
-                gearFunctions.rotateGears(gears, rotation, gearAxes, gearRotationMultipliers, true, isInverted);
+                gearFunctions.translateGear(platform, step, movementAxis);
+                gearFunctions.rotateGears(gears, rotation, gearAxes, gearRotationMultipliers, isCoupled, isInverted);
 
                 currentPosition += step;
             }
