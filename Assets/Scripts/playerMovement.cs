@@ -10,7 +10,7 @@ public class CharacterMovement : MonoBehaviour
     public Transform groundCheckTop;
     public string groundLayer = "Ground"; 
 
-    private Rigidbody rb;
+    //private Rigidbody rb;
     private bool isGrounded;
     private Vector3 velocity;
     private CharacterController characterController;
@@ -32,7 +32,7 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
 
         Physics.gravity = new Vector3(0, -gravity, 0);                                                                       
         Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
@@ -65,6 +65,7 @@ public class CharacterMovement : MonoBehaviour
 
         Move();
         Jump();
+
         if (Input.GetKeyDown(KeyCode.S))
         {
             InvertGravity();
