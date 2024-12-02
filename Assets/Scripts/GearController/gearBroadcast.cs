@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class gearBroadcast : MonoBehaviour
 {
+    public bool debugMode = false;
     private string methodName = "handleMessage";
     void OnMessageArrived(string msg)
     {
@@ -23,6 +24,27 @@ public class gearBroadcast : MonoBehaviour
         else
         {
             Debug.Log("Failed to connect or disconnected from the gear input device.");
+        }
+    }
+    void Start()
+    {
+        Debug.Log("Debug mode of gearController: " + debugMode);
+    }
+
+    void Update()
+    {
+        if (debugMode)
+        {
+ 
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                BroadcastMessage(methodName, "0");
+            }
+            else
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                BroadcastMessage(methodName, "1");
+            }
         }
     }
 }
