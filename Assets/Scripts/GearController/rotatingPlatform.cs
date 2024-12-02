@@ -32,18 +32,21 @@ namespace gearController
         {
             // make array of gears once
             gears = gearFunctions.getChildObjects(gearSet);
+            //invert because of camera position
+            isInverted = !isInverted;
+
         }
 
         void handleMessage(string msg)
         {
-            //calcultate step
+            //calcultate step but max rotations are swapped because of camera position
             rotationStep = gearFunctions.calculateStep(currentRotation, msg, 360f / stepsPerRotation,
-                maxRotationCounterClockwise, maxRotationClockwise, isInverted);
+                maxRotationClockwise, maxRotationCounterClockwise, isInverted);
 
             //move platform, otherwise do blockedAnimation
             if (rotationStep != 0f)
             {
-                gearFunctions.rotateGear(platform, rotationStep, rotationAxis);
+                gearFunctions.rotateGear(ground, rotationStep, rotationAxis);
                 gearFunctions.rotateGears(gears, rotationStep, gearAxes, gearRotationMultipliers, isCoupled, isInverted);
 
                 currentRotation += rotationStep;
