@@ -6,6 +6,7 @@ using UnityEngine;
 public class gearBroadcast : MonoBehaviour
 {
     public bool debugMode = false;
+
     private string methodName = "handleMessage";
     void OnMessageArrived(string msg)
     {
