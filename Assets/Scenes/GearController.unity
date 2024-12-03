@@ -1586,7 +1586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gearSet: {fileID: 1077798560}
-  stepsPerRotation: 96
+  stepsPerRotation: 192
   maxRotationClockwise: -1
   maxRotationCounterClockwise: -1
   gearRotationMultipliers:
@@ -3205,6 +3205,10 @@ PrefabInstance:
     - target: {fileID: 4610450262713956968, guid: 77b2887c543ec614b9948df6ef307a71, type: 3}
       propertyPath: m_Name
       value: VerticalPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200637697148274668, guid: 77b2887c543ec614b9948df6ef307a71, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
