@@ -105,6 +105,7 @@ public class CharacterMovement : MonoBehaviour
         velovityMultiplier = -velovityMultiplier;
         jumpStartTime=Time.time;
         transform.Rotate(0,0,180f);
+        velocity.y=0;
     }
     
     IEnumerator vibrateController(float duration, float freq1, float freq2) {
