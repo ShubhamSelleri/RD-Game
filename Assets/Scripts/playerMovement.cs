@@ -10,7 +10,7 @@ public class CharacterMovement : MonoBehaviour
     public Transform groundCheckTop;
     public string groundLayer = "Ground"; 
 
-    private Rigidbody rb;
+    //private Rigidbody rb;
     private bool isGrounded;
     private Vector3 velocity;
     private CharacterController characterController;
@@ -22,15 +22,26 @@ public class CharacterMovement : MonoBehaviour
 
     public Animator animator;
     public float gravity=9.81f;
+    public bool currGravity = true;
+
+    public PoseSubscriber poseSubscriberUp1;
+    public PoseSubscriber poseSubscriberUp2;
+    public PoseSubscriber poseSubscriberDown1;
+    public PoseSubscriber poseSubscriberDown2;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
 
         Physics.gravity = new Vector3(0, -gravity, 0);                                                                       
         Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
         InputSystem.PauseHaptics();
+
+        poseSubscriberDown1.OnPoseDown += upPoseHandler;
+        poseSubscriberUp1.OnPoseUp += downPoseHandler;
+        poseSubscriberDown2.OnPoseDown += upPoseHandler;
+        poseSubscriberUp2.OnPoseUp += downPoseHandler;
     }
 
     void Update()
@@ -54,9 +65,24 @@ public class CharacterMovement : MonoBehaviour
 
         Move();
         Jump();
+
         if (Input.GetKeyDown(KeyCode.S))
         {
             InvertGravity();
+        }
+    }
+
+    private void downPoseHandler() {
+        if (currGravity) {
+            InvertGravity();
+            currGravity = false;
+        }
+    }
+
+    private void upPoseHandler() {
+        if (!currGravity) {
+            InvertGravity();
+            currGravity = true;
         }
     }
 
