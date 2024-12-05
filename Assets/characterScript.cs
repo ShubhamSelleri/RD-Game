@@ -26,6 +26,7 @@ public class characterScript : MonoBehaviour
 
     private bool isMovementPressed;
     private bool isGravityInverted;
+    private bool isJumpPressed = false;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class characterScript : MonoBehaviour
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+
 
         RunHash = Animator.StringToHash("Run");
         JumpHash = Animator.StringToHash("Jump");
@@ -42,13 +44,15 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Move.started += onMovementInput;
         playerInput.CharacterControls.Move.canceled += onMovementInput;
         playerInput.CharacterControls.Move.performed += onMovementInput;
+
         playerInput.CharacterControls.Jump.started += onJump;
         playerInput.CharacterControls.Jump.canceled += onJump;
     }
 
     void onJump(InputAction.CallbackContext context)
     {
-        bool isJumpPressed = context.ReadValueAsButton();
+        isJumpPressed = context.ReadValueAsButton();
+        Debug.Log("isJumpPressed:  " + isJumpPressed);
         if (isJumpPressed && characterController.isGrounded)
         {
 
