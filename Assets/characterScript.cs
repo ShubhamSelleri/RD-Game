@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class characterScript : MonoBehaviour
 {
 
+    public float rotationFactorPerFrame = 15.0f;
+
     private PlayerInput playerInput;
     private CharacterController characterController;
     private Animator animator;
@@ -50,6 +52,7 @@ public class characterScript : MonoBehaviour
     {
         characterController.Move(currentMovement * Time.deltaTime);
         handleAnimation();
+        handleRotation();
 
     }
 
@@ -66,6 +69,21 @@ public class characterScript : MonoBehaviour
         else if ( !isMovementPressed && isRunning)
         {
             animator.SetBool("Run", false);
+        }
+    }
+
+    void handleRotation()
+    {
+        Vector3 positionTolookAt = Vector3.zero;
+
+        positionTolookAt.x = currentMovement.x;
+        Quaternion currentRotation = transform.rotation;
+
+        if (isMovementPressed)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+
         }
     }
 
