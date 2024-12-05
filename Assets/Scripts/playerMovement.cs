@@ -6,8 +6,6 @@ public class CharacterMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
-    public Transform groundCheckBot;
-    public Transform groundCheckTop;
     public string groundLayer = "Ground"; 
 
     //private Rigidbody rb;
@@ -29,6 +27,8 @@ public class CharacterMovement : MonoBehaviour
     public PoseSubscriber poseSubscriberDown1;
     public PoseSubscriber poseSubscriberDown2;
 
+    
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -46,8 +46,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheckBot.position, 0.1f, LayerMask.GetMask(groundLayer));
-        
+        isGrounded = characterController.isGrounded;
         if (isGrounded) {
             animator.SetBool("Falling", false);
             StartCoroutine(vibrateController(0.2f, 0.15f, 0.7f));
@@ -131,6 +130,7 @@ public class CharacterMovement : MonoBehaviour
         velovityMultiplier = -velovityMultiplier;
         jumpStartTime=Time.time;
         transform.Rotate(0,0,180f);
+        velocity.y=0;
     }
     
     IEnumerator vibrateController(float duration, float freq1, float freq2) {
