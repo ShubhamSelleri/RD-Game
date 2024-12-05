@@ -9,6 +9,7 @@ public class characterScript : MonoBehaviour
 {
 
     public float rotationFactorPerFrame = 15.0f;
+    public float moveSpeed = 10f;
 
     private PlayerInput playerInput;
     private CharacterController characterController;
@@ -50,7 +51,7 @@ public class characterScript : MonoBehaviour
 
     void Update()
     {
-        characterController.Move(currentMovement * Time.deltaTime);
+        characterController.Move(currentMovement * moveSpeed * Time.deltaTime);
         handleAnimation();
         handleRotation();
 
