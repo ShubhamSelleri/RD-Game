@@ -10,6 +10,9 @@ public class characterScript : MonoBehaviour
 
     private PlayerInput playerInput;
     private CharacterController characterController;
+    private Animator animator;
+
+
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
 
@@ -19,6 +22,8 @@ public class characterScript : MonoBehaviour
     {
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
+
 
         playerInput.CharacterControls.Move.started += onMovementInput;
         playerInput.CharacterControls.Move.canceled += onMovementInput;
@@ -44,6 +49,24 @@ public class characterScript : MonoBehaviour
     void Update()
     {
         characterController.Move(currentMovement * Time.deltaTime);
+        handleAnimation();
+
+    }
+
+    void handleAnimation()
+    {
+        bool isRunning = animator.GetBool("Run");
+        bool isJumping = animator.GetBool("Jump");
+        bool isFalling = animator.GetBool("Falling");
+
+        if (isMovementPressed && !isRunning)
+        {
+            animator.SetBool("Run", true);
+        }
+        else if ( !isMovementPressed && isRunning)
+        {
+            animator.SetBool("Run", false);
+        }
     }
 
     void OnEnable()
