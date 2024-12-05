@@ -99,7 +99,7 @@ ModelImporter:
       name: Jump
       takeName: Armature.001|Jump
       internalID: -5376665257271825894
-      firstFrame: 0
+      firstFrame: 10
       lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
@@ -129,10 +129,10 @@ ModelImporter:
       takeName: Armature.001|Landing
       internalID: 5134894188175809049
       firstFrame: 0
-      lastFrame: 120
+      lastFrame: 11
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: -0.3
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
