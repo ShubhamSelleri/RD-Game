@@ -144,6 +144,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc43967713e05d41a88ad08588e0815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationFactorPerFrame: 15
+  moveSpeed: 10
+  gravity: 9.81
+  maxVerticalSpeed: 10
 --- !u!143 &376198984
 CharacterController:
   m_ObjectHideFlags: 0
@@ -167,7 +171,7 @@ CharacterController:
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.05
+  m_SkinWidth: 0.03
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &419030462
