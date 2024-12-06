@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6801641710279417662}
   m_Layer: 8
   m_Name: GemPickup
-  m_TagString: Untagged
+  m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,11 +100,11 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43413426785183874, guid: 76a0e9dd536bf0746b5647b59dec2ab4, type: 2}
 --- !u!114 &6801641710279417662
