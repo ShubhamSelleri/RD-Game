@@ -81,7 +81,7 @@ public class MouseLight : MonoBehaviour
                 float mappedY = Mathf.Lerp(-screenHeight*2, screenHeight*2, pointingPosition[1]);
 
                 // Move the block
-                Vector3 targetPosition = new Vector3(mappedX, mappedY, -10.3f);
+                Vector3 targetPosition = new Vector3(mappedX, mappedY, -5);
                 transform.position = targetPosition;
                 //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * movementSpeed);
             }
