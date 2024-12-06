@@ -39,12 +39,15 @@ public class characterScript : MonoBehaviour
     private bool isMovementPressed;
     private bool isGravityInvertedPressed = false;
     private bool isGravityInvertedPressedPrev = false;
+    private bool isGravityInvertedHand = false;
     private bool isGravityInverted = false;
     private bool isCharacterInverted = false;
     private bool isJumpPressed = false;
 
     private bool isTopTouching;
     private bool isFootOnGround;
+
+    public HandGestureManager handGestureManager;
 
 
     private void Awake()
@@ -83,7 +86,16 @@ public class characterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Subscribe to HandGestureManager events
+        if (handGestureManager != null)
+        {
+            handGestureManager.onThumbsUp.AddListener(HandleThumbsUp);
+            handGestureManager.onThumbsDown.AddListener(HandleThumbsDown);
+        }
+        else
+        {
+            Debug.LogWarning("HandGestureManager is not assigned in characterScript.");
+        }
     }
 
     // Update is called once per frame
@@ -266,18 +278,57 @@ public class characterScript : MonoBehaviour
         }
     }
 
+    // void handleGravityInversion()
+    // {
+
+    //     if((isGravityInvertedPressed || isGravityInvertedHand) && !isGravityInvertedPressedPrev && isFootOnGround)
+    //     {
+    //         transform.Rotate(Vector3.right * 180f) ;
+    //         isGravityInverted = !isGravityInverted;
+    //         isCharacterInverted = !isCharacterInverted;
+
+    //         Debug.Log("isGravityInverted = " + isGravityInverted);
+    //     }
+
+    //     isGravityInvertedHand = false;
+    //     isGravityInvertedPressedPrev = isGravityInvertedPressed;
+    // }
+
     void handleGravityInversion()
     {
-
-        if(isGravityInvertedPressed && !isGravityInvertedPressedPrev && isFootOnGround)
+    // Key press toggles gravity
+    if (isGravityInvertedPressed && !isGravityInvertedPressedPrev && isFootOnGround)
+    {
+        transform.Rotate(Vector3.right * 180f);
+        isGravityInverted = !isGravityInverted; // Toggle gravity
+        isCharacterInverted = isGravityInverted;
+        Debug.Log($"Gravity Toggled via Key Press: Gravity is now {(isGravityInverted ? "Inverted" : "Normal")}");
+    }
+    else if (!isGravityInvertedPressed) // Gestures apply explicit state only when key is not pressed
+    {
+        if (isGravityInvertedHand && !isGravityInverted)
         {
-            transform.Rotate(Vector3.right * 180f) ;
-            isGravityInverted = !isGravityInverted;
-            isCharacterInverted = !isCharacterInverted;
-
-            Debug.Log("isGravityInverted = " + isGravityInverted);
+            // Thumbs Down: Set gravity inverted if not already inverted
+            transform.Rotate(Vector3.right * 180f);
+            isGravityInverted = true;
+            isCharacterInverted = true;
+            Debug.Log("Gravity Set to Inverted via Gesture (Thumbs Down)");
         }
-        isGravityInvertedPressedPrev = isGravityInvertedPressed;
+        else if (!isGravityInvertedHand && isGravityInverted)
+        {
+            // Thumbs Up: Set gravity normal if not already normal
+            transform.Rotate(Vector3.right * -180f);
+            isGravityInverted = false;
+            isCharacterInverted = false;
+            Debug.Log("Gravity Set to Normal via Gesture (Thumbs Up)");
+        }
+    }
+
+    // Reset hand gesture state
+    isGravityInvertedHand = false;
+
+    // Update key press state
+    isGravityInvertedPressedPrev = isGravityInvertedPressed;
     }
 
     void handleRotation()
@@ -314,5 +365,27 @@ public class characterScript : MonoBehaviour
     void OnDisable()
     {
         playerInput.CharacterControls.Disable();
+    }
+
+    void OnDestroy()
+    {
+        // Unsubscribe from HandGestureManager events
+        if (handGestureManager != null)
+        {
+            handGestureManager.onThumbsUp.RemoveListener(HandleThumbsUp);
+            handGestureManager.onThumbsDown.RemoveListener(HandleThumbsDown);
+        }
+    }
+
+    void HandleThumbsUp()
+    {
+        Debug.Log("Thumbs Up Gesture Detected: Keeping gravity normal.");
+        isGravityInvertedHand = false; // Thumbs Up does not invert gravity
+    }
+
+    void HandleThumbsDown()
+    {
+        Debug.Log("Thumbs Down Gesture Detected: Inverting gravity.");
+        isGravityInvertedHand = true; // Thumbs Down triggers gravity inversion
     }
 }
