@@ -19,6 +19,7 @@ public class characterScript : MonoBehaviour
     private float initialJumpVelocity;
 
     private bool isJumping = false;
+    private bool isFalling;
     private float gravity;
 
     private PlayerInput playerInput;
@@ -36,8 +37,14 @@ public class characterScript : MonoBehaviour
     private Vector3 currentMovement;
 
     private bool isMovementPressed;
+    private bool isGravityInvertedPressed = false;
+    private bool isGravityInvertedPressedPrev = false;
     private bool isGravityInverted = false;
+    private bool isCharacterInverted = false;
     private bool isJumpPressed = false;
+
+    private bool isTopTouching;
+    private bool isFootOnGround;
 
 
     private void Awake()
@@ -60,11 +67,18 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Jump.started += onJump;
         playerInput.CharacterControls.Jump.canceled += onJump;
 
+        playerInput.CharacterControls.InvertGravity.started += onGravityInverted;
+        playerInput.CharacterControls.InvertGravity.canceled += onGravityInverted;
+
         setupJumpVariables();
         maxVerticalSpeed = Mathf.Max(initialJumpVelocity,maxVerticalSpeed);
     }
 
-    
+    void onGravityInverted(InputAction.CallbackContext context)
+    {
+        isGravityInvertedPressed = context.ReadValueAsButton();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -78,13 +92,29 @@ public class characterScript : MonoBehaviour
     {
         handleAnimation();
         handleRotation();
-
+        
         characterController.Move(currentMovement * Time.deltaTime);
 
+        updateIsFootOnGround();
+        handleGravityInversion();
         handleGravity();
         handleMaxVerticalSpeed();
         handleJump();
 
+    }
+
+    void updateIsFootOnGround()
+    {
+        Vector3 topOfController = transform.position + Vector3.up * (characterController.height / 2);
+        isTopTouching =  Physics.CheckSphere(topOfController + Vector3.up * 0.1f, 0.3f);
+        if (isGravityInverted)
+        {
+            isFootOnGround = isTopTouching;
+        }
+        else
+        {
+            isFootOnGround = characterController.isGrounded;
+        }
     }
 
     void onJump(InputAction.CallbackContext context)
@@ -94,14 +124,14 @@ public class characterScript : MonoBehaviour
 
     void handleJump()
     {
-        if (!isJumping && characterController.isGrounded && isJumpPressed)
+        if (!isJumping && isFootOnGround && isJumpPressed)
         {
             animator.SetBool(JumpHash, true);
             isJumpAnimating = true;
             isJumping = true;
             currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
         }
-        else if(!isJumpPressed && isJumping && characterController.isGrounded)
+        else if(!isJumpPressed && isJumping && isFootOnGround)
         {
             isJumping = false;
         }
@@ -123,7 +153,6 @@ public class characterScript : MonoBehaviour
         currentMovementInput = context.ReadValue<Vector2>();
         currentMovement.x = currentMovementInput.x * moveSpeed;
         isMovementPressed = currentMovementInput.x != 0;
-        Debug.Log("currentMovement: " + currentMovement);
     }
 
     void handleAnimation()
@@ -136,53 +165,45 @@ public class characterScript : MonoBehaviour
         {
             animator.SetBool(RunHash, true);
         }
-        else if (!isMovementPressed && isAnimatorRunning)
+        else if (!isMovementPressed && isAnimatorRunning) ;
         {
             animator.SetBool(RunHash, false);
         }
     }
 
-    void handleMaxVerticalSpeed()
+    void handleGravity()
     {
-        bool isMaxVerticalSpeedExceeded = Mathf.Abs(currentMovement.y) > maxVerticalSpeed;
-        if (isMaxVerticalSpeedExceeded)
+        if (isFootOnGround)
         {
             if (isGravityInverted)
             {
-                currentMovement.y = maxVerticalSpeed;
+                currentMovement.y = 0.05f;
             }
             else
             {
-                currentMovement.y = -maxVerticalSpeed;
+                currentMovement.y = -0.05f;
             }
+
+            isFallingAnimating = false;
+            animator.SetBool(FallingHash, false);
         }
-    }
-
-    void handleGravity()
-    {
         //checks Y velocity depending on gravity and if jump is released
-        bool isFalling = (isGravityInverted ? currentMovement.y >= 0.0f : currentMovement.y < -0.05f);
+        isFalling = (isGravityInverted ? currentMovement.y > 0.05f : currentMovement.y < -0.05f) || (!isJumpPressed && !isFootOnGround);
 
-        if(isFalling && !isFallingAnimating && !characterController.isGrounded)
+        if (isFalling && !isFallingAnimating)
         {
+            animator.SetBool(JumpHash, false);
+            isJumpAnimating = false;
             animator.SetBool(FallingHash, true);
             isFallingAnimating = true;
         }
-        else if(characterController.isGrounded && isFallingAnimating )
+        else if (!isFalling && isFallingAnimating)
         {
             animator.SetBool(FallingHash, false);
             isFallingAnimating = false;
         }
-        
-        if(characterController.isGrounded)
-        {
-            float groundedGravity = -.05f;
-            currentMovement.y = groundedGravity;
-            animator.SetBool(JumpHash, false);
-            isJumpAnimating = false;
 
-        }
-        else if (isFalling)
+        if (isFalling)
         {
             animator.SetBool(FallingHash, true);
             animator.SetBool(JumpHash, false);
@@ -192,9 +213,10 @@ public class characterScript : MonoBehaviour
             float newYVelocity;
             float nextYVelocity;
             //change sign of gravity if needed
+
             if (isGravityInverted)
             {
-                newYVelocity = currentMovement.y + (gravity * fallMultiplier* Time.deltaTime);
+                newYVelocity = currentMovement.y + (gravity * fallMultiplier * Time.deltaTime);
                 nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
                 currentMovement.y = nextYVelocity;
             }
@@ -227,18 +249,60 @@ public class characterScript : MonoBehaviour
         }
     }
 
+
+    void handleMaxVerticalSpeed()
+    {
+        bool isMaxVerticalSpeedExceeded = Mathf.Abs(currentMovement.y) > maxVerticalSpeed;
+        if (isMaxVerticalSpeedExceeded)
+        {
+            if (isGravityInverted)
+            {
+                currentMovement.y = maxVerticalSpeed;
+            }
+            else
+            {
+                currentMovement.y = -maxVerticalSpeed;
+            }
+        }
+    }
+
+    void handleGravityInversion()
+    {
+
+        if(isGravityInvertedPressed && !isGravityInvertedPressedPrev && isFootOnGround)
+        {
+            transform.Rotate(Vector3.right * 180f) ;
+            isGravityInverted = !isGravityInverted;
+            isCharacterInverted = !isCharacterInverted;
+
+            Debug.Log("isGravityInverted = " + isGravityInverted);
+        }
+        isGravityInvertedPressedPrev = isGravityInvertedPressed;
+    }
+
     void handleRotation()
     {
         Vector3 positionTolookAt = Vector3.zero;
 
-        positionTolookAt.x = currentMovement.x;
-        Quaternion currentRotation = transform.rotation;
+        
 
         if (isMovementPressed)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
-
+            if (!isCharacterInverted)
+            {
+                positionTolookAt.x = currentMovement.x;
+                Quaternion currentRotation = transform.rotation;
+                Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
+                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+            }
+            else
+            {
+                positionTolookAt.x = currentMovement.x;
+                Quaternion currentRotation = transform.rotation;
+                Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
+                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+            }
+            
         }
     }
 
