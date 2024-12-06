@@ -36,7 +36,7 @@ public class characterScript : MonoBehaviour
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
 
-    private bool isMovementPressed;
+    private bool isMovementPressed = false;
     private bool isGravityInvertedPressed = false;
     private bool isGravityInvertedPressedPrev = false;
     private bool isGravityInvertedHand = false;
@@ -117,8 +117,6 @@ public class characterScript : MonoBehaviour
 
     void updateIsFootOnGround()
     {
-        Vector3 topOfController = transform.position + Vector3.up * (characterController.height / 2);
-        isTopTouching =  Physics.CheckSphere(topOfController + Vector3.up * 0.1f, 0.3f);
         if (isGravityInverted)
         {
             isFootOnGround = isTopTouching;
@@ -141,11 +139,20 @@ public class characterScript : MonoBehaviour
             animator.SetBool(JumpHash, true);
             isJumpAnimating = true;
             isJumping = true;
-            currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            if (isGravityInverted)
+            {
+                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
+            else
+            {
+                currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
         }
         else if(!isJumpPressed && isJumping && isFootOnGround)
         {
             isJumping = false;
+            animator.SetBool(JumpHash, false);
+            isJumpAnimating = false;
         }
     }
 
@@ -170,9 +177,9 @@ public class characterScript : MonoBehaviour
     void handleAnimation()
     {
         bool isAnimatorRunning = animator.GetBool(RunHash);
-        bool isAnimatorJumping = animator.GetBool(JumpHash);
-        bool isAnimatorFalling = animator.GetBool(FallingHash);
-
+        //bool isAnimatorJumping = animator.GetBool(JumpHash);
+        //bool isAnimatorFalling = animator.GetBool(FallingHash);
+        Debug.Log("isMovementPressed: " + isMovementPressed);
         if (isMovementPressed && !isAnimatorRunning)
         {
             animator.SetBool(RunHash, true);
@@ -333,27 +340,16 @@ public class characterScript : MonoBehaviour
 
     void handleRotation()
     {
-        Vector3 positionTolookAt = Vector3.zero;
-
-        
-
         if (isMovementPressed)
         {
-            if (!isCharacterInverted)
+            if (currentMovementInput.x == 1)
             {
-                positionTolookAt.x = currentMovement.x;
-                Quaternion currentRotation = transform.rotation;
-                Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
-                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
             }
-            else
+            else if (currentMovementInput.x == -1)
             {
-                positionTolookAt.x = currentMovement.x;
-                Quaternion currentRotation = transform.rotation;
-                Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
-                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
             }
-            
         }
     }
 
