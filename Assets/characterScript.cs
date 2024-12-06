@@ -36,7 +36,7 @@ public class characterScript : MonoBehaviour
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
 
-    private bool isMovementPressed;
+    private bool isMovementPressed = false;
     private bool isGravityInvertedPressed = false;
     private bool isGravityInvertedPressedPrev = false;
     private bool isGravityInverted = false;
@@ -46,6 +46,7 @@ public class characterScript : MonoBehaviour
     private bool isTopTouching;
     private bool isFootOnGround;
 
+    private SphereCollider topCollider;
 
     private void Awake()
     {
@@ -83,7 +84,7 @@ public class characterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -105,8 +106,6 @@ public class characterScript : MonoBehaviour
 
     void updateIsFootOnGround()
     {
-        Vector3 topOfController = transform.position + Vector3.up * (characterController.height / 2);
-        isTopTouching =  Physics.CheckSphere(topOfController + Vector3.up * 0.1f, 0.3f);
         if (isGravityInverted)
         {
             isFootOnGround = isTopTouching;
@@ -129,11 +128,20 @@ public class characterScript : MonoBehaviour
             animator.SetBool(JumpHash, true);
             isJumpAnimating = true;
             isJumping = true;
-            currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            if (isGravityInverted)
+            {
+                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
+            else
+            {
+                currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
         }
         else if(!isJumpPressed && isJumping && isFootOnGround)
         {
             isJumping = false;
+            animator.SetBool(JumpHash, false);
+            isJumpAnimating = false;
         }
     }
 
@@ -158,9 +166,9 @@ public class characterScript : MonoBehaviour
     void handleAnimation()
     {
         bool isAnimatorRunning = animator.GetBool(RunHash);
-        bool isAnimatorJumping = animator.GetBool(JumpHash);
-        bool isAnimatorFalling = animator.GetBool(FallingHash);
-
+        //bool isAnimatorJumping = animator.GetBool(JumpHash);
+        //bool isAnimatorFalling = animator.GetBool(FallingHash);
+        Debug.Log("isMovementPressed: " + isMovementPressed);
         if (isMovementPressed && !isAnimatorRunning)
         {
             animator.SetBool(RunHash, true);
@@ -268,41 +276,29 @@ public class characterScript : MonoBehaviour
 
     void handleGravityInversion()
     {
-
         if(isGravityInvertedPressed && !isGravityInvertedPressedPrev && isFootOnGround)
         {
-            transform.Rotate(Vector3.right * 180f) ;
+            
+            transform.Rotate(Vector3.forward * 180f) ;
             isGravityInverted = !isGravityInverted;
             isCharacterInverted = !isCharacterInverted;
-
-            Debug.Log("isGravityInverted = " + isGravityInverted);
         }
+
         isGravityInvertedPressedPrev = isGravityInvertedPressed;
     }
 
     void handleRotation()
     {
-        Vector3 positionTolookAt = Vector3.zero;
-
-        
-
         if (isMovementPressed)
         {
-            if (!isCharacterInverted)
+            if (currentMovementInput.x == 1)
             {
-                positionTolookAt.x = currentMovement.x;
-                Quaternion currentRotation = transform.rotation;
-                Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
-                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
             }
-            else
+            else if (currentMovementInput.x == -1)
             {
-                positionTolookAt.x = currentMovement.x;
-                Quaternion currentRotation = transform.rotation;
-                Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
-                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
             }
-            
         }
     }
 
@@ -315,4 +311,23 @@ public class characterScript : MonoBehaviour
     {
         playerInput.CharacterControls.Disable();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the object is in the Ground layer
+        if (other.gameObject.tag == "Ground")
+        {
+            isTopTouching = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // Check if the object is in the Ground layer
+        if (other.gameObject.tag == "Ground")
+        {
+            isTopTouching = false;
+        }
+    }
+
 }
