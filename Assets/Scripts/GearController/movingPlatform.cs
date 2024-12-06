@@ -75,7 +75,7 @@ namespace gearController
             if (other.CompareTag("Player"))
             {
                 playerOnPlatform = other.gameObject;
-                playerOnPlatform.transform.SetParent(transform);
+                playerOnPlatform.transform.SetParent(platform.transform);
             }
         }
 
