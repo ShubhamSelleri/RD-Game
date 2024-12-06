@@ -1,94 +1,3 @@
-// using UnityEngine;
-// using System.Collections;
-// using UnityEngine.Networking;
-
-// public class HandGestureManager : MonoBehaviour
-// {
-//     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
-//     private bool isChecking = false;
-
-//     void Update()
-//     {
-//         if (!isChecking)
-//         {
-//             StartCoroutine(CheckHandGesture());
-//         }
-//     }
-
-//     IEnumerator CheckHandGesture()
-//     {
-//         isChecking = true;
-
-//         // Send a POST request to the Flask server
-//         UnityWebRequest request = UnityWebRequest.Post(apiUrl, new WWWForm());
-//         yield return request.SendWebRequest();
-
-//         if (request.result == UnityWebRequest.Result.Success)
-//         {
-//             string jsonResponse = request.downloadHandler.text;
-//             Debug.Log("Response from Flask: " + jsonResponse);
-
-//             // Deserialize the response
-//             GestureResponse response = JsonUtility.FromJson<GestureResponse>(jsonResponse);
-
-//             // Handle different statuses
-//             if (response.status == "Gesture Verified")
-//             {
-//                 TriggerGameAction(response.gesture);
-//             }
-//             else if (response.status == "Gesture Matched")
-//             {
-//                 Debug.Log($"Holding Gesture: {response.gesture} ({response.holding:F2} seconds)");
-//             }
-//             else
-//             {
-//                 Debug.Log("No Gesture Detected");
-//             }
-//         }
-//         else
-//         {
-//             Debug.LogError("Error communicating with Flask server: " + request.error);
-//         }
-
-//         isChecking = false;
-
-//         // Poll the server at a regular interval
-//         yield return new WaitForSeconds(0.5f);
-//     }
-
-//     void TriggerGameAction(string gesture)
-//     {
-//         Debug.Log("Gesture Verified: " + gesture);
-
-//         switch (gesture)
-//         {
-//             case "Thumbs Up":
-//                 Debug.Log("Action for Thumbs Up");
-//                 // Add game logic for "Thumbs Up" gesture
-//                 break;
-//             case "Thumbs Down":
-//                 Debug.Log("Action for Thumbs Down");
-//                 // Add game logic for "Thumbs Down" gesture
-//                 break;
-//             case "Middle Finger":
-//                 Debug.Log("Action for Middle Finger");
-//                 // Add game logic for "Middle Finger" gesture
-//                 break;
-//             default:
-//                 Debug.Log("Unknown Gesture");
-//                 break;
-//         }
-//     }
-
-//     [System.Serializable]
-//     public class GestureResponse
-//     {
-//         public string status;     // Status of the response (e.g., "Gesture Matched", "Gesture Verified", "No Gesture")
-//         public string gesture;    // Name of the matched gesture (e.g., "Thumbs Up")
-//         public float holding;     // Time the gesture has been held (optional, only for "Gesture Matched")
-//     }
-// }
-
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
@@ -96,53 +5,75 @@ using UnityEngine.Networking;
 public class HandGestureManager : MonoBehaviour
 {
     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
-    private bool isChecking = false;
+    private float pollingInterval = 1f; // Time between requests
+    private int maxRetries = 3; // Maximum retry attempts on failure
 
-    void Update()
+    void Start()
     {
-        if (!isChecking)
+        StartCoroutine(PollServer());
+    }
+
+    IEnumerator PollServer()
+    {
+        while (true)
         {
-            StartCoroutine(CheckHandGesture());
+            yield return CheckHandGesture();
+            yield return new WaitForSeconds(pollingInterval);
         }
     }
 
     IEnumerator CheckHandGesture()
     {
-        isChecking = true;
+        UnityWebRequest request = null;
+        bool requestSucceeded = false;
 
-        // Send a POST request to the Flask server
-        UnityWebRequest request = UnityWebRequest.Post(apiUrl, new WWWForm());
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        for (int retry = 0; retry < maxRetries; retry++)
         {
-            if (request.responseCode == 204)
+            request = UnityWebRequest.Post(apiUrl, new WWWForm());
+            request.timeout = 5; // Set a timeout for the request
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                // No state change
-                Debug.Log("No State Change Detected");
+                requestSucceeded = true;
+                break;
             }
             else
             {
-                string jsonResponse = request.downloadHandler.text;
-                GestureResponse response = JsonUtility.FromJson<GestureResponse>(jsonResponse);
-
-                if (response.status == "Gesture Verified")
-                {
-                    TriggerGameAction(response.gesture);
-                }
-                else if (response.status == "No Gesture")
-                {
-                    Debug.Log("No Gesture Detected");
-                }
+                Debug.LogWarning($"Retry {retry + 1}/{maxRetries}: Failed to connect to server. Error: {request.error}");
+                yield return new WaitForSeconds(1f); // Wait before retrying
             }
         }
-        else
+
+        if (!requestSucceeded)
         {
-            Debug.LogError("Error communicating with Flask server: " + request.error);
+            Debug.LogError("Failed to communicate with the server after retries. Stopping gesture checks.");
+            yield break; // Stop further execution if retries failed
         }
 
-        isChecking = false;
-        yield return new WaitForSeconds(0.5f); // Polling interval
+        ProcessResponse(request);
+    }
+
+    void ProcessResponse(UnityWebRequest request)
+    {
+        string jsonResponse = request.downloadHandler.text;
+
+        try
+        {
+            GestureResponse response = JsonUtility.FromJson<GestureResponse>(jsonResponse);
+
+            if (response.gesture == "No Gesture")
+            {
+                Debug.Log("No Gesture Detected");
+                return;
+            }
+
+            TriggerGameAction(response.gesture);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error parsing JSON response: " + e.Message + "\nResponse: " + jsonResponse);
+        }
     }
 
     void TriggerGameAction(string gesture)
@@ -155,12 +86,19 @@ public class HandGestureManager : MonoBehaviour
                 Debug.Log("Action for Thumbs Up");
                 // Add game logic for "Thumbs Up" gesture
                 break;
+
             case "Thumbs Down":
                 Debug.Log("Action for Thumbs Down");
                 // Add game logic for "Thumbs Down" gesture
                 break;
+
+            case "Rock":
+                Debug.Log("Action for Rock");
+                // Add game logic for "Rock" gesture
+                break;
+
             default:
-                Debug.Log("Unknown Gesture");
+                Debug.LogWarning("Unknown Gesture: " + gesture);
                 break;
         }
     }
@@ -168,8 +106,6 @@ public class HandGestureManager : MonoBehaviour
     [System.Serializable]
     public class GestureResponse
     {
-        public string status;
-        public string gesture;
+        public string gesture; // Name of the recognized gesture or "No Gesture"
     }
 }
-
