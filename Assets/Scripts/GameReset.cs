@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameReset : MonoBehaviour
 {
-    private Vector3 initPlayerPos;
-    private Vector3 initCameraPos;
+    public Vector3 initPlayerPos;
+    public Vector3 initCameraPos;
 
     public ChangeAlpha respawnAnimation;
 
@@ -35,7 +35,7 @@ public class GameReset : MonoBehaviour
             ResetPositions();
         }
     }
-    void ResetPositions()
+    public void ResetPositions()
     {
         playerCharacterController.enabled=false;
         playerTransform.position = initPlayerPos;

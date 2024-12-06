@@ -13,6 +13,9 @@ public class CharacterMovement : MonoBehaviour
     private Vector3 velocity;
     private CharacterController characterController;
 
+    public LayerMask groundLayerMask;
+    public Transform groundCheck;
+
     private float jumpStartTime;
     private float delayJump=0.5f;
 
@@ -46,7 +49,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        isGrounded = characterController.isGrounded;
+        isGrounded = characterController.isGrounded||Physics.CheckSphere(groundCheck.position, 0.2f, groundLayerMask);
         if (isGrounded) {
             animator.SetBool("Falling", false);
             StartCoroutine(vibrateController(0.2f, 0.15f, 0.7f));

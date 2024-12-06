@@ -29,7 +29,7 @@ public class ContinuousProximityEffect : MonoBehaviour
                 proximityTime += Time.deltaTime; // Increase the timer
 
                 // Check if proximity time exceeds 2 seconds
-                if (proximityTime >= 2f && flameEffects != null && !isBurning)
+                if (proximityTime >= 1f && flameEffects != null && !isBurning)
                 {
                     flameEffects.SetActive(true); // Enable the FlameEffects
                     isBurning = true;             // Start the burning effect
