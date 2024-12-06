@@ -25,9 +25,9 @@ public class characterScript : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
 
-    private int RunningHash;
-    private int JumpingHash;
-    private int FallingHash;
+    private int isRunningHash;
+    private int isJumpingHash;
+    private int isFallingHash;
 
     private bool isJumpAnimating;
     private bool isFallingAnimating;
@@ -50,9 +50,9 @@ public class characterScript : MonoBehaviour
         animator = GetComponent<Animator>();
 
         // convert animator parameter strings to hash for performance
-        RunningHash = Animator.StringToHash("Running");
-        JumpingHash = Animator.StringToHash("Jumping");
-        FallingHash = Animator.StringToHash("Falling");
+        isRunningHash = Animator.StringToHash("isRunning");
+        isJumpingHash = Animator.StringToHash("isJumping");
+        isFallingHash = Animator.StringToHash("isFalling");
 
         // listen to inputs
         playerInput.CharacterControls.Move.started += onMovementInput;
@@ -97,7 +97,7 @@ public class characterScript : MonoBehaviour
     {
         if (!isJumping && characterController.isGrounded && isJumpPressed)
         {
-            animator.SetBool(JumpingHash, true);
+            animator.SetBool(isJumpingHash, true);
             isJumpAnimating = true;
             isJumping = true;
             currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
@@ -110,17 +110,17 @@ public class characterScript : MonoBehaviour
 
     void handleAnimation()
     {
-        bool isAnimatorRunning = animator.GetBool(RunningHash);
-        bool isAnimatorJumping = animator.GetBool(JumpingHash);
-        bool isAnimatorFalling = animator.GetBool(FallingHash);
+        bool isAnimatorRunning = animator.GetBool(isRunningHash);
+        bool isAnimatorJumping = animator.GetBool(isJumpingHash);
+        bool isAnimatorFalling = animator.GetBool(isFallingHash);
 
         if (isMovementPressed && !isAnimatorRunning)
         {
-            animator.SetBool(RunningHash, true);
+            animator.SetBool(isRunningHash, true);
         }
         else if (!isMovementPressed && isAnimatorRunning)
         {
-            animator.SetBool(RunningHash, false);
+            animator.SetBool(isRunningHash, false);
         }
     }
 
@@ -147,12 +147,12 @@ public class characterScript : MonoBehaviour
 
         if(isFalling && !isFallingAnimating && !characterController.isGrounded)
         {
-            animator.SetBool(FallingHash, true);
+            animator.SetBool(isFallingHash, true);
             isFallingAnimating = true;
         }
         else if(characterController.isGrounded && isFallingAnimating )
         {
-            animator.SetBool(FallingHash, false);
+            animator.SetBool(isFallingHash, false);
             isFallingAnimating = false;
         }
         
@@ -160,14 +160,14 @@ public class characterScript : MonoBehaviour
         {
             float groundedGravity = -.05f;
             currentMovement.y = groundedGravity;
-            animator.SetBool(JumpingHash, false);
+            animator.SetBool(isJumpingHash, false);
             isJumpAnimating = false;
 
         }
         else if (isFalling)
         {
-            animator.SetBool(FallingHash, true);
-            animator.SetBool(JumpingHash, false);
+            animator.SetBool(isFallingHash, true);
+            animator.SetBool(isJumpingHash, false);
             isJumpAnimating = false;
 
             float previousYVelocity = currentMovement.y;
