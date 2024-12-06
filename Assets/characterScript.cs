@@ -25,8 +25,8 @@ public class characterScript : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
 
-    private int RunHash;
-    private int JumpHash;
+    private int RunningHash;
+    private int JumpingHash;
     private int FallingHash;
 
     private bool isJumpAnimating;
@@ -39,20 +39,22 @@ public class characterScript : MonoBehaviour
     private bool isGravityInverted = false;
     private bool isJumpPressed = false;
 
+    private SphereCollider headCollider;
+
 
     private void Awake()
     {
-
+        // get components
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
 
-
-        RunHash = Animator.StringToHash("Run");
-        JumpHash = Animator.StringToHash("Jump");
+        // convert animator parameter strings to hash for performance
+        RunningHash = Animator.StringToHash("Running");
+        JumpingHash = Animator.StringToHash("Jumping");
         FallingHash = Animator.StringToHash("Falling");
 
-
+        // listen to inputs
         playerInput.CharacterControls.Move.started += onMovementInput;
         playerInput.CharacterControls.Move.canceled += onMovementInput;
         playerInput.CharacterControls.Move.performed += onMovementInput;
@@ -60,8 +62,12 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Jump.started += onJump;
         playerInput.CharacterControls.Jump.canceled += onJump;
 
+
         setupJumpVariables();
+        // set maxVertical speed to the highest minimum value needed to make jump work
         maxVerticalSpeed = Mathf.Max(initialJumpVelocity,maxVerticalSpeed);
+
+        setUpHeadCollider();
     }
 
     
@@ -79,24 +85,19 @@ public class characterScript : MonoBehaviour
         handleAnimation();
         handleRotation();
 
-        //characterController.Move(currentMovement * Time.deltaTime);
+        characterController.Move(currentMovement * Time.deltaTime);
 
         handleGravity();
-        handleMaxVerticalSpeed();
-        handleJump();
+        //handleMaxVerticalSpeed();
+        //handleJump();
 
-    }
-
-    void onJump(InputAction.CallbackContext context)
-    {
-        isJumpPressed = context.ReadValueAsButton();
     }
 
     void handleJump()
     {
         if (!isJumping && characterController.isGrounded && isJumpPressed)
         {
-            animator.SetBool(JumpHash, true);
+            animator.SetBool(JumpingHash, true);
             isJumpAnimating = true;
             isJumping = true;
             currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
@@ -107,38 +108,19 @@ public class characterScript : MonoBehaviour
         }
     }
 
-    void setupJumpVariables()
-    {
-        float timeToApex = maxJumpTime / 2;
-        gravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex,2);
-        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
-
-        Debug.Log("timeToApex = " + timeToApex);
-        Debug.Log("gravity = " + gravity);
-        Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
-    }
-
-    void onMovementInput(InputAction.CallbackContext context)
-    {
-        currentMovementInput = context.ReadValue<Vector2>();
-        currentMovement.x = currentMovementInput.x * moveSpeed;
-        isMovementPressed = currentMovementInput.x != 0;
-        Debug.Log("currentMovement: " + currentMovement);
-    }
-
     void handleAnimation()
     {
-        bool isAnimatorRunning = animator.GetBool(RunHash);
-        bool isAnimatorJumping = animator.GetBool(JumpHash);
+        bool isAnimatorRunning = animator.GetBool(RunningHash);
+        bool isAnimatorJumping = animator.GetBool(JumpingHash);
         bool isAnimatorFalling = animator.GetBool(FallingHash);
 
         if (isMovementPressed && !isAnimatorRunning)
         {
-            animator.SetBool(RunHash, true);
+            animator.SetBool(RunningHash, true);
         }
         else if (!isMovementPressed && isAnimatorRunning)
         {
-            animator.SetBool(RunHash, false);
+            animator.SetBool(RunningHash, false);
         }
     }
 
@@ -178,14 +160,14 @@ public class characterScript : MonoBehaviour
         {
             float groundedGravity = -.05f;
             currentMovement.y = groundedGravity;
-            animator.SetBool(JumpHash, false);
+            animator.SetBool(JumpingHash, false);
             isJumpAnimating = false;
 
         }
         else if (isFalling)
         {
             animator.SetBool(FallingHash, true);
-            animator.SetBool(JumpHash, false);
+            animator.SetBool(JumpingHash, false);
             isJumpAnimating = false;
 
             float previousYVelocity = currentMovement.y;
@@ -229,17 +211,61 @@ public class characterScript : MonoBehaviour
 
     void handleRotation()
     {
-        Vector3 positionTolookAt = Vector3.zero;
-
-        positionTolookAt.x = currentMovement.x;
-        Quaternion currentRotation = transform.rotation;
-
-        if (isMovementPressed)
+        if (currentMovementInput.x > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(positionTolookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
-
+            if (currentMovementInput.x == 1)
+            {
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
+            }
+            else if (currentMovementInput.x == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
+            }
         }
+    }
+
+    void handleGravityInversion()
+    {
+
+    }
+
+
+
+    void onJump(InputAction.CallbackContext context)
+    {
+        isJumpPressed = context.ReadValueAsButton();
+    }
+
+    void setupJumpVariables()
+    {
+        float timeToApex = maxJumpTime / 2;
+        gravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+
+        Debug.Log("timeToApex = " + timeToApex);
+        Debug.Log("gravity = " + gravity);
+        Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
+    }
+
+    void onMovementInput(InputAction.CallbackContext context)
+    {
+        currentMovementInput = context.ReadValue<Vector2>();
+        currentMovement.x = currentMovementInput.x * moveSpeed;
+        isMovementPressed = currentMovementInput.x != 0;
+    }
+
+    void setUpHeadCollider()
+    {
+        Vector3 headPosition = characterController.center;
+        
+        headCollider = new SphereCollider();
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere.transform.position = headPosition;
+        float scaleFactor = 0.3f;
+        sphere.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
+
+        Renderer sphereRenderer = sphere.GetComponent<Renderer>();
+        sphereRenderer.material.color = Color.red;
     }
 
     void OnEnable()
