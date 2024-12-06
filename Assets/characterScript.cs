@@ -79,7 +79,7 @@ public class characterScript : MonoBehaviour
         handleAnimation();
         handleRotation();
 
-        //characterController.Move(currentMovement * Time.deltaTime);
+        characterController.Move(currentMovement * Time.deltaTime);
 
         handleGravity();
         handleMaxVerticalSpeed();
@@ -161,7 +161,7 @@ public class characterScript : MonoBehaviour
     void handleGravity()
     {
         //checks Y velocity depending on gravity and if jump is released
-        bool isFalling = (isGravityInverted ? currentMovement.y >= 0.0f : currentMovement.y < -0.05f);
+        bool isFalling = (isGravityInverted ? currentMovement.y >= 0.0f : currentMovement.y < -0.05f || !isJumpPressed);
 
         if(isFalling && !isFallingAnimating && !characterController.isGrounded)
         {
@@ -184,6 +184,7 @@ public class characterScript : MonoBehaviour
         }
         else if (isFalling)
         {
+            Debug.Log("you are falling");
             animator.SetBool(FallingHash, true);
             animator.SetBool(JumpHash, false);
             isJumpAnimating = false;
@@ -192,6 +193,7 @@ public class characterScript : MonoBehaviour
             float newYVelocity;
             float nextYVelocity;
             //change sign of gravity if needed
+
             if (isGravityInverted)
             {
                 newYVelocity = currentMovement.y + (gravity * fallMultiplier* Time.deltaTime);
@@ -207,6 +209,7 @@ public class characterScript : MonoBehaviour
         }
         else
         {
+            Debug.Log("you are not falling");
 
             float previousYVelocity = currentMovement.y;
             float newYVelocity;
