@@ -34,7 +34,7 @@ public class CharacterMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         //rb = GetComponent<Rigidbody>();
 
-        Physics.gravity = new Vector3(0, -gravity, 0);                                                                       
+        Physics.gravity = new Vector3(0, -gravity, 0);                                                                  
         Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
         InputSystem.PauseHaptics();
 
