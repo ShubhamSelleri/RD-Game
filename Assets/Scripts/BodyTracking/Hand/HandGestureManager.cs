@@ -1,12 +1,22 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.Networking;
 
 public class HandGestureManager : MonoBehaviour
 {
+    [System.Serializable] public class GestureEvent : UnityEvent { }
+
+    public GestureEvent onThumbsUp;
+    public GestureEvent onThumbsDown;
+
+    public CharacterMovement character;
+
     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
     private float pollingInterval = 1f; // Time between requests
     private int maxRetries = 3; // Maximum retry attempts on failure
+
+    private bool gravity = false;
 
     void Start()
     {
@@ -64,7 +74,7 @@ public class HandGestureManager : MonoBehaviour
 
             if (response.gesture == "No Gesture")
             {
-                Debug.Log("No Gesture Detected");
+                // Debug.Log("No Gesture Detected");
                 return;
             }
 
@@ -83,22 +93,35 @@ public class HandGestureManager : MonoBehaviour
         switch (gesture)
         {
             case "Thumbs Up":
-                Debug.Log("Action for Thumbs Up");
-                // Add game logic for "Thumbs Up" gesture
+                // Debug.Log("Triggering Thumbs Up Event");
+                onThumbsUp?.Invoke();
+                if (gravity == false){
+                    character.InvertGravity();
+                    gravity = true;
+                }
                 break;
 
             case "Thumbs Down":
-                Debug.Log("Action for Thumbs Down");
-                // Add game logic for "Thumbs Down" gesture
+                // Debug.Log("Triggering Thumbs Down Event");
+                onThumbsDown?.Invoke();
+                if (gravity == true){
+                    character.InvertGravity();
+                    gravity = false;
+                }
                 break;
 
             case "Rock":
                 Debug.Log("Action for Rock");
                 // Add game logic for "Rock" gesture
                 break;
+            
+            case "Middle Finger":
+                Debug.Log("Action for Rock");
+                // Add game logic for "Rock" gesture
+                break;
 
             default:
-                Debug.LogWarning("Unknown Gesture: " + gesture);
+                // Debug.LogWarning("Unknown Gesture: " + gesture);
                 break;
         }
     }
