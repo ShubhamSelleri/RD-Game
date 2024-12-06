@@ -25,12 +25,11 @@ public class CharacterMovement : MonoBehaviour
     public float gravity=9.81f;
     public bool currGravity = true;
 
-    public PoseSubscriber poseSubscriberUp1;
-    public PoseSubscriber poseSubscriberUp2;
-    public PoseSubscriber poseSubscriberDown1;
-    public PoseSubscriber poseSubscriberDown2;
-
-    
+    // public PoseSubscriber poseSubscriberUp1;
+    // public PoseSubscriber poseSubscriberUp2;
+    // public PoseSubscriber poseSubscriberDown1;
+    // public PoseSubscriber poseSubscriberDown2;
+    public HandGestureManager handGestureManager;
 
     void Start()
     {
@@ -41,10 +40,22 @@ public class CharacterMovement : MonoBehaviour
         Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
         InputSystem.PauseHaptics();
 
-        poseSubscriberDown1.OnPoseDown += upPoseHandler;
-        poseSubscriberUp1.OnPoseUp += downPoseHandler;
-        poseSubscriberDown2.OnPoseDown += upPoseHandler;
-        poseSubscriberUp2.OnPoseUp += downPoseHandler;
+        // poseSubscriberDown1.OnPoseDown += upPoseHandler;
+        // poseSubscriberUp1.OnPoseUp += downPoseHandler;
+        // poseSubscriberDown2.OnPoseDown += upPoseHandler;
+        // poseSubscriberUp2.OnPoseUp += downPoseHandler;
+
+        // Subscribe to HandGestureManager events
+        if (handGestureManager != null)
+        {
+            
+            handGestureManager.onThumbsUp.AddListener(HandleThumbsUp);
+            handGestureManager.onThumbsDown.AddListener(HandleThumbsDown);
+        }
+        else
+        {
+            Debug.LogWarning("HandGestureManager is not assigned in characterScript.");
+        }
     }
 
     void Update()
@@ -127,7 +138,7 @@ public class CharacterMovement : MonoBehaviour
         velocity.y += Physics.gravity.y * Time.deltaTime;
         characterController.Move(velovityMultiplier*velocity * Time.deltaTime);
     }
-    private void InvertGravity()
+    public void InvertGravity()
     {
         // Invert gravity
         velovityMultiplier = -velovityMultiplier;
@@ -144,6 +155,27 @@ public class CharacterMovement : MonoBehaviour
             yield return null;
         }
         InputSystem.PauseHaptics();
+    }
+
+    void HandleThumbsUp()
+    {
+        Debug.Log("Thumbs Up Gesture Detected: Keeping gravity normal.");
+        if (currGravity) {
+            InvertGravity();
+            currGravity = false;
+            Debug.Log("Thumbs Up Gesture Detected: Keeping gravity normal.");
+            
+        }
+    }
+
+    void HandleThumbsDown()
+    {
+        Debug.Log("Thumbs Down Gesture Detected: Keeping gravity normal.");
+        if (!currGravity) {
+            InvertGravity();
+            currGravity = true;
+            Debug.Log("Thumbs Down Gesture Detected: Keeping gravity normal.");
+        }
     }
 
 }

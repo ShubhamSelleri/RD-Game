@@ -10,9 +10,13 @@ public class HandGestureManager : MonoBehaviour
     public GestureEvent onThumbsUp;
     public GestureEvent onThumbsDown;
 
+    public CharacterMovement character;
+
     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
     private float pollingInterval = 1f; // Time between requests
     private int maxRetries = 3; // Maximum retry attempts on failure
+
+    private bool gravity = false;
 
     void Start()
     {
@@ -91,11 +95,19 @@ public class HandGestureManager : MonoBehaviour
             case "Thumbs Up":
                 // Debug.Log("Triggering Thumbs Up Event");
                 onThumbsUp?.Invoke();
+                if (gravity == false){
+                    character.InvertGravity();
+                    gravity = true;
+                }
                 break;
 
             case "Thumbs Down":
                 // Debug.Log("Triggering Thumbs Down Event");
                 onThumbsDown?.Invoke();
+                if (gravity == true){
+                    character.InvertGravity();
+                    gravity = false;
+                }
                 break;
 
             case "Rock":
