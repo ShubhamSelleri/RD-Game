@@ -39,6 +39,9 @@ public class characterScript : MonoBehaviour
     private bool isGravityInverted = false;
     private bool isJumpPressed = false;
 
+
+    private Vector3 headPosition;
+    private float characterRadius;
     private SphereCollider headCollider;
 
 
@@ -143,7 +146,7 @@ public class characterScript : MonoBehaviour
     void handleGravity()
     {
         //checks Y velocity depending on gravity and if jump is released
-        bool isFalling = (isGravityInverted ? currentMovement.y >= 0.0f : currentMovement.y < -0.05f);
+        bool isFalling = false;
 
         if(isFalling && !isFallingAnimating && !characterController.isGrounded)
         {
@@ -256,16 +259,16 @@ public class characterScript : MonoBehaviour
 
     void setUpHeadCollider()
     {
-        Vector3 headPosition = characterController.center;
-        
-        headCollider = new SphereCollider();
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = headPosition;
-        float scaleFactor = 0.3f;
-        sphere.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
+        float characterColliderOffset = 0.9f;
+        float characterHeight = 1.9f;
+        float characterRadius = 0.3f;
+        headPosition = Vector3.zero;
+        headPosition.y += characterColliderOffset + characterHeight - characterRadius + 0.05f; //+0,05 f to have it above capsulecollider
 
-        Renderer sphereRenderer = sphere.GetComponent<Renderer>();
-        sphereRenderer.material.color = Color.red;
+        headCollider = GetComponent<SphereCollider>();
+
+        Debug.Log("HeadColliderFound = " + headCollider.name);
+        Debug.Log("HeadCollider position = " + headCollider.center);
     }
 
     void OnEnable()
