@@ -11,6 +11,7 @@ public class soundEffects : StateMachineBehaviour
         Debug.Log(audioSource);
         if (audioSource != null)
         {
+            audioSource.Stop();
             // Map animation state names to specific clips
             if (stateInfo.IsName("Armature_001|Jump"))
             {
