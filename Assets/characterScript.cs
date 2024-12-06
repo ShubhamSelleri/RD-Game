@@ -37,6 +37,7 @@ public class characterScript : MonoBehaviour
 
     private bool isMovementPressed;
     private bool isGravityInverted = false;
+    private bool isCharacterInverted = false;
     private bool isJumpPressed = false;
 
 
@@ -80,7 +81,7 @@ public class characterScript : MonoBehaviour
         handleRotation();
 
         characterController.Move(currentMovement * Time.deltaTime);
-
+        handleGravityInversion();
         handleGravity();
         handleMaxVerticalSpeed();
         handleJump();
@@ -161,72 +162,63 @@ public class characterScript : MonoBehaviour
     void handleGravity()
     {
         //checks Y velocity depending on gravity and if jump is released
-        bool isFalling = (isGravityInverted ? currentMovement.y >= 0.0f : currentMovement.y < -0.05f || !isJumpPressed);
-
-        if(isFalling && !isFallingAnimating && !characterController.isGrounded)
+        if (characterController.isGrounded)
         {
+            currentMovement.y = -0.05f;
+            isFallingAnimating = false;
+            animator.SetBool(FallingHash, false);
+        }
+
+        bool isFalling = currentMovement.y < -0.05f || (!isJumpPressed && !characterController.isGrounded);
+
+        if(isFalling && !isFallingAnimating )
+        {
+            animator.SetBool(JumpHash,false);
+            isJumpAnimating = false;
             animator.SetBool(FallingHash, true);
             isFallingAnimating = true;
         }
-        else if(characterController.isGrounded && isFallingAnimating )
+        else if(!isFalling && isFallingAnimating )
         {
             animator.SetBool(FallingHash, false);
             isFallingAnimating = false;
         }
         
-        if(characterController.isGrounded)
+        if (isFalling)
         {
-            float groundedGravity = -.05f;
-            currentMovement.y = groundedGravity;
-            animator.SetBool(JumpHash, false);
-            isJumpAnimating = false;
-
-        }
-        else if (isFalling)
-        {
-            Debug.Log("you are falling");
-            animator.SetBool(FallingHash, true);
-            animator.SetBool(JumpHash, false);
-            isJumpAnimating = false;
-
             float previousYVelocity = currentMovement.y;
             float newYVelocity;
             float nextYVelocity;
             //change sign of gravity if needed
 
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (gravity * fallMultiplier* Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (gravity * fallMultiplier * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+            newYVelocity = currentMovement.y - (gravity * fallMultiplier * Time.deltaTime);
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+            currentMovement.y = nextYVelocity;
         }
         else
         {
-            Debug.Log("you are not falling");
-
             float previousYVelocity = currentMovement.y;
             float newYVelocity;
             float nextYVelocity;
             //change sign of gravity if needed
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (gravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+            newYVelocity = currentMovement.y - (gravity * Time.deltaTime);
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+            currentMovement.y = nextYVelocity;
+         
+        }
+    }
+
+    void handleGravityInversion()
+    {
+        if(isGravityInverted && !isCharacterInverted)
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            isCharacterInverted = true;
+        }
+        else if(!isGravityInverted && isCharacterInverted)
+        {
+            transform.rotation = Quaternion.Euler(10f, 180f, 0f);
+            isCharacterInverted = false;
         }
     }
 
