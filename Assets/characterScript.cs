@@ -79,7 +79,7 @@ public class characterScript : MonoBehaviour
         handleAnimation();
         handleRotation();
 
-        characterController.Move(currentMovement * Time.deltaTime);
+        //characterController.Move(currentMovement * Time.deltaTime);
 
         handleGravity();
         handleMaxVerticalSpeed();
@@ -123,6 +123,7 @@ public class characterScript : MonoBehaviour
         currentMovementInput = context.ReadValue<Vector2>();
         currentMovement.x = currentMovementInput.x * moveSpeed;
         isMovementPressed = currentMovementInput.x != 0;
+        Debug.Log("currentMovement: " + currentMovement);
     }
 
     void handleAnimation()
