@@ -224,6 +224,19 @@ public class characterScript : MonoBehaviour
         }
     }
 
+    void handleGravityInversion()
+    {
+        isFootOnGround = isGravityInverted ? isHeadTouching : characterController.isGrounded;
+
+        if (!isGravityInvertedPrev && isGravityInvertedPressed)
+        {
+            transform.Rotate(0, 0, 180f);
+            isGravityInverted = !isGravityInverted;
+        }
+
+        isGravityInvertedPrev = isGravityInverted;
+    }
+
     void handleRotation()
     {
         if (isMovementPressed)
@@ -237,19 +250,6 @@ public class characterScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
             }
         }
-    }
-
-    void handleGravityInversion()
-    {
-        isFootOnGround = isGravityInverted ? isHeadTouching : characterController.isGrounded;
-
-        if(isGravityInverted && !isGravityInvertedPrev && isGravityInvertedPressed)
-        {
-            transform.Rotate(0, 0, 180f);
-        }
-        isGravityInvertedPrev = isGravityInverted;
-
-
     }
 
     void onJump(InputAction.CallbackContext context)
