@@ -44,6 +44,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InvertGravity"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd84c8f3-135e-421d-b22e-fd778284a00a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -134,6 +143,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""370d7049-ac31-4ce9-af39-eab013361659"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InvertGravity"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -144,6 +164,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_CharacterControls = asset.FindActionMap("CharacterControls", throwIfNotFound: true);
         m_CharacterControls_Move = m_CharacterControls.FindAction("Move", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
+        m_CharacterControls_InvertGravity = m_CharacterControls.FindAction("InvertGravity", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -212,12 +233,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<ICharacterControlsActions> m_CharacterControlsActionsCallbackInterfaces = new List<ICharacterControlsActions>();
     private readonly InputAction m_CharacterControls_Move;
     private readonly InputAction m_CharacterControls_Jump;
+    private readonly InputAction m_CharacterControls_InvertGravity;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
         public CharacterControlsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_CharacterControls_Move;
         public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
+        public InputAction @InvertGravity => m_Wrapper.m_CharacterControls_InvertGravity;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +256,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @InvertGravity.started += instance.OnInvertGravity;
+            @InvertGravity.performed += instance.OnInvertGravity;
+            @InvertGravity.canceled += instance.OnInvertGravity;
         }
 
         private void UnregisterCallbacks(ICharacterControlsActions instance)
@@ -243,6 +269,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @InvertGravity.started -= instance.OnInvertGravity;
+            @InvertGravity.performed -= instance.OnInvertGravity;
+            @InvertGravity.canceled -= instance.OnInvertGravity;
         }
 
         public void RemoveCallbacks(ICharacterControlsActions instance)
@@ -264,5 +293,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnInvertGravity(InputAction.CallbackContext context);
     }
 }

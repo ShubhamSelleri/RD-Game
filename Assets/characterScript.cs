@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +19,8 @@ public class characterScript : MonoBehaviour
     private float initialJumpVelocity;
 
     private bool isJumping = false;
-    private float gravity;
+    private float baseGravity;
+    private float currentGravity;
 
     private PlayerInput playerInput;
     private CharacterController characterController;
@@ -37,13 +38,18 @@ public class characterScript : MonoBehaviour
 
     private bool isMovementPressed;
     private bool isGravityInverted = false;
+    private bool isGravityInvertedPrev;
+    private bool isGravityInvertedPressed = false;
+    private float gravityFloatingMultiplier = 1;
     private bool isJumpPressed = false;
 
+    private bool isFootOnGround;
+    private bool isHeadTouching = false;
 
     private Vector3 headPosition;
     private float characterRadius;
     private SphereCollider headCollider;
-
+    private HashSet<GameObject> groundObjects = new HashSet<GameObject>();
 
     private void Awake()
     {
@@ -57,7 +63,7 @@ public class characterScript : MonoBehaviour
         isJumpingHash = Animator.StringToHash("isJumping");
         isFallingHash = Animator.StringToHash("isFalling");
 
-        // listen to inputs
+        // bind listen to inputs
         playerInput.CharacterControls.Move.started += onMovementInput;
         playerInput.CharacterControls.Move.canceled += onMovementInput;
         playerInput.CharacterControls.Move.performed += onMovementInput;
@@ -65,12 +71,15 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Jump.started += onJump;
         playerInput.CharacterControls.Jump.canceled += onJump;
 
+        playerInput.CharacterControls.InvertGravity.started += onInvertGravity;
+        playerInput.CharacterControls.InvertGravity.canceled += onInvertGravity;
 
         setupJumpVariables();
+
         // set maxVertical speed to the highest minimum value needed to make jump work
         maxVerticalSpeed = Mathf.Max(initialJumpVelocity,maxVerticalSpeed);
 
-        setUpHeadCollider();
+        setupHeadCollider();
     }
 
     
@@ -90,9 +99,10 @@ public class characterScript : MonoBehaviour
 
         characterController.Move(currentMovement * Time.deltaTime);
 
+        handleGravityInversion();
         handleGravity();
         //handleMaxVerticalSpeed();
-        //handleJump();
+        handleJump();
 
     }
 
@@ -145,31 +155,32 @@ public class characterScript : MonoBehaviour
 
     void handleGravity()
     {
-        //checks Y velocity depending on gravity and if jump is released
-        bool isFalling = false;
+        float groundedGravity = 0.05f;
+        bool isFalling;
 
-        if(isFalling && !isFallingAnimating && !characterController.isGrounded)
+        if (isFootOnGround)
+        {
+            currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
+        }
+        //checks Y velocity depending on gravity and if jump is released
+        isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
+        Debug.Log("isFalling = " + isFalling + "isFootOnGround = " + isFootOnGround);
+
+        if(isFalling && !isFallingAnimating)
         {
             animator.SetBool(isFallingHash, true);
             isFallingAnimating = true;
         }
-        else if(characterController.isGrounded && isFallingAnimating )
+        else if(!isFalling && isFallingAnimating )
         {
             animator.SetBool(isFallingHash, false);
             isFallingAnimating = false;
         }
         
-        if(characterController.isGrounded)
+        if (isFalling)
         {
-            float groundedGravity = -.05f;
-            currentMovement.y = groundedGravity;
-            animator.SetBool(isJumpingHash, false);
-            isJumpAnimating = false;
-
-        }
-        else if (isFalling)
-        {
-            animator.SetBool(isFallingHash, true);
             animator.SetBool(isJumpingHash, false);
             isJumpAnimating = false;
 
@@ -179,17 +190,18 @@ public class characterScript : MonoBehaviour
             //change sign of gravity if needed
             if (isGravityInverted)
             {
-                newYVelocity = currentMovement.y + (gravity * fallMultiplier* Time.deltaTime);
+                newYVelocity = currentMovement.y + (currentGravity * fallMultiplier* Time.deltaTime);
                 nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
                 currentMovement.y = nextYVelocity;
             }
             else
             {
-                newYVelocity = currentMovement.y - (gravity * fallMultiplier * Time.deltaTime);
+                newYVelocity = currentMovement.y - (currentGravity * fallMultiplier * Time.deltaTime);
                 nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
                 currentMovement.y = nextYVelocity;
             }
         }
+        //else the character is still jumping "up"
         else
         {
 
@@ -199,13 +211,13 @@ public class characterScript : MonoBehaviour
             //change sign of gravity if needed
             if (isGravityInverted)
             {
-                newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
+                newYVelocity = currentMovement.y + (currentGravity * Time.deltaTime);
                 nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
                 currentMovement.y = nextYVelocity;
             }
             else
             {
-                newYVelocity = currentMovement.y - (gravity * Time.deltaTime);
+                newYVelocity = currentMovement.y - (currentGravity * Time.deltaTime);
                 nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
                 currentMovement.y = nextYVelocity;
             }
@@ -214,7 +226,7 @@ public class characterScript : MonoBehaviour
 
     void handleRotation()
     {
-        if (currentMovementInput.x > 0.1f)
+        if (isMovementPressed)
         {
             if (currentMovementInput.x == 1)
             {
@@ -229,10 +241,16 @@ public class characterScript : MonoBehaviour
 
     void handleGravityInversion()
     {
+        isFootOnGround = isGravityInverted ? isHeadTouching : characterController.isGrounded;
+
+        if(isGravityInverted && !isGravityInvertedPrev && isGravityInvertedPressed)
+        {
+            transform.Rotate(0, 0, 180f);
+        }
+        isGravityInvertedPrev = isGravityInverted;
+
 
     }
-
-
 
     void onJump(InputAction.CallbackContext context)
     {
@@ -242,11 +260,12 @@ public class characterScript : MonoBehaviour
     void setupJumpVariables()
     {
         float timeToApex = maxJumpTime / 2;
-        gravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+        baseGravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
 
+        currentGravity = baseGravity;
         Debug.Log("timeToApex = " + timeToApex);
-        Debug.Log("gravity = " + gravity);
+        Debug.Log("gravity = " + baseGravity);
         Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
     }
 
@@ -257,7 +276,12 @@ public class characterScript : MonoBehaviour
         isMovementPressed = currentMovementInput.x != 0;
     }
 
-    void setUpHeadCollider()
+    void onInvertGravity(InputAction.CallbackContext context)
+    {
+       isGravityInvertedPressed = context.ReadValueAsButton();
+    }
+
+    void setupHeadCollider()
     {
         float characterColliderOffset = 0.9f;
         float characterHeight = 1.9f;
@@ -269,6 +293,29 @@ public class characterScript : MonoBehaviour
 
         Debug.Log("HeadColliderFound = " + headCollider.name);
         Debug.Log("HeadCollider position = " + headCollider.center);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.CompareTag("Ground"))
+        {
+            groundObjects.Add(other.gameObject);  
+            isHeadTouching = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+
+        if (groundObjects.Contains(other.gameObject))
+        {
+            groundObjects.Remove(other.gameObject);
+            if (groundObjects.Count == 0)
+            {
+                isHeadTouching = false;
+            }
+        }
     }
 
     void OnEnable()
