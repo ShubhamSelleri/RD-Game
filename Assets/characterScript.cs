@@ -47,6 +47,7 @@ public class characterScript : MonoBehaviour
     private bool isHeadTouching = false;
 
     private Vector3 headPosition;
+    private Vector3 feetPosition;
     private float characterRadius;
     private SphereCollider headCollider;
     private HashSet<GameObject> groundObjects = new HashSet<GameObject>();
@@ -166,7 +167,7 @@ public class characterScript : MonoBehaviour
         }
         //checks Y velocity depending on gravity and if jump is released
         isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
-        Debug.Log("isFalling = " + isFalling + "isFootOnGround = " + isFootOnGround);
+        Debug.Log("isFootOnGround = " + isFootOnGround);
 
         if(isFalling && !isFallingAnimating)
         {
@@ -226,15 +227,28 @@ public class characterScript : MonoBehaviour
 
     void handleGravityInversion()
     {
+        
+        
         isFootOnGround = isGravityInverted ? isHeadTouching : characterController.isGrounded;
 
         if (!isGravityInvertedPrev && isGravityInvertedPressed)
         {
             transform.Rotate(0, 0, 180f);
             isGravityInverted = !isGravityInverted;
+            //the secret souce to keep the feet touching detection
+            if (!isGravityInverted)
+            {
+                headCollider.center = headPosition;
+            }
+            else
+            {
+                headCollider.center = feetPosition;
+            }
         }
 
         isGravityInvertedPrev = isGravityInverted;
+        
+
     }
 
     void handleRotation()
@@ -287,27 +301,38 @@ public class characterScript : MonoBehaviour
         float characterHeight = 1.9f;
         float characterRadius = 0.3f;
         headPosition = Vector3.zero;
-        headPosition.y += characterColliderOffset + characterHeight - characterRadius + 0.05f; //+0,05 f to have it above capsulecollider
+        headPosition.y += characterColliderOffset + characterHeight/2 - characterRadius + 0.1f; //+0,05 f to have it above capsulecollider
+
+        feetPosition = Vector3.zero;
+        feetPosition.y += characterColliderOffset - (characterHeight/2 - characterRadius + 0.1f); 
 
         headCollider = GetComponent<SphereCollider>();
 
         Debug.Log("HeadColliderFound = " + headCollider.name);
-        Debug.Log("HeadCollider position = " + headCollider.center);
+        Debug.Log("HeadCollider headposition = " + headCollider.center);
+        Debug.Log("HeadCollider feetposition = " + feetPosition);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.CompareTag("Ground"))
+        Debug.Log("Object touched: " + other.gameObject.name + " with tag: " + other.gameObject.tag);
+        if (other.gameObject.CompareTag("Ground"))
         {
-            groundObjects.Add(other.gameObject);  
+            groundObjects.Add(other.gameObject);
+            isHeadTouching = true;
+            Debug.Log("Ground Object detected at head: " + other.gameObject.name);
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
             isHeadTouching = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
         if (groundObjects.Contains(other.gameObject))
         {
             groundObjects.Remove(other.gameObject);
