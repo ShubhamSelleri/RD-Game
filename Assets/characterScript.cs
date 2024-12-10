@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,16 +19,16 @@ public class characterScript : MonoBehaviour
     private float initialJumpVelocity;
 
     private bool isJumping = false;
-    private bool isFalling;
-    private float gravity;
+    private float baseGravity;
+    private float currentGravity;
 
     private PlayerInput playerInput;
     private CharacterController characterController;
     private Animator animator;
 
-    private int RunHash;
-    private int JumpHash;
-    private int FallingHash;
+    private int isRunningHash;
+    private int isJumpingHash;
+    private int isFallingHash;
 
     private bool isJumpAnimating;
     private bool isFallingAnimating;
@@ -36,33 +36,37 @@ public class characterScript : MonoBehaviour
     private Vector2 currentMovementInput;
     private Vector3 currentMovement;
 
-    private bool isMovementPressed = false;
-    private bool isGravityInvertedPressed = false;
-    private bool isGravityInvertedPressedPrev = false;
-    private bool isGravityInvertedHand = false;
+    private bool isMovementPressed;
     private bool isGravityInverted = false;
-    private bool isCharacterInverted = false;
+    private bool isGravityInvertedPressedPrev;
+    private bool isGravityInvertedPressed = false;
+    private float gravityFloatingMultiplier = 1;
     private bool isJumpPressed = false;
 
-    private bool isTopTouching;
     private bool isFootOnGround;
+    private bool isHeadTouching = false;
 
-    public HandGestureManager handGestureManager;
+    private Vector3 headPosition;
+    private Vector3 feetPosition;
+    private float characterRadius;
+    private string groundLayer = "Ground";
 
+    private SphereCollider headCollider;
+    private HashSet<GameObject> groundObjects = new HashSet<GameObject>();
 
     private void Awake()
     {
-
+        // get components
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
 
+        // convert animator parameter strings to hash for performance
+        isRunningHash = Animator.StringToHash("isRunning");
+        isJumpingHash = Animator.StringToHash("isJumping");
+        isFallingHash = Animator.StringToHash("isFalling");
 
-        RunHash = Animator.StringToHash("Run");
-        JumpHash = Animator.StringToHash("Jump");
-        FallingHash = Animator.StringToHash("Falling");
-
-
+        // bind listen to inputs
         playerInput.CharacterControls.Move.started += onMovementInput;
         playerInput.CharacterControls.Move.canceled += onMovementInput;
         playerInput.CharacterControls.Move.performed += onMovementInput;
@@ -70,44 +74,36 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Jump.started += onJump;
         playerInput.CharacterControls.Jump.canceled += onJump;
 
-        playerInput.CharacterControls.InvertGravity.started += onGravityInverted;
-        playerInput.CharacterControls.InvertGravity.canceled += onGravityInverted;
+        playerInput.CharacterControls.InvertGravity.started += onInvertGravity;
+        playerInput.CharacterControls.InvertGravity.canceled += onInvertGravity;
 
         setupJumpVariables();
+
+        // set maxVertical speed to the highest minimum value needed to make jump work
         maxVerticalSpeed = Mathf.Max(initialJumpVelocity,maxVerticalSpeed);
+
+        setupIsGrounded();
     }
 
-    void onGravityInverted(InputAction.CallbackContext context)
-    {
-        isGravityInvertedPressed = context.ReadValueAsButton();
-    }
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        // Subscribe to HandGestureManager events
-        if (handGestureManager != null)
-        {
-            handGestureManager.onThumbsUp.AddListener(HandleThumbsUp);
-            handGestureManager.onThumbsDown.AddListener(HandleThumbsDown);
-        }
-        else
-        {
-            Debug.LogWarning("HandGestureManager is not assigned in characterScript.");
-        }
+        
     }
 
     // Update is called once per frame
 
     void Update()
     {
+
         handleAnimation();
         handleRotation();
-        
+
         characterController.Move(currentMovement * Time.deltaTime);
 
-        updateIsFootOnGround();
+        handleIsGrounded();
         handleGravityInversion();
         handleGravity();
         handleMaxVerticalSpeed();
@@ -115,159 +111,46 @@ public class characterScript : MonoBehaviour
 
     }
 
-    void updateIsFootOnGround()
-    {
-        if (isGravityInverted)
-        {
-            isFootOnGround = isTopTouching;
-        }
-        else
-        {
-            isFootOnGround = characterController.isGrounded;
-        }
-    }
-
-    void onJump(InputAction.CallbackContext context)
-    {
-        isJumpPressed = context.ReadValueAsButton();
-    }
-
     void handleJump()
     {
         if (!isJumping && isFootOnGround && isJumpPressed)
         {
-            animator.SetBool(JumpHash, true);
+            animator.SetBool(isJumpingHash, true);
             isJumpAnimating = true;
             isJumping = true;
-            if (isGravityInverted)
-            {
-                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
-            }
-            else
+            if (!isGravityInverted)
             {
                 currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
             }
+            else
+            {
+                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
         }
-        else if(!isJumpPressed && isJumping && isFootOnGround)
+        else if(isJumping && isFootOnGround && !isJumpPressed)
         {
-            isJumping = false;
-            animator.SetBool(JumpHash, false);
+            animator.SetBool(isJumpingHash, false);
             isJumpAnimating = false;
+            isJumping = false;
+
         }
-    }
-
-    void setupJumpVariables()
-    {
-        float timeToApex = maxJumpTime / 2;
-        gravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex,2);
-        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
-
-        Debug.Log("timeToApex = " + timeToApex);
-        Debug.Log("gravity = " + gravity);
-        Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
-    }
-
-    void onMovementInput(InputAction.CallbackContext context)
-    {
-        currentMovementInput = context.ReadValue<Vector2>();
-        currentMovement.x = currentMovementInput.x * moveSpeed;
-        isMovementPressed = currentMovementInput.x != 0;
     }
 
     void handleAnimation()
     {
-        bool isAnimatorRunning = animator.GetBool(RunHash);
-        //bool isAnimatorJumping = animator.GetBool(JumpHash);
-        //bool isAnimatorFalling = animator.GetBool(FallingHash);
-        Debug.Log("isMovementPressed: " + isMovementPressed);
-        if (isMovementPressed && !isAnimatorRunning)
+        bool isAnimatorRunning = animator.GetBool(isRunningHash);
+        bool isAnimatorJumping = animator.GetBool(isJumpingHash);
+        bool isAnimatorFalling = animator.GetBool(isFallingHash);
+
+        if (isMovementPressed && !isAnimatorRunning && !isJumping)
         {
-            animator.SetBool(RunHash, true);
+            animator.SetBool(isRunningHash, true);
         }
-        else if (!isMovementPressed && isAnimatorRunning) ;
+        else if (!isMovementPressed && isAnimatorRunning)
         {
-            animator.SetBool(RunHash, false);
-        }
-    }
-
-    void handleGravity()
-    {
-        if (isFootOnGround)
-        {
-            if (isGravityInverted)
-            {
-                currentMovement.y = 0.05f;
-            }
-            else
-            {
-                currentMovement.y = -0.05f;
-            }
-
-            isFallingAnimating = false;
-            animator.SetBool(FallingHash, false);
-        }
-        //checks Y velocity depending on gravity and if jump is released
-        isFalling = (isGravityInverted ? currentMovement.y > 0.05f : currentMovement.y < -0.05f) || (!isJumpPressed && !isFootOnGround);
-
-        if (isFalling && !isFallingAnimating)
-        {
-            animator.SetBool(JumpHash, false);
-            isJumpAnimating = false;
-            animator.SetBool(FallingHash, true);
-            isFallingAnimating = true;
-        }
-        else if (!isFalling && isFallingAnimating)
-        {
-            animator.SetBool(FallingHash, false);
-            isFallingAnimating = false;
-        }
-
-        if (isFalling)
-        {
-            animator.SetBool(FallingHash, true);
-            animator.SetBool(JumpHash, false);
-            isJumpAnimating = false;
-
-            float previousYVelocity = currentMovement.y;
-            float newYVelocity;
-            float nextYVelocity;
-            //change sign of gravity if needed
-
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (gravity * fallMultiplier * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (gravity * fallMultiplier * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-        }
-        else
-        {
-
-            float previousYVelocity = currentMovement.y;
-            float newYVelocity;
-            float nextYVelocity;
-            //change sign of gravity if needed
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (gravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (gravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+            animator.SetBool(isRunningHash, false);
         }
     }
-
 
     void handleMaxVerticalSpeed()
     {
@@ -285,57 +168,101 @@ public class characterScript : MonoBehaviour
         }
     }
 
-    // void handleGravityInversion()
-    // {
+    void handleGravity()
+    {
+        float groundedGravity = 0.05f;
+        bool isFalling;
 
-    //     if((isGravityInvertedPressed || isGravityInvertedHand) && !isGravityInvertedPressedPrev && isFootOnGround)
-    //     {
-    //         transform.Rotate(Vector3.right * 180f) ;
-    //         isGravityInverted = !isGravityInverted;
-    //         isCharacterInverted = !isCharacterInverted;
+        if (isFootOnGround)
+        {
+            currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
+        }
+        //checks Y velocity depending on gravity and if jump is released
+        isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
 
-    //         Debug.Log("isGravityInverted = " + isGravityInverted);
-    //     }
+        if(isFalling && !isFallingAnimating)
+        {
+            animator.SetBool(isFallingHash, true);
+            isFallingAnimating = true;
+        }
+        else if(!isFalling && isFallingAnimating)
+        {
+            animator.SetBool(isFallingHash, false);
+            isFallingAnimating = false;
+        }
+        
+        if (isFalling)
+        {
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
 
-    //     isGravityInvertedHand = false;
-    //     isGravityInvertedPressedPrev = isGravityInvertedPressed;
-    // }
+            float previousYVelocity = currentMovement.y;
+            float newYVelocity;
+            float nextYVelocity;
+            //change sign of gravity if needed
+            if (isGravityInverted)
+            {
+                newYVelocity = currentMovement.y + (currentGravity * fallMultiplier* Time.deltaTime);
+                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+                currentMovement.y = nextYVelocity;
+            }
+            else
+            {
+                newYVelocity = currentMovement.y - (currentGravity * fallMultiplier * Time.deltaTime);
+                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+                currentMovement.y = nextYVelocity;
+            }
+        }
+        //else the character is still jumping "up"
+        else
+        {
+
+            float previousYVelocity = currentMovement.y;
+            float newYVelocity;
+            float nextYVelocity;
+            //change sign of gravity if needed
+            if (isGravityInverted)
+            {
+                newYVelocity = currentMovement.y + (currentGravity * Time.deltaTime);
+                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+                currentMovement.y = nextYVelocity;
+            }
+            else
+            {
+                newYVelocity = currentMovement.y - (currentGravity * Time.deltaTime);
+                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+                currentMovement.y = nextYVelocity;
+            }
+        }
+    }
+
+    void handleIsGrounded()
+    {
+        Vector3 headDetectionCenter = transform.position + headPosition;
+        headDetectionCenter.y +=  -0.05f;
+
+        Vector3 feetDetectionCenter = transform.position + feetPosition;
+        feetDetectionCenter.y +=  0.05f;
+
+        isFootOnGround = Physics.CheckSphere(feetDetectionCenter,0.1f, LayerMask.GetMask(groundLayer));
+        isHeadTouching = Physics.CheckSphere(headDetectionCenter, 0.1f , LayerMask.GetMask(groundLayer));
+        Debug.Log("isFootOnGround = " + isFootOnGround);
+        Debug.Log("isHeadTouching = " + isHeadTouching);
+    }
 
     void handleGravityInversion()
     {
-    // Key press toggles gravity
-    if (isGravityInvertedPressed && !isGravityInvertedPressedPrev && isFootOnGround)
-    {
-        transform.Rotate(Vector3.right * 180f);
-        isGravityInverted = !isGravityInverted; // Toggle gravity
-        isCharacterInverted = isGravityInverted;
-        Debug.Log($"Gravity Toggled via Key Press: Gravity is now {(isGravityInverted ? "Inverted" : "Normal")}");
-    }
-    else if (!isGravityInvertedPressed) // Gestures apply explicit state only when key is not pressed
-    {
-        if (isGravityInvertedHand && !isGravityInverted)
+        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && isFootOnGround)
         {
-            // Thumbs Down: Set gravity inverted if not already inverted
-            transform.Rotate(Vector3.right * 180f);
-            isGravityInverted = true;
-            isCharacterInverted = true;
-            Debug.Log("Gravity Set to Inverted via Gesture (Thumbs Down)");
+            transform.Rotate(0, 0, 180f);
+            isGravityInverted = !isGravityInverted;
         }
-        else if (!isGravityInvertedHand && isGravityInverted)
-        {
-            // Thumbs Up: Set gravity normal if not already normal
-            transform.Rotate(Vector3.right * -180f);
-            isGravityInverted = false;
-            isCharacterInverted = false;
-            Debug.Log("Gravity Set to Normal via Gesture (Thumbs Up)");
-        }
-    }
 
-    // Reset hand gesture state
-    isGravityInvertedHand = false;
+        isGravityInvertedPressedPrev = isGravityInvertedPressed;
+        
 
-    // Update key press state
-    isGravityInvertedPressedPrev = isGravityInvertedPressed;
     }
 
     void handleRotation()
@@ -353,6 +280,46 @@ public class characterScript : MonoBehaviour
         }
     }
 
+    void onJump(InputAction.CallbackContext context)
+    {
+        isJumpPressed = context.ReadValueAsButton();
+    }
+
+    void setupJumpVariables()
+    {
+        float timeToApex = maxJumpTime / 2;
+        baseGravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+
+        currentGravity = baseGravity;
+        Debug.Log("timeToApex = " + timeToApex);
+        Debug.Log("gravity = " + baseGravity);
+        Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
+    }
+
+    void onMovementInput(InputAction.CallbackContext context)
+    {
+        currentMovementInput = context.ReadValue<Vector2>();
+        currentMovement.x = currentMovementInput.x * moveSpeed;
+        isMovementPressed = currentMovementInput.x != 0;
+    }
+
+    void onInvertGravity(InputAction.CallbackContext context)
+    {
+       isGravityInvertedPressed = context.ReadValueAsButton();
+    }
+
+    void setupIsGrounded()
+    {
+        float characterColliderOffset = 0.9f;
+        float characterHeight = 1.9f;
+        //float characterRadius = 0.3f;
+        headPosition = Vector3.zero;
+        headPosition.y += characterColliderOffset + (characterHeight/2) ;
+        feetPosition = Vector3.zero;
+        feetPosition.y += characterColliderOffset - (characterHeight/2); 
+    }
+
     void OnEnable()
     {
         playerInput.CharacterControls.Enable();
@@ -363,25 +330,5 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Disable();
     }
 
-    void OnDestroy()
-    {
-        // Unsubscribe from HandGestureManager events
-        if (handGestureManager != null)
-        {
-            handGestureManager.onThumbsUp.RemoveListener(HandleThumbsUp);
-            handGestureManager.onThumbsDown.RemoveListener(HandleThumbsDown);
-        }
-    }
-
-    void HandleThumbsUp()
-    {
-        Debug.Log("Thumbs Up Gesture Detected: Keeping gravity normal.");
-        isGravityInvertedHand = false; // Thumbs Up does not invert gravity
-    }
-
-    void HandleThumbsDown()
-    {
-        Debug.Log("Thumbs Down Gesture Detected: Inverting gravity.");
-        isGravityInvertedHand = true; // Thumbs Down triggers gravity inversion
-    }
+    
 }
