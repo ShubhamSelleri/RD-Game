@@ -148,7 +148,6 @@ GameObject:
   m_Component:
   - component: {fileID: 99715115820900833}
   - component: {fileID: 4309587539472888123}
-  - component: {fileID: 7934101202675991284}
   m_Layer: 6
   m_Name: RotatingPlatform
   m_TagString: Ground
@@ -200,27 +199,6 @@ MonoBehaviour:
   - y
   isCoupled: 1
   isInverted: 0
---- !u!65 &7934101202675991284
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2240444977332463931}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.5, y: 1.2, z: 1}
-  m_Center: {x: -1.75, y: 0, z: 0}
 --- !u!1 &2438951539757034163
 GameObject:
   m_ObjectHideFlags: 0

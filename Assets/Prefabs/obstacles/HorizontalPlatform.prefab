@@ -398,7 +398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7585104619863468}
   - component: {fileID: 2345251348752441034}
-  - component: {fileID: 6358101533832452894}
   m_Layer: 0
   m_Name: HorizontalPlatform
   m_TagString: Untagged
@@ -438,9 +437,10 @@ MonoBehaviour:
   platform: {fileID: 7696661383163647291}
   ground: {fileID: 5310556381349557846}
   gearSet: {fileID: 5144747229144792}
+  movementAxis: x
   stepsPerUnit: 5
-  maxUnitsRight: 5
-  maxUnitsLeft: 5
+  maxUnitsClockwise: 5
+  maxUnitsCounterClockwise: 5
   stepsPerRotation: 48
   gearRotationMultipliers:
   - 1
@@ -450,25 +450,5 @@ MonoBehaviour:
   - x
   - x
   - x
+  isCoupled: 0
   isInverted: 0
---- !u!65 &6358101533832452894
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7696661383163647291}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.3, z: 0}
