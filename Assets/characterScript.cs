@@ -42,7 +42,7 @@ public class characterScript : MonoBehaviour
     private bool isGravityInvertedPressed = false;
     private float gravityFloatingMultiplier = 1;
     private bool isJumpPressed = false;
-
+    private bool isFalling;
     private bool isFootOnGround;
     private bool isHeadTouching = false;
 
@@ -51,8 +51,16 @@ public class characterScript : MonoBehaviour
     private float characterRadius;
     private string groundLayer = "Ground";
 
-    private SphereCollider headCollider;
-    private HashSet<GameObject> groundObjects = new HashSet<GameObject>();
+    private Vector3 groundObjectLastPostion;
+    private Vector3 groundObjectCurrentPosition;
+
+    private Quaternion groundObjectLastRotation;
+    private Quaternion groundObjectCurrentRotation;
+    
+
+    private GameObject groundObject;
+    private GameObject headObject;
+
 
     private void Awake()
     {
@@ -97,10 +105,10 @@ public class characterScript : MonoBehaviour
 
     void Update()
     {
-
+        handleMovingPlatform();
         handleAnimation();
         handleRotation();
-
+        
         characterController.Move(currentMovement * Time.deltaTime);
 
         handleIsGrounded();
@@ -142,6 +150,7 @@ public class characterScript : MonoBehaviour
         bool isAnimatorJumping = animator.GetBool(isJumpingHash);
         bool isAnimatorFalling = animator.GetBool(isFallingHash);
 
+        // movement animation
         if (isMovementPressed && !isAnimatorRunning && !isJumping)
         {
             animator.SetBool(isRunningHash, true);
@@ -149,6 +158,30 @@ public class characterScript : MonoBehaviour
         else if (!isMovementPressed && isAnimatorRunning)
         {
             animator.SetBool(isRunningHash, false);
+        }
+
+        // falling animation
+        if (isFalling && !isFallingAnimating)
+        {
+            animator.SetBool(isFallingHash, true);
+            isFallingAnimating = true;
+        }
+        else if (!isFalling && isFallingAnimating)
+        {
+            animator.SetBool(isFallingHash, false);
+            isFallingAnimating = false;
+        }
+
+        // jumping animation
+        if (isFootOnGround && !isJumpPressed)
+        {
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
+        }
+        else if(isFootOnGround && isJumpPressed)
+        {
+            animator.SetBool(isJumpingHash, true);
+            isJumpAnimating = true;
         }
     }
 
@@ -168,88 +201,102 @@ public class characterScript : MonoBehaviour
         }
     }
 
+    void handleMovingPlatform()
+    {
+        if(groundObject != null)
+        {
+            groundObjectCurrentPosition = groundObject.transform.position;
+
+            if((groundObjectLastPostion != groundObjectCurrentPosition)
+                && isFootOnGround
+                && (groundObjectLastPostion != Vector3.zero)) // fake null value that should never happen in the actual game
+            {
+                Vector3 platformMovement = groundObjectCurrentPosition - groundObjectLastPostion;
+
+                
+                
+                characterController.Move(platformMovement);
+            }
+
+            /*
+            if (groundObjectLastRotation != groundObjectCurrentRotation
+                    && isFootOnGround
+                    && (groundObjectLastRotation != Quaternion.Euler(9f, 6f, 3f))) //fake null value that should never happen in the game
+            {
+                groundObjectCurrentRotation = groundObject.transform.rotation;
+                Quaternion platFormRotation = Quaternion.Inverse(groundObjectCurrentRotation)*groundObjectLastRotation; //subtracts new rotation from old
+
+                Vector3 relativePosition = transform.position + feetPosition - groundObject.transform.position;
+
+                //characterController.Move(platFormRotation * relativePosition);
+            }
+            */
+        }
+        else
+        {
+            groundObjectCurrentPosition = Vector3.zero;
+            groundObjectCurrentRotation = Quaternion.Euler(9f, 6f, 3f);
+        }
+        groundObjectLastRotation = groundObjectCurrentRotation;
+        groundObjectLastPostion = groundObjectCurrentPosition;
+    }
+
     void handleGravity()
     {
         float groundedGravity = 0.05f;
-        bool isFalling;
 
         if (isFootOnGround)
         {
             currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
-            animator.SetBool(isJumpingHash, false);
-            isJumpAnimating = false;
         }
         //checks Y velocity depending on gravity and if jump is released
         isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
 
-        if(isFalling && !isFallingAnimating)
-        {
-            animator.SetBool(isFallingHash, true);
-            isFallingAnimating = true;
-        }
-        else if(!isFalling && isFallingAnimating)
-        {
-            animator.SetBool(isFallingHash, false);
-            isFallingAnimating = false;
-        }
-        
-        if (isFalling)
-        {
-            animator.SetBool(isJumpingHash, false);
-            isJumpAnimating = false;
+        float previousYVelocity = currentMovement.y;
+        float newYVelocity;
+        float nextYVelocity;
 
-            float previousYVelocity = currentMovement.y;
-            float newYVelocity;
-            float nextYVelocity;
-            //change sign of gravity if needed
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (currentGravity * fallMultiplier* Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (currentGravity * fallMultiplier * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+        if (isFalling)
+        {   
+            // do not change this, doing it this way makes the jump frame rate independand
+            newYVelocity = currentMovement.y;
+            newYVelocity += isGravityInverted ? currentGravity * fallMultiplier * Time.deltaTime:
+                                                -currentGravity * fallMultiplier * Time.deltaTime;
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+            currentMovement.y = nextYVelocity;
+            
         }
         //else the character is still jumping "up"
         else
         {
-
-            float previousYVelocity = currentMovement.y;
-            float newYVelocity;
-            float nextYVelocity;
-            //change sign of gravity if needed
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (currentGravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (currentGravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+            newYVelocity = currentMovement.y;
+            newYVelocity += isGravityInverted ? currentGravity * Time.deltaTime :
+                                                -currentGravity * Time.deltaTime;
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+            currentMovement.y = nextYVelocity;
         }
     }
 
     void handleIsGrounded()
     {
         Vector3 headDetectionCenter = transform.position + headPosition;
-        headDetectionCenter.y +=  -0.05f;
+        headDetectionCenter.y +=  -characterRadius/2 + 0.05f;
 
         Vector3 feetDetectionCenter = transform.position + feetPosition;
-        feetDetectionCenter.y +=  0.05f;
+        feetDetectionCenter.y +=  characterRadius/2 - 0.05f;
 
-        isFootOnGround = Physics.CheckSphere(feetDetectionCenter,0.1f, LayerMask.GetMask(groundLayer));
-        isHeadTouching = Physics.CheckSphere(headDetectionCenter, 0.1f , LayerMask.GetMask(groundLayer));
-        Debug.Log("isFootOnGround = " + isFootOnGround);
-        Debug.Log("isHeadTouching = " + isHeadTouching);
+        int groundLayerMask = LayerMask.GetMask(groundLayer);
+
+        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, groundLayerMask);
+        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, groundLayerMask);
+
+        // Determine if foot is on the ground and store the object
+        isFootOnGround = feetColliders.Length > 0;
+        groundObject = isFootOnGround ? feetColliders[0].gameObject : null;
+
+        // Determine if head is touching and store the object
+        isHeadTouching = headColliders.Length > 0;
+        headObject = isHeadTouching ? headColliders[0].gameObject : null;
     }
 
     void handleGravityInversion()
@@ -313,7 +360,8 @@ public class characterScript : MonoBehaviour
     {
         float characterColliderOffset = 0.9f;
         float characterHeight = 1.9f;
-        //float characterRadius = 0.3f;
+        characterRadius = 0.3f;
+
         headPosition = Vector3.zero;
         headPosition.y += characterColliderOffset + (characterHeight/2) ;
         feetPosition = Vector3.zero;

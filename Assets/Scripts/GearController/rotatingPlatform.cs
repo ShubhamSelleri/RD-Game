@@ -4,7 +4,7 @@ using UnityEngine;
 namespace gearController
 {
 
-    public class rotatingPlatform : MonoBehaviour, IMovablePlatform
+    public class rotatingPlatform : MonoBehaviour
     {
         public GameObject platform;                     // complete platform with everything included
         public GameObject ground;                       // only cube or whatever object
@@ -46,7 +46,12 @@ namespace gearController
             //move platform, otherwise do blockedAnimation
             if (rotationStep != 0f)
             {
-                gearFunctions.rotateGear(ground, rotationStep, rotationAxis);
+                gearFunctions.rotateGear(platform, rotationStep, rotationAxis);
+
+                //counter the rotation of the whole platform
+                gearFunctions.rotateGear(gearSet, -rotationStep, "z");
+
+                //do rotation of each gear
                 gearFunctions.rotateGears(gears, rotationStep, gearAxes, gearRotationMultipliers, isCoupled, isInverted);
 
                 currentRotation += rotationStep;
@@ -60,24 +65,6 @@ namespace gearController
         void blockedAnimation()
         {
 
-        }
-
-        public void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                playerOnPlatform = other.gameObject;
-                playerOnPlatform.transform.SetParent(transform);
-            }
-        }
-
-        public void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                playerOnPlatform.transform.SetParent(null);
-                playerOnPlatform = null;
-            }
         }
     }
 
