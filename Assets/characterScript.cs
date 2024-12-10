@@ -211,17 +211,14 @@ public class characterScript : MonoBehaviour
         }
         //checks Y velocity depending on gravity and if jump is released
         isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
-        
-        if (isFalling)
-        {
-            animator.SetBool(isJumpingHash, false);
-            isJumpAnimating = false;
 
-            float previousYVelocity = currentMovement.y;
-            float newYVelocity;
-            float nextYVelocity;
-            //change sign of gravity if needed
-            
+        float previousYVelocity = currentMovement.y;
+        float newYVelocity;
+        float nextYVelocity;
+
+        if (isFalling)
+        {   
+            // do not change this, doing it this way makes the jump frame rate independand
             newYVelocity = currentMovement.y;
             newYVelocity += isGravityInverted ? currentGravity * fallMultiplier * Time.deltaTime:
                                                 -currentGravity * fallMultiplier * Time.deltaTime;
@@ -232,23 +229,11 @@ public class characterScript : MonoBehaviour
         //else the character is still jumping "up"
         else
         {
-
-            float previousYVelocity = currentMovement.y;
-            float newYVelocity;
-            float nextYVelocity;
-            //change sign of gravity if needed
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (currentGravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (currentGravity * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+            newYVelocity = currentMovement.y;
+            newYVelocity += isGravityInverted ? currentGravity * Time.deltaTime :
+                                                -currentGravity * Time.deltaTime;
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+            currentMovement.y = nextYVelocity;
         }
     }
 
