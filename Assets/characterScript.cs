@@ -38,7 +38,7 @@ public class characterScript : MonoBehaviour
 
     private bool isMovementPressed;
     private bool isGravityInverted = false;
-    private bool isGravityInvertedPrev;
+    private bool isGravityInvertedPressedPrev;
     private bool isGravityInvertedPressed = false;
     private float gravityFloatingMultiplier = 1;
     private bool isJumpPressed = false;
@@ -49,6 +49,8 @@ public class characterScript : MonoBehaviour
     private Vector3 headPosition;
     private Vector3 feetPosition;
     private float characterRadius;
+    private string groundLayer = "Ground";
+
     private SphereCollider headCollider;
     private HashSet<GameObject> groundObjects = new HashSet<GameObject>();
 
@@ -80,7 +82,7 @@ public class characterScript : MonoBehaviour
         // set maxVertical speed to the highest minimum value needed to make jump work
         maxVerticalSpeed = Mathf.Max(initialJumpVelocity,maxVerticalSpeed);
 
-        setupHeadCollider();
+        setupIsGrounded();
     }
 
     
@@ -95,30 +97,42 @@ public class characterScript : MonoBehaviour
 
     void Update()
     {
+
         handleAnimation();
         handleRotation();
 
         characterController.Move(currentMovement * Time.deltaTime);
 
+        handleIsGrounded();
         handleGravityInversion();
         handleGravity();
-        //handleMaxVerticalSpeed();
+        handleMaxVerticalSpeed();
         handleJump();
 
     }
 
     void handleJump()
     {
-        if (!isJumping && characterController.isGrounded && isJumpPressed)
+        if (!isJumping && isFootOnGround && isJumpPressed)
         {
             animator.SetBool(isJumpingHash, true);
             isJumpAnimating = true;
             isJumping = true;
-            currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            if (!isGravityInverted)
+            {
+                currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
+            else
+            {
+                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
         }
-        else if(!isJumpPressed && isJumping && characterController.isGrounded)
+        else if(isJumping && isFootOnGround && !isJumpPressed)
         {
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
             isJumping = false;
+
         }
     }
 
@@ -128,7 +142,7 @@ public class characterScript : MonoBehaviour
         bool isAnimatorJumping = animator.GetBool(isJumpingHash);
         bool isAnimatorFalling = animator.GetBool(isFallingHash);
 
-        if (isMovementPressed && !isAnimatorRunning)
+        if (isMovementPressed && !isAnimatorRunning && !isJumping)
         {
             animator.SetBool(isRunningHash, true);
         }
@@ -167,14 +181,13 @@ public class characterScript : MonoBehaviour
         }
         //checks Y velocity depending on gravity and if jump is released
         isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
-        Debug.Log("isFootOnGround = " + isFootOnGround);
 
         if(isFalling && !isFallingAnimating)
         {
             animator.SetBool(isFallingHash, true);
             isFallingAnimating = true;
         }
-        else if(!isFalling && isFallingAnimating )
+        else if(!isFalling && isFallingAnimating)
         {
             animator.SetBool(isFallingHash, false);
             isFallingAnimating = false;
@@ -225,28 +238,29 @@ public class characterScript : MonoBehaviour
         }
     }
 
+    void handleIsGrounded()
+    {
+        Vector3 headDetectionCenter = transform.position + headPosition;
+        headDetectionCenter.y +=  -0.05f;
+
+        Vector3 feetDetectionCenter = transform.position + feetPosition;
+        feetDetectionCenter.y +=  0.05f;
+
+        isFootOnGround = Physics.CheckSphere(feetDetectionCenter,0.1f, LayerMask.GetMask(groundLayer));
+        isHeadTouching = Physics.CheckSphere(headDetectionCenter, 0.1f , LayerMask.GetMask(groundLayer));
+        Debug.Log("isFootOnGround = " + isFootOnGround);
+        Debug.Log("isHeadTouching = " + isHeadTouching);
+    }
+
     void handleGravityInversion()
     {
-        
-        
-        isFootOnGround = isGravityInverted ? isHeadTouching : characterController.isGrounded;
-
-        if (!isGravityInvertedPrev && isGravityInvertedPressed)
+        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && isFootOnGround)
         {
             transform.Rotate(0, 0, 180f);
             isGravityInverted = !isGravityInverted;
-            //the secret souce to keep the feet touching detection
-            if (!isGravityInverted)
-            {
-                headCollider.center = headPosition;
-            }
-            else
-            {
-                headCollider.center = feetPosition;
-            }
         }
 
-        isGravityInvertedPrev = isGravityInverted;
+        isGravityInvertedPressedPrev = isGravityInvertedPressed;
         
 
     }
@@ -295,52 +309,15 @@ public class characterScript : MonoBehaviour
        isGravityInvertedPressed = context.ReadValueAsButton();
     }
 
-    void setupHeadCollider()
+    void setupIsGrounded()
     {
         float characterColliderOffset = 0.9f;
         float characterHeight = 1.9f;
-        float characterRadius = 0.3f;
+        //float characterRadius = 0.3f;
         headPosition = Vector3.zero;
-        headPosition.y += characterColliderOffset + characterHeight/2 - characterRadius + 0.1f; //+0,05 f to have it above capsulecollider
-
+        headPosition.y += characterColliderOffset + (characterHeight/2) ;
         feetPosition = Vector3.zero;
-        feetPosition.y += characterColliderOffset - (characterHeight/2 - characterRadius + 0.1f); 
-
-        headCollider = GetComponent<SphereCollider>();
-
-        Debug.Log("HeadColliderFound = " + headCollider.name);
-        Debug.Log("HeadCollider headposition = " + headCollider.center);
-        Debug.Log("HeadCollider feetposition = " + feetPosition);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Object touched: " + other.gameObject.name + " with tag: " + other.gameObject.tag);
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            groundObjects.Add(other.gameObject);
-            isHeadTouching = true;
-            Debug.Log("Ground Object detected at head: " + other.gameObject.name);
-        }
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isHeadTouching = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (groundObjects.Contains(other.gameObject))
-        {
-            groundObjects.Remove(other.gameObject);
-            if (groundObjects.Count == 0)
-            {
-                isHeadTouching = false;
-            }
-        }
+        feetPosition.y += characterColliderOffset - (characterHeight/2); 
     }
 
     void OnEnable()
@@ -352,4 +329,6 @@ public class characterScript : MonoBehaviour
     {
         playerInput.CharacterControls.Disable();
     }
+
+    
 }
