@@ -42,7 +42,7 @@ public class characterScript : MonoBehaviour
     private bool isGravityInvertedPressed = false;
     private float gravityFloatingMultiplier = 1;
     private bool isJumpPressed = false;
-
+    private bool isFalling;
     private bool isFootOnGround;
     private bool isHeadTouching = false;
 
@@ -142,6 +142,7 @@ public class characterScript : MonoBehaviour
         bool isAnimatorJumping = animator.GetBool(isJumpingHash);
         bool isAnimatorFalling = animator.GetBool(isFallingHash);
 
+        // movement animation
         if (isMovementPressed && !isAnimatorRunning && !isJumping)
         {
             animator.SetBool(isRunningHash, true);
@@ -149,6 +150,30 @@ public class characterScript : MonoBehaviour
         else if (!isMovementPressed && isAnimatorRunning)
         {
             animator.SetBool(isRunningHash, false);
+        }
+
+        // falling animation
+        if (isFalling && !isFallingAnimating)
+        {
+            animator.SetBool(isFallingHash, true);
+            isFallingAnimating = true;
+        }
+        else if (!isFalling && isFallingAnimating)
+        {
+            animator.SetBool(isFallingHash, false);
+            isFallingAnimating = false;
+        }
+
+        // jumping animation
+        if (isFootOnGround && !isJumpPressed)
+        {
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
+        }
+        else if(isFootOnGround && isJumpPressed)
+        {
+            animator.SetBool(isJumpingHash, true);
+            isJumpAnimating = true;
         }
     }
 
@@ -168,30 +193,24 @@ public class characterScript : MonoBehaviour
         }
     }
 
+    void handleMovingPlatform()
+    {
+        if(transform.parent != null)
+        {
+
+        }
+    }
+
     void handleGravity()
     {
         float groundedGravity = 0.05f;
-        bool isFalling;
 
         if (isFootOnGround)
         {
             currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
-            animator.SetBool(isJumpingHash, false);
-            isJumpAnimating = false;
         }
         //checks Y velocity depending on gravity and if jump is released
         isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
-
-        if(isFalling && !isFallingAnimating)
-        {
-            animator.SetBool(isFallingHash, true);
-            isFallingAnimating = true;
-        }
-        else if(!isFalling && isFallingAnimating)
-        {
-            animator.SetBool(isFallingHash, false);
-            isFallingAnimating = false;
-        }
         
         if (isFalling)
         {
@@ -202,18 +221,13 @@ public class characterScript : MonoBehaviour
             float newYVelocity;
             float nextYVelocity;
             //change sign of gravity if needed
-            if (isGravityInverted)
-            {
-                newYVelocity = currentMovement.y + (currentGravity * fallMultiplier* Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
-            else
-            {
-                newYVelocity = currentMovement.y - (currentGravity * fallMultiplier * Time.deltaTime);
-                nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-                currentMovement.y = nextYVelocity;
-            }
+            
+            newYVelocity = currentMovement.y;
+            newYVelocity += isGravityInverted ? currentGravity * fallMultiplier * Time.deltaTime:
+                                                -currentGravity * fallMultiplier * Time.deltaTime;
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+            currentMovement.y = nextYVelocity;
+            
         }
         //else the character is still jumping "up"
         else
@@ -241,13 +255,14 @@ public class characterScript : MonoBehaviour
     void handleIsGrounded()
     {
         Vector3 headDetectionCenter = transform.position + headPosition;
-        headDetectionCenter.y +=  -0.05f;
+        headDetectionCenter.y +=  -characterRadius/2 + 0.05f;
 
         Vector3 feetDetectionCenter = transform.position + feetPosition;
-        feetDetectionCenter.y +=  0.05f;
+        feetDetectionCenter.y +=  characterRadius/2 - 0.05f;
 
-        isFootOnGround = Physics.CheckSphere(feetDetectionCenter,0.1f, LayerMask.GetMask(groundLayer));
-        isHeadTouching = Physics.CheckSphere(headDetectionCenter, 0.1f , LayerMask.GetMask(groundLayer));
+        isFootOnGround = Physics.CheckSphere(feetDetectionCenter,characterRadius/2, LayerMask.GetMask(groundLayer));
+        isHeadTouching = Physics.CheckSphere(headDetectionCenter,characterRadius/2 , LayerMask.GetMask(groundLayer));
+
         Debug.Log("isFootOnGround = " + isFootOnGround);
         Debug.Log("isHeadTouching = " + isHeadTouching);
     }
@@ -313,7 +328,8 @@ public class characterScript : MonoBehaviour
     {
         float characterColliderOffset = 0.9f;
         float characterHeight = 1.9f;
-        //float characterRadius = 0.3f;
+        characterRadius = 0.3f;
+
         headPosition = Vector3.zero;
         headPosition.y += characterColliderOffset + (characterHeight/2) ;
         feetPosition = Vector3.zero;
