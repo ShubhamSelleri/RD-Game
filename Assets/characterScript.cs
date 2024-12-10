@@ -51,8 +51,9 @@ public class characterScript : MonoBehaviour
     private float characterRadius;
     private string groundLayer = "Ground";
 
-    private SphereCollider headCollider;
-    private HashSet<GameObject> groundObjects = new HashSet<GameObject>();
+    private Vector3 parentLastPosition;
+    private Vector3 parentCurrentPosition;
+
 
     private void Awake()
     {
@@ -100,6 +101,7 @@ public class characterScript : MonoBehaviour
 
         handleAnimation();
         handleRotation();
+        handleMovingPlatform();
 
         characterController.Move(currentMovement * Time.deltaTime);
 
@@ -197,8 +199,18 @@ public class characterScript : MonoBehaviour
     {
         if(transform.parent != null)
         {
-
+            parentCurrentPosition = transform.parent.position;
+            if((parentLastPosition != parentCurrentPosition) && isFootOnGround && (parentLastPosition != Vector3.zero))
+            {
+                characterController.Move(parentCurrentPosition - parentLastPosition);
+            }
         }
+        else
+        {
+            parentCurrentPosition = Vector3.zero;
+        }
+
+        parentLastPosition = parentCurrentPosition;
     }
 
     void handleGravity()

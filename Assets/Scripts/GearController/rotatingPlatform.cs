@@ -46,7 +46,12 @@ namespace gearController
             //move platform, otherwise do blockedAnimation
             if (rotationStep != 0f)
             {
-                gearFunctions.rotateGear(ground, rotationStep, rotationAxis);
+                gearFunctions.rotateGear(platform, rotationStep, rotationAxis);
+
+                //counter the rotation of the whole platform
+                gearFunctions.rotateGear(gearSet, -rotationStep, "z");
+
+                //do rotation of each gear
                 gearFunctions.rotateGears(gears, rotationStep, gearAxes, gearRotationMultipliers, isCoupled, isInverted);
 
                 currentRotation += rotationStep;
