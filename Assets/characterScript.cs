@@ -51,8 +51,15 @@ public class characterScript : MonoBehaviour
     private float characterRadius;
     private string groundLayer = "Ground";
 
-    private Vector3 parentLastPosition;
-    private Vector3 parentCurrentPosition;
+    private Vector3 groundObjectLastPostion;
+    private Vector3 groundObjectCurrentPosition;
+
+    private Quaternion groundObjectLastRotation;
+    private Quaternion groundObjectCurrentRotation;
+    
+
+    private GameObject groundObject;
+    private GameObject headObject;
 
 
     private void Awake()
@@ -98,11 +105,10 @@ public class characterScript : MonoBehaviour
 
     void Update()
     {
-
+        handleMovingPlatform();
         handleAnimation();
         handleRotation();
-        handleMovingPlatform();
-
+        
         characterController.Move(currentMovement * Time.deltaTime);
 
         handleIsGrounded();
@@ -197,20 +203,42 @@ public class characterScript : MonoBehaviour
 
     void handleMovingPlatform()
     {
-        if(transform.parent != null)
+        if(groundObject != null)
         {
-            parentCurrentPosition = transform.parent.position;
-            if((parentLastPosition != parentCurrentPosition) && isFootOnGround && (parentLastPosition != Vector3.zero))
+            groundObjectCurrentPosition = groundObject.transform.position;
+
+            if((groundObjectLastPostion != groundObjectCurrentPosition)
+                && isFootOnGround
+                && (groundObjectLastPostion != Vector3.zero)) // fake null value that should never happen in the actual game
             {
-                characterController.Move(parentCurrentPosition - parentLastPosition);
+                Vector3 platformMovement = groundObjectCurrentPosition - groundObjectLastPostion;
+
+                
+                
+                characterController.Move(platformMovement);
             }
+
+            /*
+            if (groundObjectLastRotation != groundObjectCurrentRotation
+                    && isFootOnGround
+                    && (groundObjectLastRotation != Quaternion.Euler(9f, 6f, 3f))) //fake null value that should never happen in the game
+            {
+                groundObjectCurrentRotation = groundObject.transform.rotation;
+                Quaternion platFormRotation = Quaternion.Inverse(groundObjectCurrentRotation)*groundObjectLastRotation; //subtracts new rotation from old
+
+                Vector3 relativePosition = transform.position + feetPosition - groundObject.transform.position;
+
+                //characterController.Move(platFormRotation * relativePosition);
+            }
+            */
         }
         else
         {
-            parentCurrentPosition = Vector3.zero;
+            groundObjectCurrentPosition = Vector3.zero;
+            groundObjectCurrentRotation = Quaternion.Euler(9f, 6f, 3f);
         }
-
-        parentLastPosition = parentCurrentPosition;
+        groundObjectLastRotation = groundObjectCurrentRotation;
+        groundObjectLastPostion = groundObjectCurrentPosition;
     }
 
     void handleGravity()
@@ -257,11 +285,18 @@ public class characterScript : MonoBehaviour
         Vector3 feetDetectionCenter = transform.position + feetPosition;
         feetDetectionCenter.y +=  characterRadius/2 - 0.05f;
 
-        isFootOnGround = Physics.CheckSphere(feetDetectionCenter,characterRadius/2, LayerMask.GetMask(groundLayer));
-        isHeadTouching = Physics.CheckSphere(headDetectionCenter,characterRadius/2 , LayerMask.GetMask(groundLayer));
+        int groundLayerMask = LayerMask.GetMask(groundLayer);
 
-        Debug.Log("isFootOnGround = " + isFootOnGround);
-        Debug.Log("isHeadTouching = " + isHeadTouching);
+        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, groundLayerMask);
+        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, groundLayerMask);
+
+        // Determine if foot is on the ground and store the object
+        isFootOnGround = feetColliders.Length > 0;
+        groundObject = isFootOnGround ? feetColliders[0].gameObject : null;
+
+        // Determine if head is touching and store the object
+        isHeadTouching = headColliders.Length > 0;
+        headObject = isHeadTouching ? headColliders[0].gameObject : null;
     }
 
     void handleGravityInversion()
