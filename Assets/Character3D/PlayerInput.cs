@@ -48,7 +48,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""InvertGravity"",
                     ""type"": ""Button"",
-                    ""id"": ""ab0e61f3-2b69-400a-b3b1-f73a1e66fb04"",
+                    ""id"": ""bd84c8f3-135e-421d-b22e-fd778284a00a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -146,7 +146,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ca858e39-ee9c-4240-b9bc-541a7fd5a330"",
+                    ""id"": ""370d7049-ac31-4ce9-af39-eab013361659"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
