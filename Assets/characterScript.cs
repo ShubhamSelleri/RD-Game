@@ -358,18 +358,18 @@ public class characterScript : MonoBehaviour
             //offset the character to not blink through platforms
             if (isGravityInverted)
             {
-                transform.position += Vector3.down * 0.9f; 
+                transform.position += Vector3.down * 1.8f; 
             }
             else
             {
-                transform.position += Vector3.up * 0.9f; 
+                transform.position += Vector3.up * 1.8f; 
             }
             
             transform.Rotate(0, 0, 180f);
             isGravityInverted = !isGravityInverted;
             if (isFalling)
             {
-                gravityFloatingMultiplier *= 1.1f;
+                gravityFloatingMultiplier *= 1.2f;
             }
 
             // reset gravityFloatingMultiplier when landing
@@ -388,11 +388,11 @@ public class characterScript : MonoBehaviour
     {
         if (isMovementPressed)
         {
-            if (currentMovementInput.x > 0.2f)
+            if (currentMovementInput.x > 0.3f)
             {
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
             }
-            else if (currentMovementInput.x < -0.2f)
+            else if (currentMovementInput.x < -0.3f)
             {
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
             }
