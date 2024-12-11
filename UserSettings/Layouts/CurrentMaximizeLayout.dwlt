@@ -24,6 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   controlID: 58193
 =======
@@ -37,6 +38,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+  controlID: 1477
+>>>>>>> Stashed changes
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -58,6 +62,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 964.8
     y: 442.4
@@ -82,6 +87,12 @@ MonoBehaviour:
     height: 432.2
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    x: 490.4
+    y: 416.80002
+    width: 709.99994
+    height: 359.40002
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -136,6 +147,7 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
+<<<<<<< Updated upstream
 <<<<<<< HEAD
       width: 313.2
       height: 311.19998
@@ -161,12 +173,19 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+      width: 709.99994
+      height: 338.40002
+    m_Scale: {x: 0.39166668, y: 0.39166668}
+    m_Translation: {x: 354.99997, y: 169.20001}
+>>>>>>> Stashed changes
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
       x: -546.4
       y: -542.9108
@@ -204,6 +223,15 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+      x: -906.3829
+      y: -432.00003
+      width: 1812.7657
+      height: 864.00006
+    m_MinimalGUI: 1
+  m_defaultScale: 0.39166668
+  m_LastWindowPixelSize: {x: 887.49994, y: 449.25003}
+>>>>>>> Stashed changes
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -241,6 +269,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   controlID: 3231
 =======
@@ -251,6 +280,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+  controlID: 1478
+>>>>>>> Stashed changes
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -280,10 +312,11 @@ MonoBehaviour:
   controlID: 58127
 =======
     width: 1195.2
-    height: 328.8
+    height: 336
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   controlID: 3181
 =======
@@ -294,6 +327,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+  controlID: 1937
+>>>>>>> Stashed changes
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -312,6 +348,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     width: 189.6
     height: 361.6
@@ -329,12 +366,12 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
 =======
+=======
+>>>>>>> Stashed changes
     width: 365.6
-    height: 263.2
+    height: 336
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
->>>>>>> Stashed changes
->>>>>>> GearControllerLevels
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -368,18 +405,15 @@ MonoBehaviour:
 =======
     x: 7.2000003
     y: 80.8
-<<<<<<< HEAD
-    width: 192.6
-    height: 307.8
-=======
-<<<<<<< Updated upstream
-    width: 363.8
-=======
     width: 364.6
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
     height: 242.20001
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    height: 315
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -392,6 +426,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
+<<<<<<< Updated upstream
 <<<<<<< HEAD
       scrollPos: {x: 0, y: 16}
       m_SelectedIDs: fefaffff
@@ -414,6 +449,12 @@ MonoBehaviour:
       m_ExpandedIDs: 00fbffff
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+      scrollPos: {x: 0, y: 10}
+      m_SelectedIDs: 0ef9ffff
+      m_LastClickedID: -1778
+      m_ExpandedIDs: fef9ffff08faffff00fbffff
+>>>>>>> Stashed changes
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -447,11 +488,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: AnimatorControllerTool
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 189.6
     y: 0
@@ -475,21 +517,28 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
 =======
+=======
+>>>>>>> Stashed changes
     x: 365.6
     y: 0
     width: 829.6
-    height: 263.2
-  m_MinSize: {x: 202, y: 221}
+    height: 336
+  m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
->>>>>>> Stashed changes
->>>>>>> GearControllerLevels
-  m_ActualView: {fileID: 8}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 8}
   - {fileID: 9}
   - {fileID: 10}
+<<<<<<< Updated upstream
   m_Selected: 0
   m_LastSelected: 1
+=======
+  - {fileID: 11}
+  - {fileID: 12}
+  m_Selected: 4
+  m_LastSelected: 0
+>>>>>>> Stashed changes
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -510,6 +559,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 849.60004
     y: 80.8
@@ -534,6 +584,12 @@ MonoBehaviour:
     height: 242.20001
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    x: 372.80002
+    y: 80.8
+    width: 827.6
+    height: 315
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -879,6 +935,7 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     m_Target: {x: 16.646713, y: 9.983013, z: -17.320435}
     speed: 2
@@ -900,6 +957,11 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    m_Target: {x: 11.688707, y: 17.273972, z: 6.819414}
+    speed: 2
+    m_Value: {x: 11.688707, y: 17.273972, z: 6.819414}
+>>>>>>> Stashed changes
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -956,15 +1018,11 @@ MonoBehaviour:
 =======
     m_Target: {x: -0.15312146, y: 0.07788, z: -0.0121060265, w: -0.9850595}
     speed: 2
-<<<<<<< HEAD
     m_Value: {x: -0.15312144, y: 0.077879995, z: -0.012106025, w: -0.9850594}
-=======
-<<<<<<< Updated upstream
-    m_Value: {x: 0.0940238, y: 0.031365577, z: -0.0029683274, w: 0.9950713}
->>>>>>> GearControllerLevels
   m_Size:
-    m_Target: 6.186473
+    m_Target: 7.693951
     speed: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     m_Value: 6.186473
 =======
@@ -978,6 +1036,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    m_Value: 7.693951
+>>>>>>> Stashed changes
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1022,6 +1083,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 332.80002
     y: 80.8
@@ -1033,6 +1095,12 @@ MonoBehaviour:
     width: 999.6
     height: 324.6
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    x: 2351
+    y: 73
+    width: 979
+    height: 471
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1063,6 +1131,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 353.6
     y: 73.6
@@ -1074,6 +1143,12 @@ MonoBehaviour:
     width: 999.6
     height: 374.2
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    x: 2351
+    y: 73
+    width: 979
+    height: 579
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1106,24 +1181,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 200.8
-    y: 80.8
-    width: 999.6
-    height: 374.2
-=======
-<<<<<<< Updated upstream
-    x: 2351
-    y: 73
-    width: 979
-    height: 471
-=======
     x: 372
     y: 80.8
     width: 828.39996
     height: 277.4
->>>>>>> Stashed changes
->>>>>>> GearControllerLevels
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1156,24 +1217,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-<<<<<<< HEAD
-    x: 200.8
+    x: 372.80002
     y: 80.8
-    width: 999.6
-    height: 324.6
-=======
-<<<<<<< Updated upstream
-    x: 2355
-    y: 81
-    width: 971
-    height: 388
-=======
-    x: 372
-    y: 80.8
-    width: 828.39996
-    height: 277.4
->>>>>>> Stashed changes
->>>>>>> GearControllerLevels
+    width: 827.6
+    height: 315
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1188,23 +1235,6 @@ MonoBehaviour:
     m_KeySerializationHelper:
     - {fileID: -6591557974843926580, guid: 57d0ba0ba9a05b04e8277e8b33e5118f, type: 2}
     m_ValueSerializationHelper:
-<<<<<<< HEAD
-    - e00: 1
-=======
-<<<<<<< Updated upstream
-    - e00: 1.0741085
->>>>>>> GearControllerLevels
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-<<<<<<< HEAD
-      e13: -72.600006
-=======
-      e13: -36.60495
-=======
     - e00: 0.6987137
       e01: 0
       e02: 0
@@ -1213,8 +1243,6 @@ MonoBehaviour:
       e11: 0.6987137
       e12: 0
       e13: 14.811607
->>>>>>> Stashed changes
->>>>>>> GearControllerLevels
       e20: 0
       e21: 0
       e22: 1
@@ -1232,7 +1260,7 @@ MonoBehaviour:
   stateMachineGraphGUI: {fileID: 0}
   blendTreeGraph: {fileID: 0}
   blendTreeGraphGUI: {fileID: 0}
-  m_AutoLiveLink: 0
+  m_AutoLiveLink: 1
   m_MiniTool: 0
   m_LockTracker:
     m_IsLocked: 0
@@ -1258,6 +1286,7 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     y: 361.6
     width: 620
@@ -1268,11 +1297,15 @@ MonoBehaviour:
   controlID: 58195
 =======
     y: 328.8
+=======
+    y: 336
+>>>>>>> Stashed changes
     width: 1195.2
-    height: 387.60004
+    height: 380.40002
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   controlID: 3232
 =======
@@ -1283,6 +1316,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+  controlID: 1479
+>>>>>>> Stashed changes
   draggingID: 0
 --- !u!114 &12
 MonoBehaviour:
@@ -1301,6 +1337,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     width: 304.8
     height: 353.19998
@@ -1317,24 +1354,13 @@ MonoBehaviour:
 <<<<<<< HEAD
     width: 500.8
     height: 387.60004
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
 =======
-<<<<<<< Updated upstream
-    width: 469.6
-    height: 453.2
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 15}
-=======
-    width: 451.2
-    height: 453.2
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
+    width: 483.2
+    height: 380.40002
 >>>>>>> Stashed changes
->>>>>>> GearControllerLevels
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 15}
   - {fileID: 16}
@@ -1368,6 +1394,7 @@ MonoBehaviour:
     height: 332.19998
 =======
     x: 7.2000003
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     y: 426.4
     width: 601.4
@@ -1384,6 +1411,11 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    y: 416.80002
+    width: 515.8
+    height: 359.40002
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1427,6 +1459,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     scrollPos: {x: 0, y: 439.80002}
     m_SelectedIDs: 50900000
@@ -1452,6 +1485,12 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: ec860000
+    m_LastClickedID: 34540
+    m_ExpandedIDs: 000000003e84000040840000428400004484000046840000
+>>>>>>> Stashed changes
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1479,6 +1518,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     m_ExpandedIDs: 00000000d08f0000d28f0000d48f0000d68f0000d88f0000da8f0000dc8f0000de8f0000e08f0000e28f0000e48f0000e68f0000e88f0000ea8f0000689000009e90000000ca9a3b
 =======
@@ -1492,6 +1532,9 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    m_ExpandedIDs: 000000003e84000040840000428400004484000046840000
+>>>>>>> Stashed changes
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1516,6 +1559,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     m_SelectedInstanceIDs: 1c810000
     m_LastClickedInstanceID: 33052
@@ -1535,6 +1579,11 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
     m_HadKeyboardFocusLastEvent: 0
+=======
+    m_SelectedInstanceIDs: 22f6ffff
+    m_LastClickedInstanceID: -2526
+    m_HadKeyboardFocusLastEvent: 1
+>>>>>>> Stashed changes
     m_ExpandedInstanceIDs: c6230000000000006881000028810000
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
     m_RenameOverlay:
@@ -1564,6 +1613,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     m_ScrollPosition: {x: 0, y: 378.80002}
     m_GridSize: 64
@@ -1580,6 +1630,9 @@ MonoBehaviour:
     m_ScrollPosition: {x: 0, y: 905}
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
+=======
+    m_ScrollPosition: {x: 0, y: 923.8}
+>>>>>>> Stashed changes
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 272.6
@@ -1604,6 +1657,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 0
     y: 564
@@ -1629,6 +1683,12 @@ MonoBehaviour:
 >>>>>>> Stashed changes
 >>>>>>> GearControllerLevels
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
+=======
+    x: 7.2000003
+    y: 416.80002
+    width: 482.2
+    height: 359.40002
+>>>>>>> Stashed changes
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1654,6 +1714,7 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     x: 304.8
     y: 0
@@ -1666,11 +1727,15 @@ MonoBehaviour:
 <<<<<<< Updated upstream
     x: 469.6
 >>>>>>> GearControllerLevels
+=======
+    x: 483.2
+>>>>>>> Stashed changes
     y: 0
-    width: 694.39996
-    height: 387.60004
+    width: 711.99994
+    height: 380.40002
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
+<<<<<<< Updated upstream
 =======
     x: 451.2
     y: 0
@@ -1679,6 +1744,8 @@ MonoBehaviour:
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   m_ActualView: {fileID: 2}
   m_Panes:
@@ -1713,8 +1780,8 @@ MonoBehaviour:
     y: 0
     width: 326.40002
     height: 716.4
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
 >>>>>>> 477339d5328672d924f8359903baa291933f7ed2
   m_Panes:

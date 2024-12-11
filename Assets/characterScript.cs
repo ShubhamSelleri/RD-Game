@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,10 +13,11 @@ public class characterScript : MonoBehaviour
     public float maxVerticalSpeed = 10f;
     public float fallMultiplier = 2.0f;
 
-
     public float maxJumpHeight = 1.0f;
     public float maxJumpTime = 0.5f;
     private float initialJumpVelocity;
+
+    public bool canSwitchGravityMidAir = false;
 
     private bool isJumping = false;
     private float baseGravity;
@@ -142,7 +143,6 @@ public class characterScript : MonoBehaviour
             animator.SetBool(isJumpingHash, false);
             isJumpAnimating = false;
             isJumping = false;
-
         }
     }
 
@@ -172,6 +172,9 @@ public class characterScript : MonoBehaviour
         {
             animator.SetBool(isFallingHash, false);
             isFallingAnimating = false;
+
+            // vibrate controller on landing
+            StartCoroutine(vibrateController(0.2f, 0.15f, 0.7f));
         }
 
         // jumping animation
@@ -184,6 +187,8 @@ public class characterScript : MonoBehaviour
         {
             animator.SetBool(isJumpingHash, true);
             isJumpAnimating = true;
+
+            // vibrate controller on jump start
 
             //disable running animation
             animator.SetBool(isRunningHash, false);
@@ -255,22 +260,35 @@ public class characterScript : MonoBehaviour
         {
             currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
         }
+
         //checks Y velocity depending on gravity and if jump is released
         isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
 
-        float previousYVelocity = currentMovement.y;
+        if (canSwitchGravityMidAir)
+        {
+            currentMovement.y = calculateGravityFloatingSwitch(isFalling, currentMovement.y);
+        }
+        else
+        {
+            currentMovement.y =  calculateGravityGroundedSwitch(isFalling, currentMovement.y);
+        }
+
+        
+    }
+
+    float calculateGravityGroundedSwitch(bool isFalling, float currentVerticalVelocity)
+    {
+        float previousYVelocity = currentVerticalVelocity;
         float newYVelocity;
         float nextYVelocity;
-
         if (isFalling)
-        {   
+        {
             // do not change this, doing it this way makes the jump frame rate independand
             newYVelocity = currentMovement.y;
-            newYVelocity += isGravityInverted ? currentGravity * fallMultiplier * Time.deltaTime:
+            newYVelocity += isGravityInverted ? currentGravity * fallMultiplier * Time.deltaTime :
                                                 -currentGravity * fallMultiplier * Time.deltaTime;
             nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-            currentMovement.y = nextYVelocity;
-            
+
         }
         //else the character is still jumping "up"
         else
@@ -279,8 +297,35 @@ public class characterScript : MonoBehaviour
             newYVelocity += isGravityInverted ? currentGravity * Time.deltaTime :
                                                 -currentGravity * Time.deltaTime;
             nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
-            currentMovement.y = nextYVelocity;
         }
+
+        return nextYVelocity;
+    }
+
+    float calculateGravityFloatingSwitch(bool isFalling, float currentVerticalVelocity)
+    {
+        float previousYVelocity = currentVerticalVelocity;
+        float newYVelocity;
+        float nextYVelocity;
+
+        if (isFalling)
+        {
+            // do not change this, doing it this way makes the jump frame rate independand
+            newYVelocity = currentMovement.y;
+            newYVelocity += isGravityInverted ? currentGravity * fallMultiplier * gravityFloatingMultiplier *  Time.deltaTime :
+                                                -currentGravity * fallMultiplier * gravityFloatingMultiplier * Time.deltaTime;
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+
+        }
+        //else the character is still jumping "up"
+        else
+        {
+            newYVelocity = currentMovement.y;
+            newYVelocity += isGravityInverted ? currentGravity * Time.deltaTime :
+                                                -currentGravity * Time.deltaTime;
+            nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
+        }
+        return nextYVelocity;
     }
 
     void handleIsGrounded()
@@ -307,10 +352,22 @@ public class characterScript : MonoBehaviour
 
     void handleGravityInversion()
     {
-        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && isFootOnGround)
+        Debug.Log(transform.position);
+        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
         {
+            transform.position += Vector3.up * 0.9f; //character offset
             transform.Rotate(0, 0, 180f);
             isGravityInverted = !isGravityInverted;
+            if (isFalling)
+            {
+                gravityFloatingMultiplier *= 1.1f;
+            }
+
+            // reset gravityFloatingMultiplier when landing
+            if (isFootOnGround)
+            {
+                gravityFloatingMultiplier = 1;
+            }
         }
 
         isGravityInvertedPressedPrev = isGravityInvertedPressed;
@@ -322,11 +379,11 @@ public class characterScript : MonoBehaviour
     {
         if (isMovementPressed)
         {
-            if (currentMovementInput.x == 1)
+            if (currentMovementInput.x > 0.2f)
             {
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
             }
-            else if (currentMovementInput.x == -1)
+            else if (currentMovementInput.x < -0.2f)
             {
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
             }
@@ -336,6 +393,18 @@ public class characterScript : MonoBehaviour
     void onJump(InputAction.CallbackContext context)
     {
         isJumpPressed = context.ReadValueAsButton();
+    }
+
+    IEnumerator vibrateController(float duration, float freq1, float freq2)
+    {
+        float startTime = Time.time;
+        InputSystem.ResumeHaptics();
+        while (Time.time < startTime + duration)
+        {
+            Gamepad.current.SetMotorSpeeds(freq1, freq2);
+            yield return null;
+        }
+        InputSystem.PauseHaptics();
     }
 
     void setupJumpVariables()

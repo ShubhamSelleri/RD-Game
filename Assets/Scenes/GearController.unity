@@ -1639,6 +1639,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 834785347}
     - target: {fileID: 4605168151235642785, guid: 06d4dae20d478124f9b49d5bfb1684c0, type: 3}
+      propertyPath: initPlayerPos.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605168151235642785, guid: 06d4dae20d478124f9b49d5bfb1684c0, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1798208325}
