@@ -59,6 +59,8 @@ public class characterScript : MonoBehaviour
     
 
     private GameObject groundObject;
+    private GameObject groundObjectPrev;
+
     private GameObject headObject;
 
 
@@ -182,6 +184,9 @@ public class characterScript : MonoBehaviour
         {
             animator.SetBool(isJumpingHash, true);
             isJumpAnimating = true;
+
+            //disable running animation
+            animator.SetBool(isRunningHash, false);
         }
     }
 
@@ -203,7 +208,7 @@ public class characterScript : MonoBehaviour
 
     void handleMovingPlatform()
     {
-        if(groundObject != null)
+        if (groundObject != null && groundObject == groundObjectPrev)
         {
             groundObjectCurrentPosition = groundObject.transform.position;
 
@@ -218,7 +223,7 @@ public class characterScript : MonoBehaviour
                 characterController.Move(platformMovement);
             }
 
-            /*
+            // changes player position if object it's standing on rotates
             if (groundObjectLastRotation != groundObjectCurrentRotation
                     && isFootOnGround
                     && (groundObjectLastRotation != Quaternion.Euler(9f, 6f, 3f))) //fake null value that should never happen in the game
@@ -226,17 +231,18 @@ public class characterScript : MonoBehaviour
                 groundObjectCurrentRotation = groundObject.transform.rotation;
                 Quaternion platFormRotation = Quaternion.Inverse(groundObjectCurrentRotation)*groundObjectLastRotation; //subtracts new rotation from old
 
-                Vector3 relativePosition = transform.position + feetPosition - groundObject.transform.position;
+                Vector3 relativePosition = groundObject.transform.position -(transform.position + feetPosition);
 
-                //characterController.Move(platFormRotation * relativePosition);
+                characterController.Move(platFormRotation * relativePosition);
             }
-            */
+            
         }
         else
         {
             groundObjectCurrentPosition = Vector3.zero;
             groundObjectCurrentRotation = Quaternion.Euler(9f, 6f, 3f);
         }
+        groundObjectPrev = groundObject;
         groundObjectLastRotation = groundObjectCurrentRotation;
         groundObjectLastPostion = groundObjectCurrentPosition;
     }

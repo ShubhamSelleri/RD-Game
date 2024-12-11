@@ -1637,15 +1637,15 @@ PrefabInstance:
     - target: {fileID: 4605168151235642785, guid: 06d4dae20d478124f9b49d5bfb1684c0, type: 3}
       propertyPath: cameraTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 834785347}
     - target: {fileID: 4605168151235642785, guid: 06d4dae20d478124f9b49d5bfb1684c0, type: 3}
       propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1798208325}
     - target: {fileID: 4605168151235642785, guid: 06d4dae20d478124f9b49d5bfb1684c0, type: 3}
       propertyPath: playerCharacterController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1798208323}
     - target: {fileID: 7417402478562007891, guid: 06d4dae20d478124f9b49d5bfb1684c0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2610,6 +2610,16 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756144118}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!143 &1798208323 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 6700906694454888198, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
+  m_PrefabInstance: {fileID: 820980706}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1798208325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 84624600256270678, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
+  m_PrefabInstance: {fileID: 820980706}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1835659151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5806616164130967457, guid: cc0a68735873a9e43bf27c10ea8546dd, type: 3}
@@ -2770,6 +2780,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 820980706}
   - {fileID: 1273088445}
   - {fileID: 834785347}
   - {fileID: 1002497299}
@@ -2778,4 +2789,3 @@ SceneRoots:
   - {fileID: 580667833921446466}
   - {fileID: 1607352896}
   - {fileID: 905694654}
-  - {fileID: 820980706}
