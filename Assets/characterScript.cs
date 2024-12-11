@@ -122,30 +122,6 @@ public class characterScript : MonoBehaviour
 
     }
 
-    void handleJump()
-    {
-        if (!isJumping && isFootOnGround && isJumpPressed)
-        {
-            animator.SetBool(isJumpingHash, true);
-            isJumpAnimating = true;
-            isJumping = true;
-            if (!isGravityInverted)
-            {
-                currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
-            }
-            else
-            {
-                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
-            }
-        }
-        else if(isJumping && isFootOnGround && !isJumpPressed)
-        {
-            animator.SetBool(isJumpingHash, false);
-            isJumpAnimating = false;
-            isJumping = false;
-        }
-    }
-
     void handleAnimation()
     {
         bool isAnimatorRunning = animator.GetBool(isRunningHash);
@@ -193,6 +169,88 @@ public class characterScript : MonoBehaviour
             //disable running animation
             animator.SetBool(isRunningHash, false);
         }
+    }
+
+    void handleGravity()
+    {
+        float groundedGravity = 0.05f;
+
+        if (isFootOnGround)
+        {
+            currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
+        }
+
+        //checks Y velocity depending on gravity and if jump is released
+        isFalling = (isGravityInverted ? currentMovement.y > groundedGravity : currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
+
+        if (canSwitchGravityMidAir)
+        {
+            currentMovement.y = calculateGravityFloatingSwitch(isFalling, currentMovement.y);
+        }
+        else
+        {
+            currentMovement.y = calculateGravityGroundedSwitch(isFalling, currentMovement.y);
+        }
+
+
+    }
+
+    void handleJump()
+    {
+        if (!isJumping && isFootOnGround && isJumpPressed)
+        {
+            animator.SetBool(isJumpingHash, true);
+            isJumpAnimating = true;
+            isJumping = true;
+            if (!isGravityInverted)
+            {
+                currentMovement.y = initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
+            else
+            {
+                currentMovement.y = -initialJumpVelocity * 0.5f; //asumes initial y velocity is 0;
+            }
+        }
+        else if (isJumping && isFootOnGround && !isJumpPressed)
+        {
+            animator.SetBool(isJumpingHash, false);
+            isJumpAnimating = false;
+            isJumping = false;
+        }
+    }
+
+    void handleGravityInversion()
+    {
+        Debug.Log(transform.position);
+        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
+        {
+            //offset the character to not blink through platforms
+            if (isGravityInverted)
+            {
+                transform.position += Vector3.down * 1.8f;
+            }
+            else
+            {
+                transform.position += Vector3.up * 1.8f;
+            }
+
+            transform.Rotate(0, 0, 180f);
+            isGravityInverted = !isGravityInverted;
+            if (isFalling)
+            {
+                gravityFloatingMultiplier *= 1.2f;
+            }
+
+            // reset gravityFloatingMultiplier when landing
+            if (isFootOnGround)
+            {
+                gravityFloatingMultiplier = 1;
+            }
+        }
+
+        isGravityInvertedPressedPrev = isGravityInvertedPressed;
+
+
     }
 
     void handleMaxVerticalSpeed()
@@ -252,29 +310,43 @@ public class characterScript : MonoBehaviour
         groundObjectLastPostion = groundObjectCurrentPosition;
     }
 
-    void handleGravity()
+    void handleIsGrounded()
     {
-        float groundedGravity = 0.05f;
+        Vector3 headDetectionCenter = transform.position + headPosition;
+        headDetectionCenter.y += -characterRadius / 2 + 0.05f;
 
-        if (isFootOnGround)
-        {
-            currentMovement.y = isGravityInverted ? groundedGravity : -groundedGravity;
-        }
+        Vector3 feetDetectionCenter = transform.position + feetPosition;
+        feetDetectionCenter.y += characterRadius / 2 - 0.05f;
 
-        //checks Y velocity depending on gravity and if jump is released
-        isFalling = (isGravityInverted ? currentMovement.y > groundedGravity: currentMovement.y < -groundedGravity) || (!isJumpPressed && !isFootOnGround);
+        int groundLayerMask = LayerMask.GetMask(groundLayer);
 
-        if (canSwitchGravityMidAir)
-        {
-            currentMovement.y = calculateGravityFloatingSwitch(isFalling, currentMovement.y);
-        }
-        else
-        {
-            currentMovement.y =  calculateGravityGroundedSwitch(isFalling, currentMovement.y);
-        }
+        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, groundLayerMask);
+        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, groundLayerMask);
 
-        
+        // Determine if foot is on the ground and store the object
+        isFootOnGround = feetColliders.Length > 0;
+        groundObject = isFootOnGround ? feetColliders[0].gameObject : null;
+
+        // Determine if head is touching and store the object
+        isHeadTouching = headColliders.Length > 0;
+        headObject = isHeadTouching ? headColliders[0].gameObject : null;
     }
+
+    void handleRotation()
+    {
+        if (isMovementPressed)
+        {
+            if (currentMovementInput.x > 0.3f)
+            {
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
+            }
+            else if (currentMovementInput.x < -0.3f)
+            {
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
+            }
+        }
+    }
+
 
     float calculateGravityGroundedSwitch(bool isFalling, float currentVerticalVelocity)
     {
@@ -326,83 +398,8 @@ public class characterScript : MonoBehaviour
             nextYVelocity = (currentMovement.y + newYVelocity) * 0.5f;
         }
         return nextYVelocity;
-    }
+    }    
 
-    void handleIsGrounded()
-    {
-        Vector3 headDetectionCenter = transform.position + headPosition;
-        headDetectionCenter.y +=  -characterRadius/2 + 0.05f;
-
-        Vector3 feetDetectionCenter = transform.position + feetPosition;
-        feetDetectionCenter.y +=  characterRadius/2 - 0.05f;
-
-        int groundLayerMask = LayerMask.GetMask(groundLayer);
-
-        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, groundLayerMask);
-        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, groundLayerMask);
-
-        // Determine if foot is on the ground and store the object
-        isFootOnGround = feetColliders.Length > 0;
-        groundObject = isFootOnGround ? feetColliders[0].gameObject : null;
-
-        // Determine if head is touching and store the object
-        isHeadTouching = headColliders.Length > 0;
-        headObject = isHeadTouching ? headColliders[0].gameObject : null;
-    }
-
-    void handleGravityInversion()
-    {
-        Debug.Log(transform.position);
-        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
-        {
-            //offset the character to not blink through platforms
-            if (isGravityInverted)
-            {
-                transform.position += Vector3.down * 1.8f; 
-            }
-            else
-            {
-                transform.position += Vector3.up * 1.8f; 
-            }
-            
-            transform.Rotate(0, 0, 180f);
-            isGravityInverted = !isGravityInverted;
-            if (isFalling)
-            {
-                gravityFloatingMultiplier *= 1.2f;
-            }
-
-            // reset gravityFloatingMultiplier when landing
-            if (isFootOnGround)
-            {
-                gravityFloatingMultiplier = 1;
-            }
-        }
-
-        isGravityInvertedPressedPrev = isGravityInvertedPressed;
-        
-
-    }
-
-    void handleRotation()
-    {
-        if (isMovementPressed)
-        {
-            if (currentMovementInput.x > 0.3f)
-            {
-                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, 90, transform.eulerAngles.z);
-            }
-            else if (currentMovementInput.x < -0.3f)
-            {
-                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, -90, transform.eulerAngles.z);
-            }
-        }
-    }
-
-    void onJump(InputAction.CallbackContext context)
-    {
-        isJumpPressed = context.ReadValueAsButton();
-    }
 
     IEnumerator vibrateController(float duration, float freq1, float freq2)
     {
@@ -416,16 +413,10 @@ public class characterScript : MonoBehaviour
         InputSystem.PauseHaptics();
     }
 
-    void setupJumpVariables()
-    {
-        float timeToApex = maxJumpTime / 2;
-        baseGravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
-        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
 
-        currentGravity = baseGravity;
-        Debug.Log("timeToApex = " + timeToApex);
-        Debug.Log("gravity = " + baseGravity);
-        Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
+    void onJump(InputAction.CallbackContext context)
+    {
+        isJumpPressed = context.ReadValueAsButton();
     }
 
     void onMovementInput(InputAction.CallbackContext context)
@@ -440,6 +431,19 @@ public class characterScript : MonoBehaviour
        isGravityInvertedPressed = context.ReadValueAsButton();
     }
 
+
+    void setupJumpVariables()
+    {
+        float timeToApex = maxJumpTime / 2;
+        baseGravity = (2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+
+        currentGravity = baseGravity;
+        Debug.Log("timeToApex = " + timeToApex);
+        Debug.Log("gravity = " + baseGravity);
+        Debug.Log("initialJumpVelocity = " + initialJumpVelocity);
+    }
+
     void setupIsGrounded()
     {
         float characterColliderOffset = 0.9f;
@@ -451,6 +455,7 @@ public class characterScript : MonoBehaviour
         feetPosition = Vector3.zero;
         feetPosition.y += characterColliderOffset - (characterHeight/2); 
     }
+
 
     void OnEnable()
     {

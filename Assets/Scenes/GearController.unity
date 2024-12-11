@@ -907,6 +907,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 57d0ba0ba9a05b04e8277e8b33e5118f, type: 2}
+    - target: {fileID: 7927362198102253797, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
+      propertyPath: canSwitchGravityMidAir
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
