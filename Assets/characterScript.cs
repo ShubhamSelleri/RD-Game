@@ -355,7 +355,16 @@ public class characterScript : MonoBehaviour
         Debug.Log(transform.position);
         if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
         {
-            transform.position += Vector3.up * 0.9f; //character offset
+            //offset the character to not blink through platforms
+            if (isGravityInverted)
+            {
+                transform.position += Vector3.down * 0.9f; 
+            }
+            else
+            {
+                transform.position += Vector3.up * 0.9f; 
+            }
+            
             transform.Rotate(0, 0, 180f);
             isGravityInverted = !isGravityInverted;
             if (isFalling)
