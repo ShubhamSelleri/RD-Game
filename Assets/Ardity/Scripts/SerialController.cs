@@ -118,6 +118,7 @@ public class SerialController : MonoBehaviour
             return;
 
         // Check if the message is plain data or a connect/disconnect event.
+        Debug.Log(message);
         if (ReferenceEquals(message, SERIAL_DEVICE_CONNECTED))
             messageListener.SendMessage("OnConnectionEvent", true);
         else if (ReferenceEquals(message, SERIAL_DEVICE_DISCONNECTED))

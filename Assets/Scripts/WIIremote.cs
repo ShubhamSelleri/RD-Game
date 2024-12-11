@@ -14,10 +14,17 @@ public class MouseLight : MonoBehaviour
     public float screenHeight = 9f; // Height of Unity's world space
     public float movementSpeed = 15f; // Speed multiplier for movement
 
+    public Transform camera;
+
+    public GameObject LaserPointer;
+    public GameObject FlashLight;
+    private bool laserOn=true;
+
 
     void Start()
     {
         WiimoteManager.FindWiimotes(); // Find connected Wiimotes
+        FlashLight.SetActive(false);
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
@@ -37,6 +44,15 @@ public class MouseLight : MonoBehaviour
         if(wiimote.Button.a){
             wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
             wiimote.SendPlayerLED(false, true, true, false);
+            if(laserOn){
+                FlashLight.SetActive(true);
+                LaserPointer.SetActive(false);
+                laserOn=false;
+            }else{
+                FlashLight.SetActive(false);
+                LaserPointer.SetActive(true);
+                laserOn=true;
+            }
         }
 
         // Read button presses
@@ -72,7 +88,7 @@ public class MouseLight : MonoBehaviour
                 float mappedY = Mathf.Lerp(-screenHeight*2, screenHeight*2, pointingPosition[1]);
 
                 // Move the block
-                Vector3 targetPosition = new Vector3(mappedX, mappedY, -5);
+                Vector3 targetPosition = new Vector3(mappedX + camera.position.x, mappedY, -5);
                 transform.position = targetPosition;
                 //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * movementSpeed);
             }

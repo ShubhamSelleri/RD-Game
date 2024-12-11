@@ -11,12 +11,14 @@ public class GameReset : MonoBehaviour
 
     public Transform playerTransform;
     public CharacterController playerCharacterController;
+    public CharacterMovement PlayerMovementScript;
 
     public Transform cameraTransform;
     public Rigidbody playerRb;
 
     public float upperDeathY;
     public float lowerDeathY;
+    public int gravity;
 
     public CameraMovement CameraScript;
 
@@ -40,7 +42,9 @@ public class GameReset : MonoBehaviour
         playerCharacterController.enabled=false;
         playerTransform.position = initPlayerPos;
         CameraScript.SetCameraPos(initCameraPos);
-        Physics.gravity = new Vector3(0, -9.81f, 0);
+        if(PlayerMovementScript.velovityMultiplier==-1){
+            PlayerMovementScript.InvertGravity();
+        }
         playerRb.velocity = Vector3.zero;      // Remove linear velocity
         playerRb.angularVelocity = Vector3.zero; // Remove angular velocity
         StartCoroutine(respawnAnimation.AnimateAlpha());

@@ -19,7 +19,7 @@ public class CharacterMovement : MonoBehaviour
     private float jumpStartTime;
     private float delayJump=0.5f;
 
-    private int velovityMultiplier=1;
+    public int velovityMultiplier=1;
 
     public Animator animator;
     public float gravity=9.81f;
@@ -127,7 +127,7 @@ public class CharacterMovement : MonoBehaviour
         velocity.y += Physics.gravity.y * Time.deltaTime;
         characterController.Move(velovityMultiplier*velocity * Time.deltaTime);
     }
-    private void InvertGravity()
+    public void InvertGravity()
     {
         // Invert gravity
         velovityMultiplier = -velovityMultiplier;

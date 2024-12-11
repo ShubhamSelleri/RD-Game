@@ -28,7 +28,7 @@ public class SampleMessageListener : MonoBehaviour
     void OnConnectionEvent(bool success)
     {
         if (success)
-            Debug.Log("Connection established");
+            Debug.Log("Connection established asd");
         else
             Debug.Log("Connection attempt failed or disconnection detected");
     }
