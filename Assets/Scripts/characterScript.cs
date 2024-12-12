@@ -71,7 +71,7 @@ public class characterScript : MonoBehaviour
 
     private Vector3 respawnPosition;
 
-    public HandGestureManager handGestureManager;
+    public HandGestureManager2 handGestureManager;
 
     private void Awake()
     {
