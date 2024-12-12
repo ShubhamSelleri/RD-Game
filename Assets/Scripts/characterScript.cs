@@ -505,7 +505,7 @@ public class characterScript : MonoBehaviour
         playerInput.CharacterControls.Enable();
     }
 
-    void OnDisable()
+    void OnDisable()    
     {
         playerInput.CharacterControls.Disable();
         isGravityInverted = false;
