@@ -10,7 +10,7 @@ public class HandGestureManager : MonoBehaviour
     public GestureEvent onThumbsUp;
     public GestureEvent onThumbsDown;
 
-    public CharacterMovement character;
+    // public CharacterMovement character;
 
     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
     private float pollingInterval = 1f; // Time between requests
@@ -88,26 +88,26 @@ public class HandGestureManager : MonoBehaviour
 
     void TriggerGameAction(string gesture)
     {
-        Debug.Log("Gesture Verified: " + gesture);
+        // Debug.Log("Gesture Verified: " + gesture);
 
         switch (gesture)
         {
             case "Thumbs Up":
                 // Debug.Log("Triggering Thumbs Up Event");
                 onThumbsUp?.Invoke();
-                if (gravity == false){
-                    character.InvertGravity();
-                    gravity = true;
-                }
+                // if (gravity == false){
+                //     character.InvertGravity();
+                //     gravity = true;
+                // }
                 break;
 
             case "Thumbs Down":
                 // Debug.Log("Triggering Thumbs Down Event");
                 onThumbsDown?.Invoke();
-                if (gravity == true){
-                    character.InvertGravity();
-                    gravity = false;
-                }
+                // if (gravity == true){
+                //     character.InvertGravity();
+                //     gravity = false;
+                // }
                 break;
 
             case "Rock":

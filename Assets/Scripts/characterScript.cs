@@ -239,7 +239,7 @@ public class characterScript : MonoBehaviour
 
     void handleGravityInversion()
     {
-        if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
+        if (!isGravityInvertedPressedPrev && (isGravityInvertedPressed || isGravityInvertedGesture) && (canSwitchGravityMidAir || isFootOnGround))
         {
             invertGravity();
             isGravityInvertedGesture = false;
@@ -527,7 +527,8 @@ public class characterScript : MonoBehaviour
         Debug.Log("Thumbs Up Gesture Detected: Keeping gravity normal.");
         if (!isGravityInverted) // Only act if gravity is not yet inverted
         {
-        isGravityInvertedGesture = true;
+            // Debug.Log("Thumbs Up if statement.");
+            isGravityInvertedGesture = true;
         }
         
     }
@@ -537,7 +538,8 @@ public class characterScript : MonoBehaviour
         Debug.Log("Thumbs Down Gesture Detected: Inverting gravity.");
         if (isGravityInverted) // Only act if gravity is not yet inverted
         {
-        isGravityInvertedGesture = true;
+            // Debug.Log("Thumbs Down if statement.");
+            isGravityInvertedGesture = true;
         }
     }
 }
