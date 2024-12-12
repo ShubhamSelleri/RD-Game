@@ -1,0 +1,14 @@
+Activate venv:
+source venv/bin/activate
+Deactivate vent:
+deactivate
+
+
+
+// Create venv
+/// Go to the directory in the terminal and enter the following code
+python3 -m venv myenv
+
+//Activate venv
+source myenv/bin/activate
+
