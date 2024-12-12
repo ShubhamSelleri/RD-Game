@@ -4037,7 +4037,7 @@ PrefabInstance:
     - target: {fileID: 23565773286082350, guid: de1f9387d2b32754a82d6d30b69dc85a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2318ad552fa53bb458ba33a6defe25ee, type: 2}
+      objectReference: {fileID: 2100000, guid: 0fd899188af938d41be0b7a8580905d8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9227,7 +9227,7 @@ PrefabInstance:
     - target: {fileID: 23041742118851304, guid: a2d1ff88d3bafc74184fb13aeffb7436, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2318ad552fa53bb458ba33a6defe25ee, type: 2}
+      objectReference: {fileID: 2100000, guid: 0fd899188af938d41be0b7a8580905d8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10370,7 +10370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portName: COM7
+  portName: COM3
   baudRate: 115200
   messageListener: {fileID: 1666556265}
   reconnectionDelay: 1000
