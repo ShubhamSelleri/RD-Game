@@ -189,6 +189,70 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4115986298896848, guid: 5e7518ffb8a0aff47a18d57a84384f96, type: 3}
   m_PrefabInstance: {fileID: 825866191}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &13268359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5919663435068348361, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 13268360}
+  - component: {fileID: 13268361}
+  m_Layer: 0
+  m_Name: BetterLeapPackage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &13268360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5919663435068081513, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13268359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2135538930}
+  - {fileID: 1610440195}
+  - {fileID: 2049315419}
+  - {fileID: 1458054528}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &13268361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5919663435078099655, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13268359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 025cc0fa7b46aa541aba29d28d35ac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  editTimePose: 2
+  _interactionVolumeVisualization: 4
+  FOV_Visualization: 0
+  OptimalFOV_Visualization: 1
+  MaxFOV_Visualization: 1
+  _frameOptimization: 0
+  _physicsExtrapolation: 1
+  _physicsExtrapolationTime: 0.011111111
+  _multipleDeviceMode: 0
+  _specificSerialNumber: 
+  _trackingOptimization: 0
+  _preventInitializingTrackingMode: 0
+  _serverNameSpace: Leap Service
+  _useInterpolation: 1
+  _reconnectionAttempts: 5
+  _reconnectionInterval: 180
 --- !u!1 &21552993
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +665,6 @@ MonoBehaviour:
   onThumbsDown:
     m_PersistentCalls:
       m_Calls: []
-  character: {fileID: 1919876764833115243}
 --- !u!4 &53741160
 Transform:
   m_ObjectHideFlags: 0
@@ -2449,6 +2512,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8423238227359503493, guid: 242d46b17c781824ab4ecc63b6812f82, type: 3}
   m_PrefabInstance: {fileID: 244156630}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &259357662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 567438603254987375, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1458054528}
+  - component: {fileID: 1458054527}
+  - component: {fileID: 1458054526}
+  m_Layer: 0
+  m_Name: Pose Detector R Down
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1001 &279405381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4409,9 +4490,9 @@ MonoBehaviour:
   onTime: 3
   startDelay: 3
   audioSource: {fileID: 472547660}
-  cameraTransform: {fileID: 222283000}
+  cameraTransform: {fileID: 1919876764833115249}
   maxVolume: 1
-  maxDistance: 70
+  maxDistance: 50
 --- !u!82 &472547660
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4423,7 +4504,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1328aadca7febca4c969d2314490a8f0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -5721,6 +5802,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1477739829}
   m_SourcePrefab: {fileID: 100100000, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
+--- !u!1 &576792048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5934366484035286775, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2049315419}
+  - component: {fileID: 2049315420}
+  - component: {fileID: 2049315418}
+  m_Layer: 0
+  m_Name: Pose Detector R Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &580148507 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2622756322223492379, guid: 69bdbb7bad50f624785d4828b7e28c1f, type: 3}
@@ -9859,7 +9958,7 @@ MonoBehaviour:
   initPlayerPos: {x: 0, y: 0, z: 0}
   initCameraPos: {x: 0, y: 0, z: 0}
   respawnAnimation: {fileID: 1264233760}
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1919876764833115249}
   playerCharacterController: {fileID: 0}
   PlayerMovementScript: {fileID: 0}
   cameraTransform: {fileID: 222283000}
@@ -10990,17 +11089,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299798835}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1300130514 stripped
+--- !u!114 &1300130514
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 2183838235196406130, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
   m_PrefabInstance: {fileID: 2116626628}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1610440194}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2711309caab524f45966c6f389a3d3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poseDetector: {fileID: 1610440196}
+  down: 1
 --- !u!1 &1300302583 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2216828942998789601, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
@@ -12080,17 +12182,84 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
---- !u!114 &1458054526 stripped
+--- !u!114 &1458054526
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 9181675473141395485, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
   m_PrefabInstance: {fileID: 2116626628}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 259357662}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2711309caab524f45966c6f389a3d3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poseDetector: {fileID: 1458054527}
+  down: 1
+--- !u!114 &1458054527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 567438603254987374, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259357662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5937b8bac5cfe9342b3bca39ce6b5b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkBothHands: 0
+  chiralityToCheck: 1
+  poseToDetect: {fileID: 11400000, guid: dd86831cf54442042af85f777818de1f, type: 2}
+  posesToDetect: []
+  leapProvider: {fileID: 0}
+  OnPoseDetected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Downingthethumb
+          m_BoolArgument: 0
+        m_CallState: 2
+  WhilePoseDetected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPoseLost:
+    m_PersistentCalls:
+      m_Calls: []
+  poseRules:
+  - enabled: 1
+    finger: 5
+    bone: 3
+    directions:
+    - enabled: 1
+      typeOfDirectionCheck: 2
+      isPalmDirection: 0
+      poseTarget: {fileID: 0}
+      axisToFace: 4
+      rotationThreshold: 45
+--- !u!4 &1458054528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 567438603254987373, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259357662}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 13268360}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1460391331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13421,6 +13590,88 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5956122988102880758, guid: 7beb39c7100d9e84ab4f9551e0a73f1b, type: 3}
   m_PrefabInstance: {fileID: 1600552779}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1610440194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 7886291346963968431, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1610440195}
+  - component: {fileID: 1610440196}
+  - component: {fileID: 1300130514}
+  m_Layer: 0
+  m_Name: Pose Detector L Down
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1610440195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 7886291346963968429, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610440194}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 13268360}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610440196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 7886291346963968430, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610440194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5937b8bac5cfe9342b3bca39ce6b5b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkBothHands: 0
+  chiralityToCheck: 0
+  poseToDetect: {fileID: 11400000, guid: dd86831cf54442042af85f777818de1f, type: 2}
+  posesToDetect: []
+  leapProvider: {fileID: 0}
+  OnPoseDetected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Downingthethumb
+          m_BoolArgument: 0
+        m_CallState: 2
+  WhilePoseDetected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPoseLost:
+    m_PersistentCalls:
+      m_Calls: []
+  poseRules:
+  - enabled: 1
+    finger: 5
+    bone: 3
+    directions:
+    - enabled: 1
+      typeOfDirectionCheck: 2
+      isPalmDirection: 0
+      poseTarget: {fileID: 0}
+      axisToFace: 3
+      rotationThreshold: 45
 --- !u!1 &1621915999
 GameObject:
   m_ObjectHideFlags: 0
@@ -14724,6 +14975,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5457413799207065298, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1789817428}
+    - targetCorrespondingSourceObject: {fileID: 5457413799207065298, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1789817432}
+    - targetCorrespondingSourceObject: {fileID: 5457413799207065298, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1789817431}
   m_SourcePrefab: {fileID: 100100000, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
 --- !u!4 &1789817424 stripped
 Transform:
@@ -14753,6 +15010,117 @@ MonoBehaviour:
   - 2
   - 1
   - 3
+--- !u!114 &1789817431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612318613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528d9879ca2b02a40b1cc248f3c25d7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1919876764833115249}
+  maxVolume: 1
+  maxDistance: 40
+--- !u!82 &1789817432
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612318613}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ded00dab14034724bb78ed0664c7e155, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1800786404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3518244271648867772, guid: 163b4f177996703459f362a9d2c42d46, type: 3}
@@ -15131,9 +15499,9 @@ MonoBehaviour:
   onTime: 3
   startDelay: 0
   audioSource: {fileID: 1855301457}
-  cameraTransform: {fileID: 222283000}
+  cameraTransform: {fileID: 1919876764833115249}
   maxVolume: 1
-  maxDistance: 10
+  maxDistance: 50
 --- !u!82 &1855301457
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15145,7 +15513,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1328aadca7febca4c969d2314490a8f0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -15621,17 +15989,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4073242613029556, guid: f1409a49ef1880f458d27d1cc503f3ac, type: 3}
   m_PrefabInstance: {fileID: 1875772924}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1885561473 stripped
+--- !u!114 &1885561473
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 8127438989417228714, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
   m_PrefabInstance: {fileID: 2116626628}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2135538929}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2711309caab524f45966c6f389a3d3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poseDetector: {fileID: 2135538931}
+  down: 0
 --- !u!1 &1886308942
 GameObject:
   m_ObjectHideFlags: 0
@@ -17207,17 +17578,84 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &2049315418 stripped
+--- !u!114 &2049315418
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 6500174788713169909, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
   m_PrefabInstance: {fileID: 2116626628}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 576792048}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2711309caab524f45966c6f389a3d3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poseDetector: {fileID: 2049315420}
+  down: 0
+--- !u!4 &2049315419
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5934366484035286773, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576792048}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 13268360}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2049315420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 5934366484035286774, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576792048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5937b8bac5cfe9342b3bca39ce6b5b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkBothHands: 0
+  chiralityToCheck: 1
+  poseToDetect: {fileID: 11400000, guid: dd86831cf54442042af85f777818de1f, type: 2}
+  posesToDetect: []
+  leapProvider: {fileID: 0}
+  OnPoseDetected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Upthethumb
+          m_BoolArgument: 0
+        m_CallState: 2
+  WhilePoseDetected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPoseLost:
+    m_PersistentCalls:
+      m_Calls: []
+  poseRules:
+  - enabled: 1
+    finger: 5
+    bone: 3
+    directions:
+    - enabled: 1
+      typeOfDirectionCheck: 2
+      isPalmDirection: 0
+      poseTarget: {fileID: 0}
+      axisToFace: 3
+      rotationThreshold: 45
 --- !u!1001 &2059847479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17863,6 +18301,88 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 472547660}
   m_SourcePrefab: {fileID: 100100000, guid: 3123da49cb81147489b444f2749aba47, type: 3}
+--- !u!1 &2135538929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2408607573251362897, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2135538930}
+  - component: {fileID: 2135538931}
+  - component: {fileID: 1885561473}
+  m_Layer: 0
+  m_Name: Pose Detector L Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2135538930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2408607573251362899, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135538929}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 13268360}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2135538931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 2408607573251362896, guid: fa32956227d0be64289f3c1113ef9c01, type: 3}
+  m_PrefabInstance: {fileID: 2116626628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135538929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5937b8bac5cfe9342b3bca39ce6b5b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkBothHands: 0
+  chiralityToCheck: 0
+  poseToDetect: {fileID: 11400000, guid: dd86831cf54442042af85f777818de1f, type: 2}
+  posesToDetect: []
+  leapProvider: {fileID: 0}
+  OnPoseDetected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Upthethumb
+          m_BoolArgument: 0
+        m_CallState: 2
+  WhilePoseDetected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPoseLost:
+    m_PersistentCalls:
+      m_Calls: []
+  poseRules:
+  - enabled: 1
+    finger: 5
+    bone: 3
+    directions:
+    - enabled: 1
+      typeOfDirectionCheck: 2
+      isPalmDirection: 0
+      poseTarget: {fileID: 0}
+      axisToFace: 4
+      rotationThreshold: 45
 --- !u!1001 &2138289198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17975,17 +18495,6 @@ MonoBehaviour:
   - x
   isCoupled: 0
   isInverted: 0
---- !u!114 &1919876764833115243 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1277156771953772286, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
-  m_PrefabInstance: {fileID: 3902847224957375554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300302583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e43b29999248b5e41b3c2b0d135d9b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1919876764833115248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18005,6 +18514,7 @@ MonoBehaviour:
   maxJumpHeight: 1
   maxJumpTime: 0.5
   canSwitchGravityMidAir: 0
+  handGestureManager: {fileID: 0}
 --- !u!4 &1919876764833115249 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
