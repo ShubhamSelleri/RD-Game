@@ -8,8 +8,8 @@ public class Checkpoint : MonoBehaviour
 
     private void Start()
     {
-        respawnPoint = transform.position;
-        Debug.Log("checkpoint position = "+ respawnPoint);
+        respawnPoint = transform.position + Vector3.up * 0.5f;
+        Debug.Log("checkpoint position = "+ respawnPoint) ;
     }
 
     private void OnTriggerEnter(Collider other)

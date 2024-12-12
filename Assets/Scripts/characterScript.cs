@@ -80,10 +80,7 @@ public class characterScript : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
 
-        // convert animator parameter strings to hash for performance
-        isRunningHash = Animator.StringToHash("isRunning");
-        isJumpingHash = Animator.StringToHash("isJumping");
-        isFallingHash = Animator.StringToHash("isFalling");
+        
 
         // bind listen to inputs
         playerInput.CharacterControls.Move.started += onMovementInput;
@@ -103,7 +100,7 @@ public class characterScript : MonoBehaviour
 
         setupIsGrounded();
 
-        respawnPosition = Vector3.zero;
+        respawnPosition = transform.position;
     }
 
     
@@ -120,6 +117,11 @@ public class characterScript : MonoBehaviour
         {
             Debug.LogWarning("HandGestureManager is not assigned in characterScript.");
         }
+
+        // convert animator parameter strings to hash for performance
+        isRunningHash = Animator.StringToHash("isRunning");
+        isJumpingHash = Animator.StringToHash("isJumping");
+        isFallingHash = Animator.StringToHash("isFalling");
     }
 
     // Update is called once per frame
