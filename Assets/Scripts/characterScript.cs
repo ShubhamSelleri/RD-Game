@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,6 +52,7 @@ public class characterScript : MonoBehaviour
     private Vector3 feetPosition;
     private float characterRadius;
     private string groundLayer = "Ground";
+    private string deathLayer = "Death";
 
     private Vector3 groundObjectLastPostion;
     private Vector3 groundObjectCurrentPosition;
@@ -64,6 +66,9 @@ public class characterScript : MonoBehaviour
 
     private GameObject headObject;
 
+    private CapsuleCollider hurtBox;
+
+    private Vector3 respawnPosition;
 
     private void Awake()
     {
@@ -94,6 +99,8 @@ public class characterScript : MonoBehaviour
         maxVerticalSpeed = Mathf.Max(initialJumpVelocity,maxVerticalSpeed);
 
         setupIsGrounded();
+
+        respawnPosition = Vector3.zero;
     }
 
     
@@ -224,33 +231,39 @@ public class characterScript : MonoBehaviour
         Debug.Log(transform.position);
         if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
         {
-            //offset the character to not blink through platforms
-            if (isGravityInverted)
-            {
-                transform.position += Vector3.down * 1.8f;
-            }
-            else
-            {
-                transform.position += Vector3.up * 1.8f;
-            }
-
-            transform.Rotate(0, 0, 180f);
-            isGravityInverted = !isGravityInverted;
-            if (isFalling)
-            {
-                gravityFloatingMultiplier *= 1.2f;
-            }
-
-            // reset gravityFloatingMultiplier when landing
-            if (isFootOnGround)
-            {
-                gravityFloatingMultiplier = 1;
-            }
+            invertGravity();
+            
         }
 
         isGravityInvertedPressedPrev = isGravityInvertedPressed;
 
 
+    }
+
+    void invertGravity()
+    {
+        //offset the character to not blink through platforms
+        if (isGravityInverted)
+        {
+            transform.position += Vector3.down * 1.8f;
+        }
+        else
+        {
+            transform.position += Vector3.up * 1.8f;
+        }
+
+        transform.Rotate(0, 0, 180f);
+        isGravityInverted = !isGravityInverted;
+        if (isFalling)
+        {
+            gravityFloatingMultiplier *= 1.2f;
+        }
+
+        // reset gravityFloatingMultiplier when landing
+        if (isFootOnGround)
+        {
+            gravityFloatingMultiplier = 1;
+        }
     }
 
     void handleMaxVerticalSpeed()
@@ -319,9 +332,16 @@ public class characterScript : MonoBehaviour
         feetDetectionCenter.y += characterRadius / 2 - 0.05f;
 
         int groundLayerMask = LayerMask.GetMask(groundLayer);
+        int deathLayerMask = LayerMask.GetMask(deathLayer);
 
         Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, groundLayerMask);
         Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, groundLayerMask);
+
+        if(Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, deathLayerMask).Length > 0
+            || Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, deathLayerMask).Length > 0)
+        {
+            playerDie();
+        }
 
         // Determine if foot is on the ground and store the object
         isFootOnGround = feetColliders.Length > 0;
@@ -330,6 +350,17 @@ public class characterScript : MonoBehaviour
         // Determine if head is touching and store the object
         isHeadTouching = headColliders.Length > 0;
         headObject = isHeadTouching ? headColliders[0].gameObject : null;
+    }
+
+    public void updateCheckpoint(Vector3 checkpointPosition)
+    {
+        respawnPosition = checkpointPosition;
+    }
+
+    public void playerDie()
+    {
+        Debug.Log("You died");
+        Reset();
     }
 
     void handleRotation()
@@ -413,6 +444,18 @@ public class characterScript : MonoBehaviour
         InputSystem.PauseHaptics();
     }
 
+    public void Reset()
+    {
+        isGravityInverted = false;
+        currentMovement = Vector3.zero;
+        gravityFloatingMultiplier = 1f;
+        if (isGravityInverted)
+        {
+            invertGravity();
+            isGravityInverted = false;
+        }
+        transform.position = respawnPosition;
+    }
 
     void onJump(InputAction.CallbackContext context)
     {
@@ -465,7 +508,6 @@ public class characterScript : MonoBehaviour
     void OnDisable()
     {
         playerInput.CharacterControls.Disable();
+        isGravityInverted = false;
     }
-
-    
 }

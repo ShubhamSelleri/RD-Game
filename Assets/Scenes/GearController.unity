@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e7431c7cc6b2b44a4135c5de85b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1798208325}
   snapDistance: 35
   snapAmount: 35
 --- !u!4 &834785347
