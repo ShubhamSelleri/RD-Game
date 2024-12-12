@@ -42,6 +42,7 @@ public class characterScript : MonoBehaviour
     private bool isGravityInverted = false;
     private bool isGravityInvertedPressedPrev;
     private bool isGravityInvertedPressed = false;
+    private bool isGravityInvertedGesture = false;
     private float gravityFloatingMultiplier = 1;
     private bool isJumpPressed = false;
     private bool isFalling;
@@ -69,6 +70,8 @@ public class characterScript : MonoBehaviour
     private CapsuleCollider hurtBox;
 
     private Vector3 respawnPosition;
+
+    public HandGestureManager handGestureManager;
 
     private void Awake()
     {
@@ -108,7 +111,15 @@ public class characterScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (handGestureManager != null)
+        {
+            handGestureManager.onThumbsUp.AddListener(HandleThumbsUp);
+            handGestureManager.onThumbsDown.AddListener(HandleThumbsDown);
+        }
+        else
+        {
+            Debug.LogWarning("HandGestureManager is not assigned in characterScript.");
+        }
     }
 
     // Update is called once per frame
@@ -232,7 +243,7 @@ public class characterScript : MonoBehaviour
         if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
         {
             invertGravity();
-            
+            isGravityInvertedGesture = false;
         }
 
         isGravityInvertedPressedPrev = isGravityInvertedPressed;
@@ -509,5 +520,25 @@ public class characterScript : MonoBehaviour
     {
         playerInput.CharacterControls.Disable();
         isGravityInverted = false;
+    }
+
+    // Handgesture control
+    void HandleThumbsUp()
+    {
+        Debug.Log("Thumbs Up Gesture Detected: Keeping gravity normal.");
+        if (!isGravityInverted) // Only act if gravity is not yet inverted
+        {
+        isGravityInvertedGesture = true;
+        }
+        
+    }
+
+    void HandleThumbsDown()
+    {
+        Debug.Log("Thumbs Down Gesture Detected: Inverting gravity.");
+        if (isGravityInverted) // Only act if gravity is not yet inverted
+        {
+        isGravityInvertedGesture = true;
+        }
     }
 }

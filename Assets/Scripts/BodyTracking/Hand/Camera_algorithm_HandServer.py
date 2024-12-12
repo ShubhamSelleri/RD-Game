@@ -20,7 +20,7 @@ hands = mp_hands.Hands(
 
 # Gesture files
 script_dir = os.path.dirname(os.path.abspath(__file__))
-poses_dir = os.path.join(script_dir, "Poses/Hand")
+poses_dir = os.path.join(script_dir, os.pardir, "Poses/Hand")
 gesture_files = {
     "Thumbs Up": "ThumbsUp.npy",
     "Thumbs Down": "ThumbsDown.npy",
