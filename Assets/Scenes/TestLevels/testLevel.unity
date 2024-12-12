@@ -601,7 +601,6 @@ MonoBehaviour:
   onThumbsDown:
     m_PersistentCalls:
       m_Calls: []
-  character: {fileID: 1919876764833115243}
 --- !u!4 &53741160
 Transform:
   m_ObjectHideFlags: 0
@@ -4423,7 +4422,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1328aadca7febca4c969d2314490a8f0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -9859,7 +9858,7 @@ MonoBehaviour:
   initPlayerPos: {x: 0, y: 0, z: 0}
   initCameraPos: {x: 0, y: 0, z: 0}
   respawnAnimation: {fileID: 1264233760}
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1919876764833115249}
   playerCharacterController: {fileID: 0}
   PlayerMovementScript: {fileID: 0}
   cameraTransform: {fileID: 222283000}
@@ -15133,7 +15132,7 @@ MonoBehaviour:
   audioSource: {fileID: 1855301457}
   cameraTransform: {fileID: 222283000}
   maxVolume: 1
-  maxDistance: 10
+  maxDistance: 70
 --- !u!82 &1855301457
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15145,7 +15144,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1328aadca7febca4c969d2314490a8f0, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -17975,17 +17974,6 @@ MonoBehaviour:
   - x
   isCoupled: 0
   isInverted: 0
---- !u!114 &1919876764833115243 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1277156771953772286, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
-  m_PrefabInstance: {fileID: 3902847224957375554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300302583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e43b29999248b5e41b3c2b0d135d9b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1919876764833115248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18005,6 +17993,7 @@ MonoBehaviour:
   maxJumpHeight: 1
   maxJumpTime: 0.5
   canSwitchGravityMidAir: 0
+  handGestureManager: {fileID: 0}
 --- !u!4 &1919876764833115249 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5799436836756858202, guid: 4f46b647cdd1555459faef1180d26423, type: 3}
