@@ -7657,7 +7657,7 @@ PrefabInstance:
     - target: {fileID: 7927362198102253797, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
       propertyPath: handGestureManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1632229266}
     - target: {fileID: 7927362198102253797, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
       propertyPath: canSwitchGravityMidAir
       value: 1
@@ -13838,6 +13838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1632229265}
+  - component: {fileID: 1632229266}
   m_Layer: 0
   m_Name: HandGestureManager
   m_TagString: Untagged
@@ -13860,6 +13861,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1632229266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632229264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6817ee36b0e95448287b9b7fe7552c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onThumbsUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onThumbsDown:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1637437007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18650,6 +18669,7 @@ SceneRoots:
   - {fileID: 224533531}
   - {fileID: 3902847224957375554}
   - {fileID: 811561842}
+  - {fileID: 1632229265}
   - {fileID: 314879774}
   - {fileID: 605049307}
   - {fileID: 489828641}
@@ -18722,4 +18742,3 @@ SceneRoots:
   - {fileID: 297465583}
   - {fileID: 1237622331}
   - {fileID: 1199438905}
-  - {fileID: 1632229265}
