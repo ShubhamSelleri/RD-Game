@@ -126,6 +126,8 @@ public class characterScript : MonoBehaviour
 
     void Update()
     {
+
+        //checkIfSquashed();
         handleMovingPlatform();
         handleAnimation();
         handleRotation();
@@ -137,6 +139,7 @@ public class characterScript : MonoBehaviour
         handleGravity();
         handleMaxVerticalSpeed();
         handleJump();
+        checkIfSquashed();
 
         if (transform.position.y < -20 || transform.position.y > 20)
         {
@@ -446,6 +449,31 @@ public class characterScript : MonoBehaviour
         return nextYVelocity;
     }    
 
+    void checkIfSquashed()
+    {
+        Vector3 topDetectionCenter = transform.position + headPosition;
+        topDetectionCenter.y += -characterRadius / 2 - 0.1f;
+
+        Vector3 botDetectionCenter = transform.position + feetPosition;
+        botDetectionCenter.y += characterRadius / 2 + 0.1f;
+
+        int groundLayerMask = LayerMask.GetMask(groundLayer);
+        int deathLayerMask = LayerMask.GetMask(deathLayer);
+        int defaultLayerMask = LayerMask.GetMask("Default"); // Add the Default layer
+
+        int combinedLayerMask = groundLayerMask | defaultLayerMask;
+
+        Collider[] botColliders = Physics.OverlapSphere(botDetectionCenter, characterRadius / 2, combinedLayerMask);
+        Collider[] topColliders = Physics.OverlapSphere(topDetectionCenter, characterRadius / 2, combinedLayerMask);
+
+        if (  Physics.OverlapSphere(topDetectionCenter, characterRadius / 2, groundLayerMask).Length > 0
+            || Physics.OverlapSphere(botDetectionCenter, characterRadius / 2, groundLayerMask).Length > 0)
+        {
+
+            Debug.Log("You got SQUASHED");
+            playerDie();
+        }
+    }
 
     IEnumerator vibrateController(float duration, float freq1, float freq2)
     {
