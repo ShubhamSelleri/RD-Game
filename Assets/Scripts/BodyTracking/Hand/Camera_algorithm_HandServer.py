@@ -25,7 +25,7 @@ gesture_files = {
     "Thumbs Up": "ThumbsUp.npy",
     "Thumbs Down": "ThumbsDown.npy",
     "Rock": "Rock.npy",
-    # "Middle Finger": "MiddleFinger.npy",
+    "Middle Finger": "MiddleFinger.npy",
 }
 
 # Load gestures
