@@ -8,7 +8,7 @@ public class Checkpoint : MonoBehaviour
 
     private void Start()
     {
-        respawnPoint = transform.position + Vector3.up * 0.5f;
+        respawnPoint = transform.position + Vector3.up ;
         Debug.Log("checkpoint position = "+ respawnPoint) ;
     }
 
@@ -18,6 +18,7 @@ public class Checkpoint : MonoBehaviour
 
         if (other.CompareTag("Player") && isActive)
         {
+            Debug.Log("Checkpoint passed: " + respawnPoint);
             characterScript characterScript = other.GetComponent<characterScript>();
             if (characterScript != null)
             {
