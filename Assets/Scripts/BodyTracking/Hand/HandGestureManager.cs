@@ -16,8 +16,6 @@ public class HandGestureManager : MonoBehaviour
     private float pollingInterval = 1f; // Time between requests
     private int maxRetries = 3; // Maximum retry attempts on failure
 
-    private bool gravity = false;
-
     void Start()
     {
         StartCoroutine(PollServer());
@@ -95,19 +93,11 @@ public class HandGestureManager : MonoBehaviour
             case "Thumbs Up":
                 // Debug.Log("Triggering Thumbs Up Event");
                 onThumbsUp?.Invoke();
-                // if (gravity == false){
-                //     character.InvertGravity();
-                //     gravity = true;
-                // }
                 break;
 
             case "Thumbs Down":
                 // Debug.Log("Triggering Thumbs Down Event");
                 onThumbsDown?.Invoke();
-                // if (gravity == true){
-                //     character.InvertGravity();
-                //     gravity = false;
-                // }
                 break;
 
             case "Rock":

@@ -7,6 +7,7 @@ deactivate
 
 // Create venv
 /// Go to the directory in the terminal and enter the following code
+python3.9 -m venv mediapipe_env
 python3 -m venv myenv
 
 //Activate venv
