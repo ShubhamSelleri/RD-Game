@@ -1,32 +1,61 @@
-""" working server code, best version for now """
+""" test arduino + server """
+import time
+import serial
 from flask import Flask, jsonify
 import cv2 as cv
 import mediapipe.python.solutions.hands as mp_hands
 import numpy as np
 import os
 import threading
-import time
 
 # Flask app
 app = Flask(__name__)
+
+# Arduino connection settings
+arduino_port = "/dev/cu.usbmodem1302"  # Adjust this to match your Arduino's port
+baud_rate = 9600                        # Match this to your Arduino's baud rate
+arduino = None
+
+def connect_to_arduino(retries=5, delay=2):
+    """Attempt to connect to the Arduino with retries."""
+    global arduino
+    for attempt in range(1, retries + 1):
+        try:
+            print(f"Attempting to connect to Arduino (Attempt {attempt}/{retries})...")
+            arduino = serial.Serial(arduino_port, baud_rate, timeout=1)
+            print("Arduino connected successfully.")
+            return
+        except serial.SerialException as e:
+            print(f"Failed to connect to Arduino on attempt {attempt}: {e}")
+            time.sleep(delay)
+    print("Unable to connect to Arduino after multiple attempts.")
+
+def send_to_arduino(command):
+    """Send a command to the Arduino via serial."""
+    if arduino and arduino.is_open:
+        try:
+            arduino.write((command + '\n').encode())
+            print(f"Sent to Arduino: {command}")
+        except serial.SerialException as e:
+            print(f"Error sending to Arduino: {e}")
+    else:
+        print("Arduino is not connected.")
 
 # MediaPipe Hands
 hands = mp_hands.Hands(
     static_image_mode=False,
     max_num_hands=1,
-    min_detection_confidence=0.8,  # Increased confidence for better accuracy
-    min_tracking_confidence=0.8   # Increased tracking confidence
+    min_detection_confidence=0.8,
+    min_tracking_confidence=0.8
 )
 
 # Gesture files
 script_dir = os.path.dirname(os.path.abspath(__file__))
-# poses_dir = os.path.join(script_dir, "Poses/Hand")
-poses_dir = os.path.join(script_dir, os.pardir, "Poses/Hand")
+poses_dir = os.path.join(script_dir, "Poses/Hand")
 gesture_files = {
     "Thumbs Up": "ThumbsUp.npy",
     "Thumbs Down": "ThumbsDown.npy",
     "Rock": "Rock.npy",
-    "Middle Finger": "MiddleFinger.npy",
 }
 
 # Load gestures
@@ -45,6 +74,7 @@ state_lock = threading.Lock()
 capture_running = True
 state = {
     "last_verified_gesture": None,
+    "last_sent_gesture": None,  # Tracks the last gesture sent to Arduino
     "last_updated": time.time(),
 }
 required_duration = 0.5  # Seconds to hold gesture for verification
@@ -83,15 +113,19 @@ def capture_and_track_gestures():
 
                     for gesture_name, reference_pose in gestures.items():
                         if compare_hand_pose(player_hand_pose, reference_pose):
-                            if state["last_verified_gesture"] != gesture_name:
-                                # New gesture detected
+                            # Verify gesture if held for the required duration
+                            if (
+                                state["last_verified_gesture"] != gesture_name
+                                or time.time() - state["last_updated"] >= required_duration
+                            ):
                                 state["last_verified_gesture"] = gesture_name
                                 state["last_updated"] = time.time()
-                                # print(f"New gesture verified: {gesture_name}")
-                            elif time.time() - state["last_updated"] >= required_duration:
-                                # Gesture is still being held but don't print again
-                                state["last_updated"] = time.time()
-                            break
+
+                                # Print only if gesture changes
+                                if state["last_sent_gesture"] != gesture_name:
+                                    print(f"Gesture verified: {gesture_name}")
+                                    state["last_sent_gesture"] = gesture_name
+                                break
             else:
                 # Reset if no hands detected
                 state["last_verified_gesture"] = None
@@ -100,16 +134,33 @@ def capture_and_track_gestures():
 
 @app.route('/check_gesture', methods=['POST'])
 def check_gesture():
-    """API endpoint to send only the latest verified gesture or 'No Gesture'."""
+    """API endpoint to send only the latest verified gesture and trigger Arduino."""
     global state
 
     with state_lock:
         if state["last_verified_gesture"]:
+            if state["last_sent_gesture"] != state["last_verified_gesture"]:
+                # Send to Arduino only if the gesture has changed
+                gesture_to_arduino = state["last_verified_gesture"]
+                if gesture_to_arduino == "Thumbs Up":
+                    send_to_arduino("green")
+                elif gesture_to_arduino == "Thumbs Down":
+                    send_to_arduino("blue")
+                elif gesture_to_arduino == "Rock":
+                    send_to_arduino("rock")
+                state["last_sent_gesture"] = gesture_to_arduino  # Update last sent gesture
             return jsonify({"gesture": state["last_verified_gesture"]})
         else:
+            if state["last_sent_gesture"] is not None:
+                # Clear Arduino if no gesture is detected
+                send_to_arduino("clear")
+                state["last_sent_gesture"] = None  # Reset last sent gesture
             return jsonify({"gesture": "No Gesture"})
 
 if __name__ == "__main__":
+    # Attempt to connect to Arduino
+    connect_to_arduino(retries=5, delay=2)
+
     # Start the frame capture and gesture tracking thread
     capture_thread = threading.Thread(target=capture_and_track_gestures, daemon=True)
     capture_thread.start()
