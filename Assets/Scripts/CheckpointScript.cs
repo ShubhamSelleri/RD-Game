@@ -9,18 +9,21 @@ public class Checkpoint : MonoBehaviour
     private void Start()
     {
         respawnPoint = transform.position;
+        Debug.Log("checkpoint position = "+ respawnPoint);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("sus");
+
         if (other.CompareTag("Player") && isActive)
         {
-            // Try to get the CharacterScript from the player
             characterScript characterScript = other.GetComponent<characterScript>();
             if (characterScript != null)
             {
-                // Call UpdateCheckpoint on the character
                 characterScript.updateCheckpoint(respawnPoint);
+                Debug.Log("checkpoint activated");
+
                 isActive = false;
             }
         }
