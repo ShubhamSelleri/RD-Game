@@ -3743,7 +3743,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896bb7f1d792afb45b0674e9b5b78dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameResetScript: {fileID: 1106063166}
 --- !u!135 &417318757
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6488,7 +6487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896bb7f1d792afb45b0674e9b5b78dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameResetScript: {fileID: 1106063166}
 --- !u!65 &638671158
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10325,7 +10323,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106063165}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d246c2f76c0d1440adf29d55f048b35, type: 3}
   m_Name: 
@@ -10334,7 +10332,7 @@ MonoBehaviour:
   initCameraPos: {x: 0, y: 0, z: 0}
   respawnAnimation: {fileID: 1264233760}
   playerTransform: {fileID: 304093247}
-  playerCharacterController: {fileID: 0}
+  playerCharacterController: {fileID: 1266592484}
   PlayerMovementScript: {fileID: 0}
   cameraTransform: {fileID: 222283000}
   playerRb: {fileID: 0}
@@ -11387,6 +11385,11 @@ MonoBehaviour:
 --- !u!1 &1266592482 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 749696560588688364, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
+  m_PrefabInstance: {fileID: 811561842}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &1266592484 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 6700906694454888198, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
   m_PrefabInstance: {fileID: 811561842}
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &1266592486
@@ -17681,7 +17684,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896bb7f1d792afb45b0674e9b5b78dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameResetScript: {fileID: 1106063166}
 --- !u!65 &1979201511
 BoxCollider:
   m_ObjectHideFlags: 0

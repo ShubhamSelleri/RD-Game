@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class ResetCaller : MonoBehaviour
 {
-    public GameReset gameResetScript;
+    //public GameReset gameResetScript;
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object we collided with has the "Player" tag
         if (other.CompareTag("Player"))
         {
-            gameResetScript.ResetPositions();
+            Debug.Log("Collided with Player!");
+            other.GetComponent<characterScript>();
+            characterScript characterScript = other.GetComponent<characterScript>();
+            if (characterScript != null)
+            {
+                characterScript.playerDie();
+                return;
+            }
         }
+
     }
 
 }
