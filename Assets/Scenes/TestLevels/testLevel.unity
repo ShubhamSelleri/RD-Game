@@ -4408,9 +4408,9 @@ MonoBehaviour:
   onTime: 3
   startDelay: 3
   audioSource: {fileID: 472547660}
-  cameraTransform: {fileID: 222283000}
+  cameraTransform: {fileID: 1919876764833115249}
   maxVolume: 1
-  maxDistance: 70
+  maxDistance: 50
 --- !u!82 &472547660
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14723,6 +14723,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5457413799207065298, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1789817428}
+    - targetCorrespondingSourceObject: {fileID: 5457413799207065298, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1789817432}
+    - targetCorrespondingSourceObject: {fileID: 5457413799207065298, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1789817431}
   m_SourcePrefab: {fileID: 100100000, guid: 1bb9ff0002fa0824c97e9210f0d7adc7, type: 3}
 --- !u!4 &1789817424 stripped
 Transform:
@@ -14752,6 +14758,117 @@ MonoBehaviour:
   - 2
   - 1
   - 3
+--- !u!114 &1789817431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612318613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528d9879ca2b02a40b1cc248f3c25d7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1919876764833115249}
+  maxVolume: 1
+  maxDistance: 40
+--- !u!82 &1789817432
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612318613}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 58b4bc221af29bc41bbf81cd8af8e1c4, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1800786404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3518244271648867772, guid: 163b4f177996703459f362a9d2c42d46, type: 3}
@@ -15130,9 +15247,9 @@ MonoBehaviour:
   onTime: 3
   startDelay: 0
   audioSource: {fileID: 1855301457}
-  cameraTransform: {fileID: 222283000}
+  cameraTransform: {fileID: 1919876764833115249}
   maxVolume: 1
-  maxDistance: 70
+  maxDistance: 50
 --- !u!82 &1855301457
 AudioSource:
   m_ObjectHideFlags: 0
