@@ -138,6 +138,11 @@ public class characterScript : MonoBehaviour
         handleMaxVerticalSpeed();
         handleJump();
 
+        if (transform.position.y < -20 || transform.position.y > 20)
+        {
+            playerDie();
+        }
+
     }
 
     void handleAnimation()

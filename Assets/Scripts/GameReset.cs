@@ -41,7 +41,7 @@ public class GameReset : MonoBehaviour
     {
         playerCharacterController.enabled=false;
         playerTransform.position = initPlayerPos;
-        CameraScript.SetCameraPos(initCameraPos);
+        //CameraScript.SetCameraPos(initCameraPos);
         if(PlayerMovementScript.velovityMultiplier==-1){
             PlayerMovementScript.InvertGravity();
         }
