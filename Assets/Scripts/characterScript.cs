@@ -239,7 +239,6 @@ public class characterScript : MonoBehaviour
 
     void handleGravityInversion()
     {
-        Debug.Log(transform.position);
         if (!isGravityInvertedPressedPrev && isGravityInvertedPressed && (canSwitchGravityMidAir || isFootOnGround))
         {
             invertGravity();
