@@ -141,7 +141,7 @@ public class characterScript : MonoBehaviour
         handleJump();
         checkIfSquashed();
 
-        if (transform.position.y < -20 || transform.position.y > 20)
+        if (transform.position.y < -20 || transform.position.y > 30)
         {
             playerDie();
         }
@@ -451,6 +451,7 @@ public class characterScript : MonoBehaviour
 
     void checkIfSquashed()
     {
+        if (transform.position.x < 202.74) return;
         Vector3 topDetectionCenter = transform.position + headPosition;
         topDetectionCenter.y += -characterRadius / 2 - 0.1f;
 
@@ -531,8 +532,8 @@ public class characterScript : MonoBehaviour
 
     void setupIsGrounded()
     {
-        float characterColliderOffset = 0.9f;
-        float characterHeight = 1.9f;
+        float characterColliderOffset = 1.4f;
+        float characterHeight = 2.6f;
         characterRadius = 0.3f;
 
         headPosition = Vector3.zero;
