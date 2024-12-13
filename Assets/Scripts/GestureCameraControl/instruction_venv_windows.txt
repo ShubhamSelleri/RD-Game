@@ -28,3 +28,9 @@ python3.12 -m venv myvenv
 venv\Scripts\activate
 
 pip install flask opencv-python mediapipe numpy requests
+
+
+
+
+COM ports mac
+'/dev/cu.usbmodem21202'

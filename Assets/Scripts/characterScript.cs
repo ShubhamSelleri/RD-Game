@@ -49,6 +49,8 @@ public class characterScript : MonoBehaviour
     private bool isFootOnGround;
     private bool isHeadTouching = false;
 
+    public AudioSource deathAudioSource;
+
     private Vector3 headPosition;
     private Vector3 feetPosition;
     private float characterRadius;
@@ -123,6 +125,10 @@ public class characterScript : MonoBehaviour
     }
 
     // Update is called once per frame
+    public void lateUpdate()
+    {
+        //handleMovingPlatform();
+    }
 
     void Update()
     {
@@ -141,7 +147,7 @@ public class characterScript : MonoBehaviour
         handleJump();
         checkIfSquashed();
 
-        if (transform.position.y < -20 || transform.position.y > 20)
+        if (transform.position.y < -20 || transform.position.y > 30)
         {
             playerDie();
         }
@@ -383,6 +389,7 @@ public class characterScript : MonoBehaviour
     public void playerDie()
     {
         Debug.Log("You died");
+        deathAudioSource.Play();
         Reset();
     }
 
@@ -456,6 +463,7 @@ public class characterScript : MonoBehaviour
 
     void checkIfSquashed()
     {
+        if (transform.position.x < 202.74) return;
         Vector3 topDetectionCenter = transform.position + headPosition;
         topDetectionCenter.y += -characterRadius / 2 - 0.1f;
 
@@ -536,8 +544,8 @@ public class characterScript : MonoBehaviour
 
     void setupIsGrounded()
     {
-        float characterColliderOffset = 0.9f;
-        float characterHeight = 1.9f;
+        float characterColliderOffset = 1.4f;
+        float characterHeight = 2.6f;
         characterRadius = 0.3f;
 
         headPosition = Vector3.zero;
