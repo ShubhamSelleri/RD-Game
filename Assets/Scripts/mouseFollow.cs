@@ -6,6 +6,7 @@ public class MouseFollow : MonoBehaviour
 
     public bool lockOnZAxis=false;
     public int Zval=0;
+    public Transform Coll;
     void Start()
     {
         if (canvas != null)
@@ -26,9 +27,11 @@ public class MouseFollow : MonoBehaviour
             // If the raycast hits an object, move the GameObject to the hit point and enable the Canvas
             if(lockOnZAxis){
                 transform.position = new Vector3(hit.point.x,hit.point.y,Zval);
+                
             }else{
                 transform.position = hit.point;
             }
+            Coll.position=hit.point;
             
 
             if (canvas != null)

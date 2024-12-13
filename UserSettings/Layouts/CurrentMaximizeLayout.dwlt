@@ -246,18 +246,18 @@ MonoBehaviour:
       m_ExpandedIDs: e48fffff3690ffff4ea5ffff8aafffffdaafffffacbffffffcbfffff32f0ffff74f0ffff00fbffff208c0100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: FX_Fire_Small_02
+        m_OriginalName: FX_Fire_Small_02
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -237612
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 4
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 5}
       m_SearchString: 
