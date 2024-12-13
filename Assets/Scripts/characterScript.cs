@@ -128,7 +128,7 @@ public class characterScript : MonoBehaviour
     {
 
         //checkIfSquashed();
-        handleMovingPlatform();
+        
         handleAnimation();
         handleRotation();
         
@@ -146,6 +146,11 @@ public class characterScript : MonoBehaviour
             playerDie();
         }
 
+    }
+
+    private void LateUpdate()
+    {
+        handleMovingPlatform();
     }
 
     void handleAnimation()

@@ -3956,6 +3956,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerV2
       objectReference: {fileID: 0}
+    - target: {fileID: 6197831377099862597, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197831377099862597, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7927362198102253797, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
       propertyPath: maxVerticalSpeed
       value: 100
