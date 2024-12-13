@@ -1227,8 +1227,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1798208325}
-  snapDistance: 35
-  snapAmount: 35
+  snapDistancePositive: 30
+  snapDistanceNegative: -1
+  snapAmount: 30
 --- !u!4 &834785347
 Transform:
   m_ObjectHideFlags: 0
@@ -3057,12 +3058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff848ae577634001a56e60e6f9d0dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onThumbsUp:
-    m_PersistentCalls:
-      m_Calls: []
-  onThumbsDown:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1932786498
 Transform:
   m_ObjectHideFlags: 0

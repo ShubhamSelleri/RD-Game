@@ -8,17 +8,46 @@ public class HandGestureManager2 : MonoBehaviour
     [System.Serializable] public class GestureEvent : UnityEvent { }
 
     public GestureEvent onThumbsUp;
-    public GestureEvent onThumbsDown;
-
-    // public CharacterMovement character;
+    public GestureEvent onThumbsDown;      
 
     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
     private float pollingInterval = 1f; // Time between requests
     private int maxRetries = 3; // Maximum retry attempts on failure
-
+    public bool isDebugMode = false; // Enable this for debug mode
     void Start()
     {
-        StartCoroutine(PollServer());
+        // StartCoroutine(PollServer());
+        if (isDebugMode)
+        {
+            Debug.Log("Debug mode enabled: Using key presses to simulate gestures.");
+        }
+        else
+        {
+            StartCoroutine(PollServer());
+        }
+    }
+
+    void Update()
+    {
+        if (isDebugMode)
+        {
+            HandleDebugInput();
+        }
+    }
+
+    void HandleDebugInput()
+    {
+        // Simulate gestures with key presses
+        if (Input.GetKeyDown(KeyCode.U)) // U for Thumbs Up
+        {
+            Debug.Log("Debug: Thumbs Up simulated.");
+            onThumbsUp?.Invoke();
+        }
+        else if (Input.GetKeyDown(KeyCode.D)) // D for Thumbs Down
+        {
+            Debug.Log("Debug: Thumbs Down simulated.");
+            onThumbsDown?.Invoke();
+        }
     }
 
     IEnumerator PollServer()
