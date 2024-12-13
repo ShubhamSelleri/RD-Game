@@ -72,10 +72,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerV2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: fb2c244e29cbd9f478cf27cd558f94e6, type: 2}
+      objectReference: {fileID: 9100000, guid: 57d0ba0ba9a05b04e8277e8b33e5118f, type: 2}
     - target: {fileID: 5866666021909216657, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -140,3 +144,5 @@ MonoBehaviour:
   fallMultiplier: 2
   maxJumpHeight: 8
   maxJumpTime: 1
+  canSwitchGravityMidAir: 0
+  handGestureManager: {fileID: 0}

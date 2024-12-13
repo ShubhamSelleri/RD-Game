@@ -13,20 +13,20 @@ public class soundEffects : StateMachineBehaviour
         {
             //audioSource.Stop();
             // Map animation state names to specific clips
-            if (stateInfo.IsName("Armature_001|Jump"))
+            if (stateInfo.IsName("Jumping"))
             {
                 audioSource.PlayOneShot( Resources.Load<AudioClip>("Audio/JumpSound"));
             }
-            else if (stateInfo.IsName("Armature_001|Run"))
+            else if (stateInfo.IsName("Running"))
             {
                 // Looped run
                 audioSource.PlayOneShot( Resources.Load<AudioClip>("Audio/RunSoundCropped"));
             }
-            else if (stateInfo.IsName("Armature_001|Landing"))
+            else if (stateInfo.IsName("Landing"))
             {
                 audioSource.PlayOneShot(Resources.Load<AudioClip>("Audio/JumpSound"));
             }
-            else if (stateInfo.IsName("Armature_001|Falling")) {
+            else if (stateInfo.IsName("Falling")) {
                 audioSource.Stop();
             }
             else

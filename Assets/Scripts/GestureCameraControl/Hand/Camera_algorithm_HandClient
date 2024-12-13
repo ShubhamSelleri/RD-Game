@@ -1,0 +1,52 @@
+""" Working """
+import requests
+import time
+
+# Server URL
+SERVER_URL = "http://127.0.0.1:5000/check_gesture"
+
+def test_flask_server():
+    """
+    Sends POST requests to the Flask server to test the `/check_gesture` endpoint.
+    Tracks state changes and avoids logging redundant information.
+    """
+    print(f"Testing Flask server at {SERVER_URL}. Press Ctrl+C to stop.\n")
+
+    last_gesture = None  # Track the last received gesture
+
+    try:
+        while True:
+            # Send a POST request to the server
+            response = requests.post(SERVER_URL)
+
+            if response.status_code == 200:
+                try:
+                    server_response = response.json()
+                    gesture = server_response.get("gesture", "Unknown Gesture")
+                    
+                    # Log only if the gesture state has changed
+                    if gesture != last_gesture:
+                        print("New Gesture Detected:", server_response)
+                        last_gesture = gesture
+                except ValueError:
+                    print("Invalid JSON response from the server")
+            elif response.status_code == 204:
+                # Reset the gesture state if no gesture is detected
+                if last_gesture is not None:
+                    print("No Gesture Detected")
+                    last_gesture = None
+            else:
+                print(f"Error: Received status code {response.status_code}")
+
+            # Pause for a short time before sending the next request
+            time.sleep(0.5)
+
+    except KeyboardInterrupt:
+        print("\nStopped testing.")
+    except requests.exceptions.RequestException as e:
+        print(f"Error connecting to the server: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
+if __name__ == "__main__":
+    test_flask_server()

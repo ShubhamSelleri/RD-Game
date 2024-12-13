@@ -1,0 +1,36 @@
+Activate venv:
+source venv/bin/activate
+Deactivate vent:
+deactivate
+
+
+
+// Create venv
+/// Go to the directory in the terminal and enter the following code
+python3.12 -m venv myvenv
+python3 -m venv myenv
+
+//Activate venv
+venv\Scripts\activate
+.\venv\Scripts\Activate
+
+
+pip install mediapipe
+Flask==3.1.0
+
+
+pip install flask opencv-python mediapipe numpy requests
+
+
+
+python3.12 -m venv myvenv
+
+venv\Scripts\activate
+
+pip install flask opencv-python mediapipe numpy requests
+
+
+
+
+COM ports mac
+'/dev/cu.usbmodem21202'
