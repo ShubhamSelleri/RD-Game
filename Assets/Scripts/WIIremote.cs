@@ -44,15 +44,6 @@ public class MouseLight : MonoBehaviour
         if(wiimote.Button.a){
             wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
             wiimote.SendPlayerLED(false, true, true, false);
-            if(laserOn){
-                FlashLight.SetActive(true);
-                LaserPointer.SetActive(false);
-                laserOn=false;
-            }else{
-                FlashLight.SetActive(false);
-                LaserPointer.SetActive(true);
-                laserOn=true;
-            }
         }
 
         // Read button presses

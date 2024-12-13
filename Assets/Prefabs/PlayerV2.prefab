@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 59a2fdc22eec2a148ae5f3b21c25f9e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -145,4 +157,5 @@ MonoBehaviour:
   maxJumpHeight: 8
   maxJumpTime: 1
   canSwitchGravityMidAir: 0
+  deathAudioSource: {fileID: 0}
   handGestureManager: {fileID: 0}

@@ -438,6 +438,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_08
       objectReference: {fileID: 0}
+    - target: {fileID: 1933302125565232970, guid: 39b4fdb1aba60c94c95dcc9749c9584d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1037,6 +1041,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Fog_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8091677623062082357, guid: 8ebbf6629946c784c948707803cc8f23, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8091677623062082376, guid: 8ebbf6629946c784c948707803cc8f23, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -1098,50 +1106,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ebbf6629946c784c948707803cc8f23, type: 3}
---- !u!1 &66916566
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 66916568}
-  - component: {fileID: 66916567}
-  m_Layer: 0
-  m_Name: MessageListener
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &66916567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 66916566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a03027548d784348a5d2b1fbe819cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &66916568
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 66916566}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 77.0497, y: 9.04, z: -5}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &76174108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1461,6 +1425,10 @@ PrefabInstance:
     - target: {fileID: 4532675788063750567, guid: 86ddd613f6a0b6145b5c9d22e13e9515, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Geode_01 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532675788063750567, guid: 86ddd613f6a0b6145b5c9d22e13e9515, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2075,6 +2043,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Crystals_Cluster_Large_04
       objectReference: {fileID: 0}
+    - target: {fileID: 1533672942137372, guid: df5d4ad4b7209fb40ba251fabe3ed0f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4428927751673020, guid: df5d4ad4b7209fb40ba251fabe3ed0f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 158.15683
@@ -2269,6 +2241,10 @@ PrefabInstance:
     - target: {fileID: 1258773077512038749, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258773077512038749, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1888098810209399783, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_LocalScale.x
@@ -2782,6 +2758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Hell_Ground_Extended_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1793555538112854, guid: e9a62e2cdc953e842bbb6b587e55ddd1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4997613784789714, guid: e9a62e2cdc953e842bbb6b587e55ddd1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 97.18
@@ -2916,7 +2896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &204513200
 Light:
   m_ObjectHideFlags: 0
@@ -4652,7 +4632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1585772528118418, guid: 9bca2673c7c15e142ab1ab594a42ba2c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4929454687189776, guid: 9bca2673c7c15e142ab1ab594a42ba2c, type: 3}
       propertyPath: m_LocalScale.x
@@ -5254,7 +5234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1214921126796328010, guid: 8f0b60243a5dc0248b98bbac82ab9c78, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1988221585231685360, guid: 8f0b60243a5dc0248b98bbac82ab9c78, type: 3}
       propertyPath: m_LocalScale.x
@@ -6043,6 +6023,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Tree_Dead_Windswept_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1479448311030162, guid: e7045812ae5453b40adc0882141d4101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4807577078958202, guid: e7045812ae5453b40adc0882141d4101, type: 3}
       propertyPath: m_LocalPosition.x
       value: 77.7
@@ -6636,6 +6620,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6700,6 +6688,10 @@ PrefabInstance:
     - target: {fileID: 2027384133200517592, guid: 7a5600b3a59f15a42bbfb0e313b3c428, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_04 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2027384133200517592, guid: 7a5600b3a59f15a42bbfb0e313b3c428, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6909,6 +6901,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7046,6 +7042,10 @@ PrefabInstance:
     - target: {fileID: 1439550542363682962, guid: 64f58a93a0639a94aabe373221c62bd0, type: 3}
       propertyPath: m_Name
       value: SM_Env_Branch_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1439550542363682962, guid: 64f58a93a0639a94aabe373221c62bd0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1779378406819803688, guid: 64f58a93a0639a94aabe373221c62bd0, type: 3}
       propertyPath: m_LocalScale.x
@@ -7281,6 +7281,10 @@ PrefabInstance:
     - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7529,6 +7533,10 @@ PrefabInstance:
     - target: {fileID: 2759944855572949898, guid: a6d67825b8514764c9cf61240714cb51, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Crystal_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759944855572949898, guid: a6d67825b8514764c9cf61240714cb51, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3244451648883913008, guid: a6d67825b8514764c9cf61240714cb51, type: 3}
       propertyPath: m_LocalScale.x
@@ -8789,6 +8797,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Tree_Dead_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1417582008975100, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4669315818999534, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 82.2
@@ -9069,6 +9081,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_03 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1258773077512038749, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1888098810209399783, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -9193,6 +9209,10 @@ PrefabInstance:
     - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9420,6 +9440,10 @@ PrefabInstance:
     - target: {fileID: 8091677623062082357, guid: 8ebbf6629946c784c948707803cc8f23, type: 3}
       propertyPath: m_Name
       value: FX_Fog_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8091677623062082357, guid: 8ebbf6629946c784c948707803cc8f23, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8091677623062082376, guid: 8ebbf6629946c784c948707803cc8f23, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9884,6 +9908,10 @@ PrefabInstance:
     - target: {fileID: 130659947618810815, guid: c09983bb200395447b59f76d8753e557, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 130659947618810815, guid: c09983bb200395447b59f76d8753e557, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 764453236861100293, guid: c09983bb200395447b59f76d8753e557, type: 3}
       propertyPath: m_LocalScale.x
@@ -10353,6 +10381,10 @@ PrefabInstance:
     - target: {fileID: 130659947618810815, guid: c09983bb200395447b59f76d8753e557, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_05 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 130659947618810815, guid: c09983bb200395447b59f76d8753e557, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 764453236861100293, guid: c09983bb200395447b59f76d8753e557, type: 3}
       propertyPath: m_LocalScale.x
@@ -11104,6 +11136,10 @@ PrefabInstance:
     - target: {fileID: 1417582008975100, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
       propertyPath: m_Name
       value: SM_Env_Tree_Dead_02 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417582008975100, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4669315818999534, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
       propertyPath: m_LocalScale.x
@@ -12072,6 +12108,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_04 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2027384133200517592, guid: 7a5600b3a59f15a42bbfb0e313b3c428, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12858,7 +12898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &884323729
 Light:
   m_ObjectHideFlags: 0
@@ -13274,6 +13314,10 @@ PrefabInstance:
     - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14638,6 +14682,10 @@ PrefabInstance:
     - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16128,6 +16176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Lava_Bubbles_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1113146913486576, guid: 384cba71a178c4c41bc6da9e6d69f94d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4966385241109430, guid: 384cba71a178c4c41bc6da9e6d69f94d, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -16451,6 +16503,10 @@ PrefabInstance:
     - target: {fileID: 1958274793791844, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Hell_Ground_Extended_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958274793791844, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1958274793791844, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16920,6 +16976,10 @@ PrefabInstance:
     - target: {fileID: 1240360788179080, guid: b2f83ac58e9a78c419d2418cd7162312, type: 3}
       propertyPath: m_Name
       value: SM_Env_Crystals_Cluster_Large_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1240360788179080, guid: b2f83ac58e9a78c419d2418cd7162312, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4039128696160414, guid: b2f83ac58e9a78c419d2418cd7162312, type: 3}
       propertyPath: m_LocalScale.x
@@ -17456,7 +17516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1258594787
 Transform:
   m_ObjectHideFlags: 0
@@ -18304,6 +18364,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Tree_Dead_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1417582008975100, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4669315818999534, guid: b36ed3c0a9ec5de468e0563d3014d28a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -18543,6 +18607,10 @@ PrefabInstance:
     - target: {fileID: 4532675788063750567, guid: 86ddd613f6a0b6145b5c9d22e13e9515, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Geode_01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532675788063750567, guid: 86ddd613f6a0b6145b5c9d22e13e9515, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18941,6 +19009,10 @@ PrefabInstance:
     - target: {fileID: 1258773077512038749, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258773077512038749, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1888098810209399783, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19850,7 +19922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1430379361
 Light:
   m_ObjectHideFlags: 0
@@ -19939,6 +20011,10 @@ PrefabInstance:
     - target: {fileID: 1958274793791844, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Hell_Ground_Extended_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958274793791844, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1958274793791844, guid: 3c7f4af00f96d8d468b62ffa1f95c15f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20350,7 +20426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1462813919
 Light:
   m_ObjectHideFlags: 0
@@ -20639,6 +20715,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_03 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1258773077512038749, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1888098810209399783, guid: 9e3af2b48a6ae8e4396737c07917fbd4, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -20789,6 +20869,10 @@ PrefabInstance:
     - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22620,7 +22704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1432029940940893571, guid: 73bd0be678270ca4e85be3edf52d3185, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22990,6 +23074,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Crystals_Cluster_Large_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1153863997325968, guid: c20f45e06be0ebe43aa33b74913eba10, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4805293358116302, guid: c20f45e06be0ebe43aa33b74913eba10, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2
@@ -23138,6 +23226,10 @@ PrefabInstance:
     - target: {fileID: 1193102009556366, guid: fa93599052ce9a8479ff363d4f15cc92, type: 3}
       propertyPath: m_Name
       value: FX_Gold_Sparkle_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193102009556366, guid: fa93599052ce9a8479ff363d4f15cc92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4615027800362826, guid: fa93599052ce9a8479ff363d4f15cc92, type: 3}
       propertyPath: m_LocalPosition.x
@@ -23713,7 +23805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1680786791
 Transform:
   m_ObjectHideFlags: 0
@@ -24129,6 +24221,10 @@ PrefabInstance:
     - target: {fileID: 289434336781960493, guid: c08b40bbbb802c84986e9f88310d00ee, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Tomb_Stone_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 289434336781960493, guid: c08b40bbbb802c84986e9f88310d00ee, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1103265714657091479, guid: c08b40bbbb802c84986e9f88310d00ee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25542,6 +25638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Crystal_05
       objectReference: {fileID: 0}
+    - target: {fileID: 8196748650767976471, guid: 5a5fada2fee67684ab7e37b0772c2adb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8830261259266970285, guid: 5a5fada2fee67684ab7e37b0772c2adb, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -25676,7 +25776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971398270575199832, guid: 3d6e5d9b966aa0845a71edb760fd572d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 637000375, guid: 3d6e5d9b966aa0845a71edb760fd572d, type: 3}
@@ -25739,6 +25839,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Tomb_Stone_01
       objectReference: {fileID: 0}
+    - target: {fileID: 8045964095532244039, guid: ae5f1db14a31b5b41bac93e3e9ee303a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8406529211058142610, guid: ae5f1db14a31b5b41bac93e3e9ee303a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -25763,6 +25867,10 @@ PrefabInstance:
     - target: {fileID: 6331138045149136328, guid: 03158df78170b35459d1a6bef52a77a1, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Tomb_Stone_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331138045149136328, guid: 03158df78170b35459d1a6bef52a77a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6671915922026078066, guid: 03158df78170b35459d1a6bef52a77a1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25824,7 +25932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1870211100
 Transform:
   m_ObjectHideFlags: 0
@@ -26520,6 +26628,10 @@ PrefabInstance:
     - target: {fileID: 1428366185923174, guid: a8c6f4295734c9d41912dc2e9c60c8a6, type: 3}
       propertyPath: m_Name
       value: SM_Env_Lava_Flow_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428366185923174, guid: a8c6f4295734c9d41912dc2e9c60c8a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4342605586752012, guid: a8c6f4295734c9d41912dc2e9c60c8a6, type: 3}
       propertyPath: m_LocalScale.x
@@ -27983,7 +28095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1999581973
 Light:
   m_ObjectHideFlags: 0
@@ -28531,6 +28643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dirt_Cliff_02 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 7604979716869374285, guid: 2749c70679b2a7f4589fe10aebb7a36f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28603,6 +28719,10 @@ PrefabInstance:
     - target: {fileID: 4532675788063750567, guid: 86ddd613f6a0b6145b5c9d22e13e9515, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Geode_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532675788063750567, guid: 86ddd613f6a0b6145b5c9d22e13e9515, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29400,6 +29520,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Crystal_01 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8486647996580606618, guid: 5aceffd1f0234e04caad4a61a7fcde95, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29853,6 +29977,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 222283000}
   - {fileID: 1897992263}
   - {fileID: 1638785964}
   - {fileID: 1462813920}
@@ -29897,7 +30022,6 @@ SceneRoots:
   - {fileID: 873526670}
   - {fileID: 1908521189}
   - {fileID: 2124795147}
-  - {fileID: 66916568}
   - {fileID: 1308430893}
   - {fileID: 468673473}
   - {fileID: 2074801038}
@@ -30011,4 +30135,3 @@ SceneRoots:
   - {fileID: 1652703757}
   - {fileID: 1547206861}
   - {fileID: 413042047}
-  - {fileID: 222283000}
