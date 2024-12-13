@@ -49,6 +49,8 @@ public class characterScript : MonoBehaviour
     private bool isFootOnGround;
     private bool isHeadTouching = false;
 
+    public AudioSource deathAudioSource;
+
     private Vector3 headPosition;
     private Vector3 feetPosition;
     private float characterRadius;
@@ -123,12 +125,16 @@ public class characterScript : MonoBehaviour
     }
 
     // Update is called once per frame
+    void lateUpdate()
+    {
+        handleMovingPlatform();
+    }
 
     void Update()
     {
 
         //checkIfSquashed();
-        handleMovingPlatform();
+        //handleMovingPlatform();
         handleAnimation();
         handleRotation();
         
@@ -378,6 +384,7 @@ public class characterScript : MonoBehaviour
     public void playerDie()
     {
         Debug.Log("You died");
+        deathAudioSource.Play();
         Reset();
     }
 
