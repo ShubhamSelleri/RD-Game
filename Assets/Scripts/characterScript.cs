@@ -125,16 +125,16 @@ public class characterScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void lateUpdate()
+    public void lateUpdate()
     {
-        handleMovingPlatform();
+        //handleMovingPlatform();
     }
 
     void Update()
     {
 
         //checkIfSquashed();
-        //handleMovingPlatform();
+        handleMovingPlatform();
         handleAnimation();
         handleRotation();
         
