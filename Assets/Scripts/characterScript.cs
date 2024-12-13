@@ -499,12 +499,12 @@ public class characterScript : MonoBehaviour
     {
         currentMovement = Vector3.zero;
         gravityFloatingMultiplier = 1f;
+        transform.position = respawnPosition;
         if (isGravityInverted)
         {
             invertGravity();
             isGravityInverted = false;
         }
-        transform.position = respawnPosition;
     }
 
     void onJump(InputAction.CallbackContext context)
