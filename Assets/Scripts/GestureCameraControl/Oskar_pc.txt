@@ -1,0 +1,32 @@
+# Python Virtual Environment Setup Guide for Windows PowerShell
+
+## Prerequisites:
+- Ensure Python (version 3.6 or above) is installed.
+- Check Python installation by running:
+   python --version
+
+- Ensure pip (Python's package manager) is installed and working:
+   pip --version
+
+---
+
+## 1. Create a Virtual Environment
+
+1. Open PowerShell.
+
+2. Navigate to your project directory where you want the virtual environment:
+   Example:
+   ```powershell
+   cd C:\path\to\your\project\directory
+
+- Create a virtual environment named venv:
+python -m venv venv
+
+- Activate the Virtual Environment:
+.\venv\Scripts\Activate
+
+- Deactivate the Virtual Environment
+deactivate
+
+- Libraries:
+pip install flask opencv-python mediapipe numpy requests pyserial
