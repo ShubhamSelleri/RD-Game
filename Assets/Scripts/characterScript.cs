@@ -363,11 +363,11 @@ public class characterScript : MonoBehaviour
         int groundLayerMask = LayerMask.GetMask(groundLayer);
         int deathLayerMask = LayerMask.GetMask(deathLayer);
 
-        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, groundLayerMask);
-        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, groundLayerMask);
+        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius, groundLayerMask);
+        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius, groundLayerMask);
 
-        if(Physics.OverlapSphere(feetDetectionCenter, characterRadius / 2, deathLayerMask).Length > 0
-            || Physics.OverlapSphere(headDetectionCenter, characterRadius / 2, deathLayerMask).Length > 0)
+        if(Physics.OverlapSphere(feetDetectionCenter, characterRadius, deathLayerMask).Length > 0
+            || Physics.OverlapSphere(headDetectionCenter, characterRadius, deathLayerMask).Length > 0)
         {
             playerDie();
         }
