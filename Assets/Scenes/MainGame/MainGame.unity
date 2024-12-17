@@ -16088,8 +16088,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106063167}
-  - component: {fileID: 1106063166}
-  - component: {fileID: 1106063168}
   m_Layer: 0
   m_Name: GameManagement
   m_TagString: Untagged
@@ -16097,30 +16095,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1106063166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106063165}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d246c2f76c0d1440adf29d55f048b35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initPlayerPos: {x: 0, y: 0, z: 0}
-  initCameraPos: {x: 0, y: 0, z: 0}
-  respawnAnimation: {fileID: 1264233760}
-  playerTransform: {fileID: 304093247}
-  playerCharacterController: {fileID: 1266592484}
-  PlayerMovementScript: {fileID: 0}
-  cameraTransform: {fileID: 222283000}
-  playerRb: {fileID: 0}
-  upperDeathY: 50
-  lowerDeathY: -3
-  gravity: 30
-  CameraScript: {fileID: 222283003}
 --- !u!4 &1106063167
 Transform:
   m_ObjectHideFlags: 0
@@ -16137,23 +16111,6 @@ Transform:
   - {fileID: 1264233759}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1106063168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106063165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portName: COM7
-  baudRate: 115200
-  messageListener: {fileID: 0}
-  reconnectionDelay: 1000
-  maxUnreadMessages: 1
 --- !u!1 &1114220092
 GameObject:
   m_ObjectHideFlags: 0
@@ -18306,11 +18263,6 @@ Transform:
 --- !u!1 &1266592482 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 749696560588688364, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
-  m_PrefabInstance: {fileID: 811561842}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &1266592484 stripped
-CharacterController:
-  m_CorrespondingSourceObject: {fileID: 6700906694454888198, guid: 344628710c746b442a8283ea89a43ca5, type: 3}
   m_PrefabInstance: {fileID: 811561842}
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &1266592486
@@ -22823,7 +22775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonActiveCheckpoint: {fileID: 919144853}
   activeCheckpoint: {fileID: 976389631}
-  gameResetScript: {fileID: 1106063166}
+  gameResetScript: {fileID: 0}
   SpawnPos: {x: 117, y: 1, z: -5}
   cameraTransform: {fileID: 222283000}
   worldLight: {fileID: 1897992262}
