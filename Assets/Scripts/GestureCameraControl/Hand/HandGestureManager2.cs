@@ -38,12 +38,12 @@ public class HandGestureManager2 : MonoBehaviour
     void HandleDebugInput()
     {
         // Simulate gestures with key presses
-        if (Input.GetKeyDown(KeyCode.U)) // U for Thumbs Up
+        if (Input.GetKeyDown(KeyCode.B)) // U for Thumbs Up
         {
             Debug.Log("Debug: Thumbs Up simulated.");
             onThumbsUp?.Invoke();
         }
-        else if (Input.GetKeyDown(KeyCode.D)) // D for Thumbs Down
+        else if (Input.GetKeyDown(KeyCode.N)) // D for Thumbs Down
         {
             Debug.Log("Debug: Thumbs Down simulated.");
             onThumbsDown?.Invoke();
