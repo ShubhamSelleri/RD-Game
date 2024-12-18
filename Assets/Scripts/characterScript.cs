@@ -130,17 +130,19 @@ public class characterScript : MonoBehaviour
         //handleMovingPlatform();
     }
 
+    void FixedUpdate()
+    {
+        handleIsGrounded(); // Move ground checking to FixedUpdate
+    }
+
     void Update()
     {
-
-        //checkIfSquashed();
-        
+        // Use the ground-checking results that were cached in FixedUpdate
         handleAnimation();
         handleRotation();
-        
+        //handleIsGrounded();
         characterController.Move(currentMovement * Time.deltaTime);
 
-        handleIsGrounded();
         handleGravityInversion();
         handleGravity();
         handleMaxVerticalSpeed();
@@ -151,7 +153,6 @@ public class characterScript : MonoBehaviour
         {
             playerDie();
         }
-
     }
 
     private void LateUpdate()
