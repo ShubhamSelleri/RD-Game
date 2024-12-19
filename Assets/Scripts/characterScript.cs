@@ -391,6 +391,13 @@ public class characterScript : MonoBehaviour
 
     public void playerDie()
     {
+        StartCoroutine(DeferredPlayerDie());
+    }
+
+
+    private IEnumerator DeferredPlayerDie()
+    {
+        yield return new WaitForSeconds(0.2f);
         Debug.Log("You died");
         deathAudioSource.Play();
         Reset();
