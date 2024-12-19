@@ -286,8 +286,7 @@ public class characterScript : MonoBehaviour
 
         transform.Rotate(0, 0, 180f);
 
-        
-
+      
         if (isFalling)
         {
             gravityFloatingMultiplier *= 1.2f;
@@ -513,6 +512,7 @@ public class characterScript : MonoBehaviour
             invertGravity();
             isGravityInverted = false;
         }
+
         transform.position = respawnPosition;
     }
 
@@ -549,9 +549,9 @@ public class characterScript : MonoBehaviour
     void setupIsGrounded()
     {
         headPosition = Vector3.zero;
-        headPosition.y += characterController.center.y + characterController.height/2 ;
+        headPosition.y += characterController.center.y + characterController.height/2 - characterController.radius + 0.1f ;
         feetPosition = Vector3.zero;
-        feetPosition.y += characterController.center.y - characterController.height/2; 
+        feetPosition.y += characterController.center.y - characterController.height/2 + characterController.radius - 0.1f ; 
     }
 
 

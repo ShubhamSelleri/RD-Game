@@ -6,15 +6,12 @@ public class HidePath : MonoBehaviour
     void Start()
     {
         // Loop through all child objects of the GameObject this script is attached to
-        foreach (Transform child in transform)
+        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>(true);
+
+        foreach (MeshRenderer meshRenderer in meshRenderers)
         {
-
-            MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
-
-            if (meshRenderer != null)
-            {
-                meshRenderer.enabled = false;
-            }
+            // Disable each MeshRenderer
+            meshRenderer.enabled = false;
         }
     }
 }
