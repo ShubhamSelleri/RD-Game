@@ -11,7 +11,7 @@ public class HandGestureManager2 : MonoBehaviour
     public GestureEvent onThumbsDown;      
 
     private string apiUrl = "http://127.0.0.1:5000/check_gesture";
-    private float pollingInterval = 1f; // Time between requests
+    private float pollingInterval = 0.3f; // Time between requests
     private int maxRetries = 3; // Maximum retry attempts on failure
     public bool isDebugMode = false; // Enable this for debug mode
     void Start()
