@@ -13,22 +13,15 @@ public class PlatformManager : MonoBehaviour
         // Initialize platforms: Group 1 active, Group 2 inactive
         SetPlatformGroupActive(platformGroup1, true);
         SetPlatformGroupActive(platformGroup2, false);
-        // Debug.Log("Initialized: Group 1 is active, Group 2 is inactive.");
     }
 
     // Method triggered by BroadcastMessage
     void handleMessageButton(string msg)
     {
-        // Debug.Log($"Received Message PlatfromManagerScript: {msg}");
-
-        if (msg.Trim() == "p") // Button press triggers platform toggle   MAC version
+        if (msg.Trim() == "p") // Button press triggers platform toggle
         {
             TogglePlatforms();
         }
-        // if (msg == "p") // Button press triggers platform toggle   WINDOWS version
-        // {
-        //     TogglePlatforms();
-        // }
     }
 
     private void TogglePlatforms()
@@ -40,7 +33,7 @@ public class PlatformManager : MonoBehaviour
         SetPlatformGroupActive(platformGroup1, isGroup1Active);
         SetPlatformGroupActive(platformGroup2, !isGroup1Active);
 
-        // Debug.Log($"Platforms Toggled: Group 1 Active: {isGroup1Active}, Group 2 Active: {!isGroup1Active}");
+        Debug.Log($"Platforms Toggled: Group 1 Active: {isGroup1Active}, Group 2 Active: {!isGroup1Active}");
     }
 
     private void SetPlatformGroupActive(List<GameObject> platformGroup, bool isActive)
@@ -49,10 +42,23 @@ public class PlatformManager : MonoBehaviour
         {
             if (platform != null)
             {
-                platform.SetActive(true);
-                // Debug.Log($"Platform {platform.gameObject.name} set to: {isActive}");
+                // // Enable/Disable Renderer and Collider
+                // Renderer renderer = platform.GetComponent<Renderer>();
+                // Collider collider = platform.GetComponent<Collider>();
+
+                // if (renderer != null)
+                //     renderer.enabled = isActive;
+
+                // if (collider != null)
+                //     collider.enabled = isActive;
+
+                platform.SetActive(isActive); // Optionally disable GameObject entirely
+                Debug.Log($"Platform {platform.name} set to: {isActive}");
+            }
+            else
+            {
+                Debug.LogWarning("Platform reference is missing!");
             }
         }
     }
 }
-

@@ -272,19 +272,23 @@ public class characterScript : MonoBehaviour
 
     void invertGravity()
     {
+
+        isGravityInverted = !isGravityInverted;
         //offset the character to not blink through platforms
         if (isGravityInverted)
         {
-            transform.position += Vector3.down * characterController.height;
+            transform.position += Vector3.up * characterController.height;
+            headPosition.y = -characterController.center.y - characterController.height / 2;
         }
         else
         {
-            transform.position += Vector3.up * characterController.height;
+            transform.position += Vector3.down * characterController.height;
+            headPosition.y = characterController.center.y + characterController.height / 2;
         }
 
         transform.Rotate(0, 0, 180f);
 
-        isGravityInverted = !isGravityInverted;
+        
 
         if (isFalling)
         {
@@ -589,9 +593,13 @@ public class characterScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 feetDetectionCenter = feetPosition;
+        Vector3 feetDetectionCenter = transform.position + feetPosition;
         feetDetectionCenter.y += characterController.radius -0.1f ;
-        //Gizmos.DrawWireSphere(headDetectionCenter, characterRadius);
+
+        Vector3 headDetectionCenter = transform.position + headPosition;
+        feetDetectionCenter.y += -characterController.radius + 0.1f;
+
+        Gizmos.DrawWireSphere(headDetectionCenter, characterController.radius);
         Gizmos.DrawWireSphere(feetDetectionCenter, characterController.radius);
     }
 }
