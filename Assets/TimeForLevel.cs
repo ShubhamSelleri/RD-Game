@@ -24,7 +24,7 @@ public class TimeForLevel : MonoBehaviour
     {
         while (Player.position.x<endX)
         {
-            Timer.text=Time.time.ToString("F2");
+            Timer.text=(Time.time-TimeAtStart).ToString("F2");
             yield return null;
         }
     }
