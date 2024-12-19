@@ -8,7 +8,6 @@ public class MouseLight : MonoBehaviour
 {
     private Wiimote wiimote;
     private IRData irData;
-    public GameObject irDotPrefab; // Prefab for visualizing IR dots
     private Vector3 vector3;
     public float screenWidth = 16f;  // Width of Unity's world space
     public float screenHeight = 9f; // Height of Unity's world space
@@ -16,15 +15,15 @@ public class MouseLight : MonoBehaviour
 
     public Transform camera;
 
-    public GameObject LaserPointer;
-    public GameObject FlashLight;
+    //public GameObject LaserPointer;
+    //public GameObject FlashLight;
     private bool laserOn=true;
 
 
     void Start()
     {
         WiimoteManager.FindWiimotes(); // Find connected Wiimotes
-        FlashLight.SetActive(false);
+        //FlashLight.SetActive(false);
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
