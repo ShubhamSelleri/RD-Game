@@ -394,10 +394,9 @@ public class characterScript : MonoBehaviour
         StartCoroutine(DeferredPlayerDie());
     }
 
-
     private IEnumerator DeferredPlayerDie()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         Debug.Log("You died");
         deathAudioSource.Play();
         Reset();
@@ -475,10 +474,10 @@ public class characterScript : MonoBehaviour
     {
         if (transform.position.x < 202.74) return;
         Vector3 topDetectionCenter = transform.position + headPosition;
-        topDetectionCenter.y += isGravityInverted ? characterController.radius : -characterController.radius;
+        topDetectionCenter.y += -characterController.radius / 2 - 0.1f;
 
         Vector3 botDetectionCenter = transform.position + feetPosition;
-        botDetectionCenter.y += isGravityInverted ? -characterController.radius : characterController.radius;
+        botDetectionCenter.y += characterController.radius / 2 + 0.1f;
 
         int groundLayerMask = LayerMask.GetMask(groundLayer);
         int deathLayerMask = LayerMask.GetMask(deathLayer);
@@ -598,13 +597,11 @@ public class characterScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 topDetectionCenter = transform.position + headPosition;
-        topDetectionCenter.y += isGravityInverted ? characterController.radius : - characterController.radius;
+        Vector3 headDetectionCenter = transform.position + headPosition;
 
-        Vector3 botDetectionCenter = transform.position + feetPosition;
-        botDetectionCenter.y += isGravityInverted ? -characterController.radius : characterController.radius;
+        Vector3 feetDetectionCenter = transform.position + feetPosition;
 
-        Gizmos.DrawWireSphere(topDetectionCenter, characterController.radius/2);
-        Gizmos.DrawWireSphere(botDetectionCenter, characterController.radius/2);
+        Gizmos.DrawWireSphere(headDetectionCenter, characterController.radius);
+        Gizmos.DrawWireSphere(feetDetectionCenter, characterController.radius);
     }
 }
