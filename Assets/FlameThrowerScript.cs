@@ -5,6 +5,8 @@ using UnityEngine;
 public class FlameThrowerScript : MonoBehaviour
 {
     public GameObject flames;
+    public GameObject col;
+    public float colDelay;
     public int offTime;
     public int onTime;
     public int startDelay;
@@ -33,7 +35,9 @@ public class FlameThrowerScript : MonoBehaviour
         {
             // Enable the object
             flames.SetActive(true);
+            col.SetActive(false);
             audioSource.PlayOneShot(audioSource.clip);
+            StartCoroutine(enableCol());
 
             // Wait for the "on time"
             yield return new WaitForSeconds(onTime);
@@ -58,5 +62,11 @@ public class FlameThrowerScript : MonoBehaviour
 
             audioSource.volume = volume;
         }
+    }
+    IEnumerator enableCol()
+    {
+        yield return new WaitForSeconds(colDelay);
+        col.SetActive(true);
+        yield return null;
     }
 }
