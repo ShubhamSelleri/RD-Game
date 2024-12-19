@@ -475,10 +475,10 @@ public class characterScript : MonoBehaviour
     {
         if (transform.position.x < 202.74) return;
         Vector3 topDetectionCenter = transform.position + headPosition;
-        topDetectionCenter.y += -characterController.radius / 2 - 0.1f;
+        topDetectionCenter.y += isGravityInverted ? characterController.radius : -characterController.radius;
 
         Vector3 botDetectionCenter = transform.position + feetPosition;
-        botDetectionCenter.y += characterController.radius / 2 + 0.1f;
+        botDetectionCenter.y += isGravityInverted ? -characterController.radius : characterController.radius;
 
         int groundLayerMask = LayerMask.GetMask(groundLayer);
         int deathLayerMask = LayerMask.GetMask(deathLayer);
@@ -598,11 +598,13 @@ public class characterScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 headDetectionCenter = transform.position + headPosition;
+        Vector3 topDetectionCenter = transform.position + headPosition;
+        topDetectionCenter.y += isGravityInverted ? characterController.radius : - characterController.radius;
 
-        Vector3 feetDetectionCenter = transform.position + feetPosition;
+        Vector3 botDetectionCenter = transform.position + feetPosition;
+        botDetectionCenter.y += isGravityInverted ? -characterController.radius : characterController.radius;
 
-        Gizmos.DrawWireSphere(headDetectionCenter, characterController.radius);
-        Gizmos.DrawWireSphere(feetDetectionCenter, characterController.radius);
+        Gizmos.DrawWireSphere(topDetectionCenter, characterController.radius/2);
+        Gizmos.DrawWireSphere(botDetectionCenter, characterController.radius/2);
     }
 }
