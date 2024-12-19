@@ -18,6 +18,6 @@ public class ButtonPrint : MonoBehaviour
 
     void handleMessageButton(string msg)
         {
-             Debug.Log("Message:" + msg);
+             Debug.Log("Message PrintScript:" + msg);
         }
 }
