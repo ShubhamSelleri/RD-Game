@@ -9160,7 +9160,7 @@ MonoBehaviour:
   onThumbsDown:
     m_PersistentCalls:
       m_Calls: []
-  isDebugMode: 1
+  isDebugMode: 0
 --- !u!1001 &1635638660
 PrefabInstance:
   m_ObjectHideFlags: 0
