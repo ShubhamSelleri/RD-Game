@@ -275,16 +275,17 @@ public class characterScript : MonoBehaviour
         //offset the character to not blink through platforms
         if (isGravityInverted)
         {
-            transform.position += Vector3.down * 1.8f;
+            transform.position += Vector3.down * characterController.height;
         }
         else
         {
-            transform.position += Vector3.up * 1.8f;
+            transform.position += Vector3.up * characterController.height;
         }
 
         transform.Rotate(0, 0, 180f);
 
         isGravityInverted = !isGravityInverted;
+
         if (isFalling)
         {
             gravityFloatingMultiplier *= 1.2f;
@@ -325,8 +326,6 @@ public class characterScript : MonoBehaviour
                 && (groundObjectLastPostion != Vector3.zero)) // fake null value that should never happen in the actual game
             {
                 Vector3 platformMovement = groundObjectCurrentPosition - groundObjectLastPostion;
-
-                
                 
                 characterController.Move(platformMovement);
             }
@@ -358,10 +357,10 @@ public class characterScript : MonoBehaviour
     void handleIsGrounded()
     {
         Vector3 headDetectionCenter = transform.position + headPosition;
-        headDetectionCenter.y += -characterRadius / 2 + 0.05f;
+        headDetectionCenter.y += -characterRadius + 0.1f;
 
         Vector3 feetDetectionCenter = transform.position + feetPosition;
-        feetDetectionCenter.y += characterRadius / 2 - 0.05f;
+        feetDetectionCenter.y += characterRadius - 0.1f;
 
         int groundLayerMask = LayerMask.GetMask(groundLayer);
         int deathLayerMask = LayerMask.GetMask(deathLayer);
@@ -547,14 +546,10 @@ public class characterScript : MonoBehaviour
 
     void setupIsGrounded()
     {
-        float characterColliderOffset = 1.4f;
-        float characterHeight = 2.6f;
-        characterRadius = 0.3f;
-
         headPosition = Vector3.zero;
-        headPosition.y += characterColliderOffset + (characterHeight/2) ;
+        headPosition.y += characterController.center.y + characterController.height/2 ;
         feetPosition = Vector3.zero;
-        feetPosition.y += characterColliderOffset - (characterHeight/2); 
+        feetPosition.y += characterController.center.y - characterController.height/2; 
     }
 
 
@@ -589,5 +584,14 @@ public class characterScript : MonoBehaviour
             // Debug.Log("Thumbs Down if statement.");
             isGravityInvertedGesture = true;
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Vector3 feetDetectionCenter = feetPosition;
+        feetDetectionCenter.y += characterController.radius -0.1f ;
+        //Gizmos.DrawWireSphere(headDetectionCenter, characterRadius);
+        Gizmos.DrawWireSphere(feetDetectionCenter, characterController.radius);
     }
 }
