@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 
 
-public class characterScript : MonoBehaviour
+public class characterScript_ShubhamCopy : MonoBehaviour
 {
 
     public float rotationFactorPerFrame = 15.0f;
@@ -130,29 +130,29 @@ public class characterScript : MonoBehaviour
         //handleMovingPlatform();
     }
 
+    void FixedUpdate()
+    {
+        // handleIsGrounded(); // Move ground checking to FixedUpdate
+    }
+
     void Update()
     {
-
-        //checkIfSquashed();
-        
+        // Use the ground-checking results that were cached in FixedUpdate
         handleAnimation();
         handleRotation();
-        
+        handleIsGrounded();
         characterController.Move(currentMovement * Time.deltaTime);
 
-        handleIsGrounded();
         handleGravityInversion();
         handleGravity();
         handleMaxVerticalSpeed();
         handleJump();
         checkIfSquashed();
-        transform.position = new Vector3(transform.position.x, transform.position.y, -5);
 
         if (transform.position.y < -20 || transform.position.y > 30)
         {
             playerDie();
         }
-
     }
 
     private void LateUpdate()
@@ -283,7 +283,6 @@ public class characterScript : MonoBehaviour
         }
 
         transform.Rotate(0, 0, 180f);
-
         isGravityInverted = !isGravityInverted;
         if (isFalling)
         {
@@ -295,7 +294,6 @@ public class characterScript : MonoBehaviour
         {
             gravityFloatingMultiplier = 1;
         }
-
     }
 
     void handleMaxVerticalSpeed()
