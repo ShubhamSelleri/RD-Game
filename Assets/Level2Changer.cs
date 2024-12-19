@@ -12,7 +12,7 @@ public class Level2Changer : MonoBehaviour
     {
         if (playerTrans.position.y < -13)
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
     }
 }

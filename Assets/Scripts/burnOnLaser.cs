@@ -48,6 +48,7 @@ public class ContinuousProximityEffect : MonoBehaviour
                         playerScript.playerDie();
                         flameEffects.SetActive(false);
                         isBurning=false;
+                        burnTime=0;
                     }else{
                         gameObject.SetActive(false); // Disable this GameObject
                     }

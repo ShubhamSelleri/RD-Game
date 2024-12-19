@@ -13,7 +13,7 @@ public class ChangeFirstlevelToSecond : MonoBehaviour
     {
         if (playerTrans.position.x > x_value)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 }
