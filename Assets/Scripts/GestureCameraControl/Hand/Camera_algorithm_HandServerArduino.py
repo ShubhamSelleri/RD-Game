@@ -55,8 +55,9 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 poses_dir = os.path.join(script_dir, os.pardir, "Poses/Hand")
 gesture_files = {
     "Thumbs Up": "ThumbsUp.npy",
-    "Thumbs Down": "ThumbsDown.npy",
-    "Rock": "Rock.npy",
+    "Thumbs Down": "ThumbsDown_merged.npy",
+    # "Rock": "Rock.npy",
+    # "Middle Finger": "MiddleFinger.npy",
 }
 
 # Load gestures

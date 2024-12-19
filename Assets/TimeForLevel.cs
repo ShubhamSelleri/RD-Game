@@ -7,6 +7,8 @@ public class TimeForLevel : MonoBehaviour
 {
 
     public TextMeshProUGUI Timer;
+    public Transform Player;
+    public int endX=253;
 
     private float TimeAtStart;
 
@@ -20,7 +22,7 @@ public class TimeForLevel : MonoBehaviour
 
     IEnumerator TimeCount()
     {
-        while (true)
+        while (Player.position.x<endX)
         {
             Timer.text=Time.time.ToString("F2");
             yield return null;

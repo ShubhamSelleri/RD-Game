@@ -6,11 +6,11 @@ using UnityEngine;
 public class ButtonBroadcast : MonoBehaviour
 {
     public bool debugMode = false;
-
     private string methodName = "handleMessageButton";
     void OnMessageArrived(string msg)
     {
         BroadcastMessage(methodName, msg);
+        
     }
 
     // Invoked when a connect/disconnect event occurs. The parameter 'success'
@@ -36,15 +36,10 @@ public class ButtonBroadcast : MonoBehaviour
     {
         if (debugMode)
         {
- 
-            if (Input.GetKeyDown(KeyCode.N))
+            if (Input.GetKeyDown(KeyCode.B)) // Simulate button press with "B"
             {
-                BroadcastMessage(methodName, "0");
-            }
-            else
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                BroadcastMessage(methodName, "1");
+                BroadcastMessage(methodName, "P");
+                Debug.Log("Debug Mode: Sent 'P' message");
             }
         }
     }
