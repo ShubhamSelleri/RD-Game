@@ -125,10 +125,6 @@ public class characterScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void lateUpdate()
-    {
-        //handleMovingPlatform();
-    }
 
     void Update()
     {
@@ -278,12 +274,14 @@ public class characterScript : MonoBehaviour
         if (isGravityInverted)
         {
             transform.position += Vector3.up * characterController.height;
-            headPosition.y = -characterController.center.y - characterController.height / 2;
+            headPosition.y = -characterController.center.y - characterController.height / 2 + characterController.radius-0.1f;
+            feetPosition.y = -characterController.center.y + characterController.height / 2 - characterController.radius + 0.1f;
         }
         else
         {
             transform.position += Vector3.down * characterController.height;
-            headPosition.y = characterController.center.y + characterController.height / 2;
+            headPosition.y = characterController.center.y + characterController.height / 2 - characterController.radius + 0.1f;
+            feetPosition.y = characterController.center.y - characterController.height / 2 + characterController.radius - 0.1f;
         }
 
         transform.Rotate(0, 0, 180f);
@@ -361,19 +359,19 @@ public class characterScript : MonoBehaviour
     void handleIsGrounded()
     {
         Vector3 headDetectionCenter = transform.position + headPosition;
-        headDetectionCenter.y += -characterRadius + 0.1f;
+        //headDetectionCenter.y += -characterController.radius + 0.1f;
 
         Vector3 feetDetectionCenter = transform.position + feetPosition;
-        feetDetectionCenter.y += characterRadius - 0.1f;
+        //feetDetectionCenter.y += characterController.radius - 0.1f;
 
         int groundLayerMask = LayerMask.GetMask(groundLayer);
         int deathLayerMask = LayerMask.GetMask(deathLayer);
 
-        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterRadius, groundLayerMask);
-        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterRadius, groundLayerMask);
+        Collider[] feetColliders = Physics.OverlapSphere(feetDetectionCenter, characterController.radius, groundLayerMask);
+        Collider[] headColliders = Physics.OverlapSphere(headDetectionCenter, characterController.radius, groundLayerMask);
 
-        if(Physics.OverlapSphere(feetDetectionCenter, characterRadius, deathLayerMask).Length > 0
-            || Physics.OverlapSphere(headDetectionCenter, characterRadius, deathLayerMask).Length > 0)
+        if(Physics.OverlapSphere(feetDetectionCenter, characterController.radius, deathLayerMask).Length > 0
+            || Physics.OverlapSphere(headDetectionCenter, characterController.radius, deathLayerMask).Length > 0)
         {
             playerDie();
         }
@@ -471,10 +469,10 @@ public class characterScript : MonoBehaviour
     {
         if (transform.position.x < 202.74) return;
         Vector3 topDetectionCenter = transform.position + headPosition;
-        topDetectionCenter.y += -characterRadius / 2 - 0.1f;
+        topDetectionCenter.y += -characterController.radius / 2 - 0.1f;
 
         Vector3 botDetectionCenter = transform.position + feetPosition;
-        botDetectionCenter.y += characterRadius / 2 + 0.1f;
+        botDetectionCenter.y += characterController.radius / 2 + 0.1f;
 
         int groundLayerMask = LayerMask.GetMask(groundLayer);
         int deathLayerMask = LayerMask.GetMask(deathLayer);
@@ -482,11 +480,11 @@ public class characterScript : MonoBehaviour
 
         int combinedLayerMask = groundLayerMask | defaultLayerMask;
 
-        Collider[] botColliders = Physics.OverlapSphere(botDetectionCenter, characterRadius / 2, combinedLayerMask);
-        Collider[] topColliders = Physics.OverlapSphere(topDetectionCenter, characterRadius / 2, combinedLayerMask);
+        Collider[] botColliders = Physics.OverlapSphere(botDetectionCenter, characterController.radius / 2, combinedLayerMask);
+        Collider[] topColliders = Physics.OverlapSphere(topDetectionCenter, characterController.radius / 2, combinedLayerMask);
 
-        if (  Physics.OverlapSphere(topDetectionCenter, characterRadius / 2, groundLayerMask).Length > 0
-            || Physics.OverlapSphere(botDetectionCenter, characterRadius / 2, groundLayerMask).Length > 0)
+        if (  Physics.OverlapSphere(topDetectionCenter, characterController.radius / 2, groundLayerMask).Length > 0
+            || Physics.OverlapSphere(botDetectionCenter, characterController.radius / 2, groundLayerMask).Length > 0)
         {
 
             Debug.Log("You got SQUASHED");
@@ -593,11 +591,9 @@ public class characterScript : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 feetDetectionCenter = transform.position + feetPosition;
-        feetDetectionCenter.y += characterController.radius -0.1f ;
-
         Vector3 headDetectionCenter = transform.position + headPosition;
-        feetDetectionCenter.y += -characterController.radius + 0.1f;
+
+        Vector3 feetDetectionCenter = transform.position + feetPosition;
 
         Gizmos.DrawWireSphere(headDetectionCenter, characterController.radius);
         Gizmos.DrawWireSphere(feetDetectionCenter, characterController.radius);
