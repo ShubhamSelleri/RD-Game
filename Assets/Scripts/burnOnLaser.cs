@@ -10,7 +10,7 @@ public class ContinuousProximityEffect : MonoBehaviour
     public float burnDuration = 5f;    // Duration for which the flame effects are active
     private float burnTime = 0f;        // Timer for the burn duration
     private bool isBurning = false;     // Is currently burning
-
+    public characterScript playerScript;
     void Update()
     {
         // Check the distance to the target
@@ -44,7 +44,14 @@ public class ContinuousProximityEffect : MonoBehaviour
                 // Disable the GameObject after burnDuration
                 if (burnTime >= burnDuration)
                 {
-                    gameObject.SetActive(false); // Disable this GameObject
+                    if(gameObject.CompareTag("Player")){
+                        playerScript.playerDie();
+                        flameEffects.SetActive(false);
+                        isBurning=false;
+                    }else{
+                        gameObject.SetActive(false); // Disable this GameObject
+                    }
+                   
                 }
             }
         }

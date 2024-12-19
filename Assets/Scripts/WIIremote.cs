@@ -11,7 +11,7 @@ public class MouseLight : MonoBehaviour
     private Vector3 vector3;
     public float screenWidth = 16f;  // Width of Unity's world space
     public float screenHeight = 9f; // Height of Unity's world space
-    public float movementSpeed = 15f; // Speed multiplier for movement
+    public float speed = .5f; // Speed multiplier for movement
 
     public Transform camera;
 
@@ -79,7 +79,7 @@ public class MouseLight : MonoBehaviour
                 float mappedX = Mathf.Lerp(-screenWidth*2, screenWidth*2, pointingPosition[0]);
                 float mappedY = Mathf.Lerp(-screenHeight*2, screenHeight*2, pointingPosition[1]);
                 // Move the block
-                Vector3 targetPosition = new Vector3(mappedX + camera.position.x, mappedY, -5);
+                Vector3 targetPosition = new Vector3(mappedX*speed + camera.position.x, mappedY*speed, -5);
                 transform.position = targetPosition;
                 //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * movementSpeed);
             }
