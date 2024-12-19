@@ -42,16 +42,6 @@ public class PlatformManager : MonoBehaviour
         {
             if (platform != null)
             {
-                // // Enable/Disable Renderer and Collider
-                // Renderer renderer = platform.GetComponent<Renderer>();
-                // Collider collider = platform.GetComponent<Collider>();
-
-                // if (renderer != null)
-                //     renderer.enabled = isActive;
-
-                // if (collider != null)
-                //     collider.enabled = isActive;
-
                 platform.SetActive(isActive); // Optionally disable GameObject entirely
                 Debug.Log($"Platform {platform.name} set to: {isActive}");
             }
