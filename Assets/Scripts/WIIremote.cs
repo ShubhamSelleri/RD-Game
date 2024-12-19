@@ -8,7 +8,6 @@ public class MouseLight : MonoBehaviour
 {
     private Wiimote wiimote;
     private IRData irData;
-    public GameObject irDotPrefab; // Prefab for visualizing IR dots
     private Vector3 vector3;
     public float screenWidth = 16f;  // Width of Unity's world space
     public float screenHeight = 9f; // Height of Unity's world space
@@ -16,15 +15,15 @@ public class MouseLight : MonoBehaviour
 
     public Transform camera;
 
-    public GameObject LaserPointer;
-    public GameObject FlashLight;
+    //public GameObject LaserPointer;
+    //public GameObject FlashLight;
     private bool laserOn=true;
 
 
     void Start()
     {
         WiimoteManager.FindWiimotes(); // Find connected Wiimotes
-        FlashLight.SetActive(false);
+        //FlashLight.SetActive(false);
         if (WiimoteManager.HasWiimote())
         {
             wiimote = WiimoteManager.Wiimotes[0];
@@ -36,10 +35,11 @@ public class MouseLight : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (wiimote == null) return;
         if (wiimote.ReadWiimoteData() == 0) return;
+        wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
 
         if(wiimote.Button.a){
             wiimote.Accel.CalibrateAccel(AccelCalibrationStep.A_BUTTON_UP);
@@ -67,6 +67,7 @@ public class MouseLight : MonoBehaviour
         transform.position = vector3;
         */
          IRData irData = wiimote.Ir;
+         Debug.Log(irData.GetPointingPosition());
         if (irData != null)
         {
             float[] pointingPosition = irData.GetPointingPosition();
@@ -77,7 +78,6 @@ public class MouseLight : MonoBehaviour
                 // Map the pointing position (normalized 0-1) to Unity's world space
                 float mappedX = Mathf.Lerp(-screenWidth*2, screenWidth*2, pointingPosition[0]);
                 float mappedY = Mathf.Lerp(-screenHeight*2, screenHeight*2, pointingPosition[1]);
-
                 // Move the block
                 Vector3 targetPosition = new Vector3(mappedX + camera.position.x, mappedY, -5);
                 transform.position = targetPosition;

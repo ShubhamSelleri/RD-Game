@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6490566276341113254}
   - component: {fileID: 4534313786446288365}
   - component: {fileID: 3451289898128775595}
+  - component: {fileID: 6214768871251934516}
   - component: {fileID: 4365673981581386201}
-  - component: {fileID: 3867391601276464915}
   m_Layer: 0
   m_Name: LaserPointer
   m_TagString: Untagged
@@ -112,6 +112,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6214768871251934516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945556476108005654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c087c5252e8924437889532c52a21968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenWidth: 16
+  screenHeight: 9
+  movementSpeed: 15
+  camera: {fileID: 0}
 --- !u!114 &4365673981581386201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,25 +144,6 @@ MonoBehaviour:
   lockOnZAxis: 1
   Zval: -30
   Coll: {fileID: 1793350519794944214}
---- !u!114 &3867391601276464915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 945556476108005654}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3864808b1ef95b44ca85a1dc209bfe60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  irDotPrefab: {fileID: 0}
-  screenWidth: 16
-  screenHeight: 9
-  movementSpeed: 15
-  camera: {fileID: 0}
-  LaserPointer: {fileID: 1818603101086001711}
-  FlashLight: {fileID: 0}
 --- !u!1 &1818603101086001711
 GameObject:
   m_ObjectHideFlags: 0
