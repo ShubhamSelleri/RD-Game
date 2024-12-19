@@ -2641,7 +2641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824f0355b9b74734586329fb8e06a1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTrans: {fileID: 0}
+  playerTrans: {fileID: 304093247}
   x_value: 105
 --- !u!4 &847119328
 Transform:
