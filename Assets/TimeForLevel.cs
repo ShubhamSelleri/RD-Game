@@ -15,7 +15,7 @@ public class TimeForLevel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(2))
         {
             TimeAtStart = Time.time;
             StartCoroutine(TimeCount());
