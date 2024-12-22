@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class CameraMovement : MonoBehaviour
 {
@@ -6,11 +8,12 @@ public class CameraMovement : MonoBehaviour
     public Vector2 gridSize = new Vector2(40f, 40f); // Size of the grid cells
 
     private Vector3 startingPosition; // The initial position of the camera
-
+    public int gridYS;
     void Start()
     {
         // Initialize the starting position to the current camera position
         startingPosition = transform.position;
+        gridYS = Mathf.RoundToInt((player.position.y - startingPosition.y) / gridSize.y);
     }
 
     void Update()
@@ -30,6 +33,10 @@ public class CameraMovement : MonoBehaviour
         newCameraPosition.x = startingPosition.x + gridX * gridSize.x;
         newCameraPosition.y = startingPosition.y + gridY * gridSize.y;
         newCameraPosition.z = startingPosition.z; // Keep the original z-position
+         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
+        {
+            newCameraPosition.y = startingPosition.y + gridYS*gridSize.y;
+        }
 
         // Set the camera's position
         transform.position = newCameraPosition;
